@@ -4,12 +4,12 @@
 
 ## Amaç
 
-Elimizde ne kadar gelişmiş olursa olsun teknoloji, sorunlarımızı **yasaklayarak veya her şeyi
-kısıtlayarak** çözemez. Telefon, sosyal medya, oyun ve akış hizmetleri hayatımızın doğal
-parçası; asıl mesele kaybettiğimiz **kontrol ve farkındalık**. Sözüm Söz Uygulaması tam da bu
-noktadan başlar: dijital kullanımı suçlamak yerine, kullanıcıya kendi davranışını *görme*
-fırsatı verir ve doğru alışkanlığı **teşvik ederek, ödüllendirerek** yerleştirmesine yardımcı
-olur.
+Teknoloji daima gelişen, hayatımızın bir parçasıdır. Teknoloji çağında teknoloji bağımlılığını
+**yasaklayarak veya her şeyi kısıtlayarak** çözemeyiz. Telefon, sosyal medya, oyun ve akış
+hizmetleri artık hayatımızın doğal parçası; asıl mesele kaybettiğimiz **kontrol ve farkındalık**.
+Sözüm Söz Uygulaması tam da bu noktadan başlar: dijital kullanımı suçlamak yerine, kullanıcıya
+kendi davranışını *görme* fırsatı verir ve doğru alışkanlığı **teşvik ederek, ödüllendirerek**
+yerleştirmesine yardımcı olur.
 
 Fikir tek ve nettir: bir uygulamaya girmeden önce **"kaç dakika kalmayı söz verdiğini"**
 söylersin. Sözünü tuttuğunda puan kazanır, seriyle çoğaltır, Yeşilay ödül kataloğundan ve aylık
@@ -22,10 +22,14 @@ cihazında kalır; API'ye hiçbir kimlik bilgisi gitmez.
 
 - **Süre sözü:** Her açılışta hedef süre belirle; sözünü tut (+3, seri bonusu) ya da aş
   (empatik uyarı, -5 ve seri sıfırlama) — "söz vermek" davranışı anlamlı hale gelir.
-- **Üretken YZ koç:** Günlük yansıma, haftalık özet ve çok turlu sohbet; her yanıtta **YZ
-  damgası** ve "tıbbi değil" uyarısı. Kriz sinyallerinde Yeşilay 115 / 112 yönlendirmesi.
+- **Üretken YZ her aşamada mevcut:** Günlük yansıma, haftalık özet ve çok turlu sohbet,
+  uygulamanın çekirdeğinde çalışan bir üretken YZ koç tarafından sunulur; her yanıtta **YZ
+  damgası** ve "tıbbi değil" uyarısı yer alır; kriz sinyallerinde Yeşilay 115 / 112 yönlendirmesi.
+- **Haftalık başarı "yüzü" (bildirim paneli):** Başarımıza göre telefonun bildirim/üst
+  çubuğunda sürekli **😀 iyi · 😐 ortalama · 🙁 kötü** emojisi belirir; aynı durum SÖZÜM SÖZ
+  arka plan bildirimine de yansır — "bu hafta nasılım?" bir bakışta görünür.
 - **Oyunlaştırma:** Puan, seriler, günlük ödül (3 söz), haftalık görevler, ödül kataloğu,
-  aylık çekiliş ve haftalık skor "yüzü" (😀/😐/🙁).
+  aylık çekiliş.
 - **Telefon maskotu:** Prototip uygulamanın bir telefon içinde çalıştığını gösterir; hızlı demo
   modunda (1 sn ≈ 1 dk) beş dakikalık tüm akış saniyeler içinde izlenir.
 - **Gizlilik merkezli:** KVKK m.10 aydınlatma + açık rıza kilidi, Ayarlar'da veri indirme
