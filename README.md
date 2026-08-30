@@ -4,8 +4,8 @@
 
 ## Teslim / Deliverables
 
-- **Rapor (PDF):** [`REPORT.pdf`](./REPORT.pdf) — SÖZÜM SÖZ hackathon raporu (Grup 8)
-- **Sunum (PPTX):** [`TR_Hackathon_SözümSöz.pptx`](./TR_Hackathon_SözümSöz.pptx) — ~5 dk demo sunumu
+- **Rapor (PDF):** [`Hackathon Raporu.pdf`](./Hackathon%20Raporu.pdf) — SÖZÜM SÖZ hackathon raporu (Grup 8)
+- **Sunum (PPTX):** [`TR_HackathoSunumu_SözümSöz.pptx`](./TR_HackathoSunumu_S%C3%B6z%C3%BCmS%C3%B6z.pptx) — ~5 dk demo sunumu
 - **Demo akışı:** [`docs/DEMO-SCRIPT.md`](./docs/DEMO-SCRIPT.md)
 
 ## Amaç
@@ -129,8 +129,8 @@ saniyeler içinde dolar ve bildirim puan akışı bitişte izlenebilir.
 ├── docs/                   # ARCHITECTURE.md + DEMO-SCRIPT.md
 ├── dist/SOZUM-SOZ-TEKDOSYA.html   # üretilmiş tek dosya (sunum artifact)
 ├── package.json            # npm test / build / serve komutları
-├── REPORT.pdf              # hackathon raporu (TR, PDF)
-├── TR_Hackathon_SözümSöz.pptx  # sunum (TR)
+├── Hackathon Raporu.pdf    # hackathon raporu (TR, PDF)
+├── TR_HackathoSunumu_SözümSöz.pptx  # sunum (TR)
 └── LICENSE  ·  .gitignore
 ```
 
