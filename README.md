@@ -1,10 +1,35 @@
-# SÖZÜM SÖZ - Dijital İyi Olma Hâli Prototipi
+# Sözüm Söz Uygulaması (Samsung Innovation Campus Hackathon)
 
-Hackathon projesi: dijital bağımlılık / dijital iyi olma hâli. Kullanıcı bir uygulamaya
-girerken "kaç dakika kalmayı taahhüt ettiğini" söyler (süre sözü); sözünü tutunca puan
-kazanır, aşarsa ya da kapatıp hemen başka uygulamaya geçerse uyarı alır ve puan kaybeder.
-Puanlar streak/günün sözü ile çoğalır, Yeşilay ödül kataloğunda ve aylık çekilişte kullanılır.
-Üretken YZ, oturum geçmişinden yargısız günlük yansıma ve haftalık özet üretir.
+> Bu proje **Samsung Innovation Campus Generative AI Hackathon** için hazırlanmıştır.
+
+## Amaç
+
+Elimizde ne kadar gelişmiş olursa olsun teknoloji, sorunlarımızı **yasaklayarak veya her şeyi
+kısıtlayarak** çözemez. Telefon, sosyal medya, oyun ve akış hizmetleri hayatımızın doğal
+parçası; asıl mesele kaybettiğimiz **kontrol ve farkındalık**. Sözüm Söz Uygulaması tam da bu
+noktadan başlar: dijital kullanımı suçlamak yerine, kullanıcıya kendi davranışını *görme*
+fırsatı verir ve doğru alışkanlığı **teşvik ederek, ödüllendirerek** yerleştirmesine yardımcı
+olur.
+
+Fikir tek ve nettir: bir uygulamaya girmeden önce **"kaç dakika kalmayı söz verdiğini"**
+söylersin. Sözünü tuttuğunda puan kazanır, seriyle çoğaltır, Yeşilay ödül kataloğundan ve aylık
+çekilişten ödüllendirilirsin. Bir **üretken YZ koçu** ise o günün ve haftanın kayıtlarını
+yargısız bir dille "kalıp → tetikleyici → küçük deney" diline çevirir; sana kızmaz, suçlamaz —
+yalnızca fark etmeni sağlar ve mikro molalarla somut destek sunar. Veriler yalnızca senin
+cihazında kalır; API'ye hiçbir kimlik bilgisi gitmez.
+
+## Uygulamada neler var?
+
+- **Süre sözü:** Her açılışta hedef süre belirle; sözünü tut (+3, seri bonusu) ya da aş
+  (empatik uyarı, -5 ve seri sıfırlama) — "söz vermek" davranışı anlamlı hale gelir.
+- **Üretken YZ koç:** Günlük yansıma, haftalık özet ve çok turlu sohbet; her yanıtta **YZ
+  damgası** ve "tıbbi değil" uyarısı. Kriz sinyallerinde Yeşilay 115 / 112 yönlendirmesi.
+- **Oyunlaştırma:** Puan, seriler, günlük ödül (3 söz), haftalık görevler, ödül kataloğu,
+  aylık çekiliş ve haftalık skor "yüzü" (😀/😐/🙁).
+- **Telefon maskotu:** Prototip uygulamanın bir telefon içinde çalıştığını gösterir; hızlı demo
+  modunda (1 sn ≈ 1 dk) beş dakikalık tüm akış saniyeler içinde izlenir.
+- **Gizlilik merkezli:** KVKK m.10 aydınlatma + açık rıza kilidi, Ayarlar'da veri indirme
+  (JSON) ve kalıcı silme + rıza iptali (KVKK m.11 / m.7). Veriler `localStorage`'da.
 
 ## Çalıştırma
 
