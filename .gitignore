@@ -1,0 +1,17 @@
+# sinir-zip ve paketler
+*.zip
+*.rar
+*.7z
+
+# node / build
+node_modules/
+bin/
+obj/
+*.user
+
+# işletim sistemi
+Thumbs.db
+.DS_Store
+
+# yerel ayar
+*.local

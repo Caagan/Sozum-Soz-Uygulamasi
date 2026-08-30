@@ -1,0 +1,3350 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SÖZÜM SÖZ - Dijital İyi Olma Hâli</title>
+<style>
+:root {
+  --green-800: #0e3d2a;
+  --green-700: #14532d;
+  --green-600: #16a34a;
+  --green-500: #22c55e;
+  --green-100: #dcfce7;
+  --ink: #0f172a;
+  --ink-soft: #334155;
+  --muted: #64748b;
+  --paper: #f8fafc;
+  --card: #ffffff;
+  --line: #e2e8f0;
+  --danger: #dc2626;
+  --warn: #d97706;
+  --info: #2563eb;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(15, 23, 42, .12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 520px at 12% -4%, rgba(34,197,94,.16), transparent 60%),
+    radial-gradient(900px 480px at 88% 6%, rgba(20,184,166,.13), transparent 55%),
+    radial-gradient(760px 480px at 50% 112%, rgba(37,99,235,.10), transparent 60%),
+    linear-gradient(180deg, #f0faf4 0%, #f8fafc 42%, #eef7fb 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.app-layout { max-width: 1140px; margin: 0 auto; padding: 16px 16px 40px; }
+
+/* Header */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+  padding: 10px 4px 14px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-mark {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--green-600), var(--green-800));
+  color: #fff; font-weight: 800; font-size: 15px;
+  display: grid; place-items: center; letter-spacing: .5px;
+  overflow: hidden; padding: 0;
+}
+.brand-mark-img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit; }
+.brand-name { font-size: 22px; font-weight: 300; letter-spacing: 1px; color: var(--green-800); }
+.brand-name b { font-weight: 800; }
+.topbar-metrics { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pill {
+  background: var(--card); border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 12px; font-size: 12px; color: var(--muted); font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.pill b { color: var(--ink); font-size: 14px; }
+.points-pill { border-color: var(--green-600); color: var(--green-700); }
+.points-pill b { color: var(--green-700); }
+.streak-pill { border-color: #f59e0b; color: #b45309; }
+.streak-pill b { color: #b45309; }
+.mood-pill { border-color: #38bdf8; color: #0369a1; }
+.mood-pill b { color: #0369a1; font-size: 15px; }
+
+/* Tabs */
+.tabs {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 6px; margin-bottom: 18px;
+}
+.tab {
+  border: 0; background: transparent; color: var(--muted);
+  padding: 9px 14px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.tab:hover { background: var(--green-100); color: var(--green-800); }
+.tab.active { background: var(--green-700); color: #fff; }
+
+/* Panels */
+.tabpanel { display: none; animation: fade .25s ease; }
+.tabpanel.active { display: block; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+
+.panel-head { margin: 6px 2px 14px; }
+.panel-head h2 { font-size: 22px; color: var(--green-800); }
+.muted { color: var(--muted); }
+.muted.small { font-size: 12px; line-height: 1.5; }
+.small { font-size: 12px; }
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,.97), rgba(255,255,255,.88));
+  border: 1px solid rgba(226,232,240,.9); border-radius: 18px;
+  padding: 18px; margin-bottom: 14px;
+  box-shadow: 0 14px 34px rgba(15,23,42,.07), 0 1px 3px rgba(15,23,42,.04);
+}
+.card h3 {
+  font-size: 15px; margin-bottom: 10px; color: var(--ink-soft);
+  display: flex; align-items: center; gap: 8px;
+}
+.card h3::before {
+  content: ""; width: 5px; height: 15px; border-radius: 3px; flex: none;
+  background: linear-gradient(180deg, #22c55e, #0d9488);
+}
+.card p { font-size: 13px; }
+
+/* Phone */
+.phone-stage {
+  position: relative; display: flex; justify-content: center; padding: 8px 0 14px;
+}
+.phone-stage::before {
+  content: ""; position: absolute; left: 50%; top: 10%; transform: translateX(-50%);
+  width: 380px; height: 260px;
+  background: radial-gradient(closest-side, rgba(34,197,94,.20), transparent 70%);
+  filter: blur(8px); pointer-events: none;
+}
+.phone {
+  position: relative; width: 342px; height: 690px;
+  background: #0b1220; border-radius: 44px; padding: 14px;
+  box-shadow: 0 26px 60px rgba(15,23,42,.3), 0 0 0 1px rgba(148,163,184,.28), inset 0 0 0 2px #1e293b;
+}
+.phone-notch {
+  position: absolute; top: 26px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 26px; background: #0b1220; border-radius: 999px; z-index: 20;
+}
+.screen {
+  position: relative; width: 100%; height: 100%;
+  background: #0f172a; border-radius: 32px; overflow: hidden;
+  color: #e2e8f0;
+}
+.phone-home-bar {
+  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+  width: 110px; height: 4px; background: rgba(255,255,255,.35); border-radius: 2px; z-index: 20;
+}
+
+/* notifications */
+.notif-stack {
+  position: absolute; top: 50px; left: 50%; transform: translateX(-50%);
+  width: min(92%, 340px); z-index: 30;
+  display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+}
+.notif {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: rgba(15,23,42,.97); border: 1px solid #334155;
+  border-left: 3px solid #64748b; border-radius: 14px;
+  padding: 11px 12px; color: #e2e8f0; pointer-events: auto;
+  animation: slideIn .35s ease; box-shadow: 0 10px 24px rgba(0,0,0,.45);
+}
+.notif .n-icon { font-size: 17px; line-height: 1.2; flex: none; }
+.notif .n-box { flex: 1; min-width: 0; }
+.notif .n-title { font-weight: 700; font-size: 13px; color: #fff; }
+.notif .n-body {
+  font-size: 12px; color: #94a3b8; margin-top: 2px; line-height: 1.45;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.notif.k-warn { border-left-color: #d97706; }
+.notif.k-warn .n-title { color: #fbbf24; }
+.notif.k-danger { border-left-color: #dc2626; }
+.notif.k-danger .n-title { color: #f87171; }
+.notif.k-good { border-left-color: #16a34a; }
+.notif.k-good .n-title { color: #86efac; }
+.notif.k-bg { border-left-color: #38bdf8; }
+.notif.k-bg .n-title { color: #7dd3fc; }
+.notif.fading { opacity: 0; transition: opacity .5s ease; }
+@keyframes slideIn { from { transform: translateY(-16px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.notif-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.notif-actions .btn { padding: 7px 10px; font-size: 12px; border-radius: 9px; }
+
+/* mikromola ekranı */
+.s-break {
+  height: 100%; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 14px; padding: 28px 22px; text-align: center; color: #e2e8f0;
+  background: radial-gradient(420px 320px at 50% 26%, rgba(34,197,94,.16), transparent 65%);
+}
+.s-break .bk-count { font-size: 64px; font-weight: 800; color: #86efac; line-height: 1; }
+.s-break .bk-text { font-size: 14px; line-height: 1.65; }
+.s-break .bk-hint { font-size: 12px; color: #94a3b8; }
+
+/* ---- phone screens ---- */
+.s-home {
+  padding: 46px 14px 30px; height: 100%; display: flex; flex-direction: column;
+  background:
+    radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.2px),
+    radial-gradient(500px 300px at 82% -6%, rgba(34,197,94,.22), transparent 60%),
+    radial-gradient(420px 260px at 12% 0%, rgba(37,99,235,.18), transparent 58%),
+    linear-gradient(180deg, #101b31, #0c1322 55%, #0b1220);
+  background-size: 22px 22px, auto, auto, auto;
+}
+.s-statusbar { display: flex; justify-content: space-between; font-size: 12px; color: #cbd5e1; padding: 0 6px 16px; }
+.s-status-left { display: flex; align-items: center; gap: 6px; }
+.s-status-mood { display: inline-grid; place-items: center; width: 18px; height: 18px; flex: none; }
+.s-status-mood svg { width: 100%; height: 100%; }
+.s-status-mood.mood-good { color: #86efac; }
+.s-status-mood.mood-mid { color: #fcd34d; }
+.s-status-mood.mood-bad { color: #fda4af; }
+.s-top-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 6px 20px; }
+.s-greet { flex: 1; min-width: 0; }
+.s-greet h1 { color: #fff; font-size: 22px; letter-spacing: .2px; }
+.s-sub { font-size: 12px; color: #94a3b8; margin-top: 5px; line-height: 1.55; }
+.s-score {
+  flex: none; text-align: right; background: rgba(34,197,94,.12);
+  border: 1px solid rgba(34,197,94,.35); border-radius: 14px; padding: 8px 12px;
+}
+.s-score-label { font-size: 10px; letter-spacing: 1px; color: #86efac; }
+.s-score-val { font-size: 22px; font-weight: 800; color: #fff; line-height: 1.15; }
+.app-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 10px; justify-items: center; }
+.app-tile { width: 64px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; animation: tileIn .5s cubic-bezier(.34,1.56,.64,1) backwards; }
+.app-tile .app-icon {
+  width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 6px;
+  display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 15px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.18);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1); overflow: hidden;
+}
+.app-icon-img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; display: block; }
+.app-icon-fall { display: grid; place-items: center; width: 100%; height: 100%; color: #fff; font-weight: 800; font-size: 15px; }
+.sheet-appicon { overflow: hidden; }
+.appbar-icon { overflow: hidden; }
+.app-tile:hover .app-icon { transform: scale(1.12) translateY(-2px) rotate(-4deg); }
+.app-tile:active .app-icon { transform: scale(.86) rotate(3deg); }
+.app-tile:hover .app-name { color: #e2e8f0; }
+.app-tile .app-name { font-size: 11px; color: #cbd5e1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: color .15s ease; text-shadow: 0 1px 2px rgba(0,0,0,.45); }
+.app-tile .app-icon.soz-icon {
+  background: linear-gradient(135deg, #16a34a, #0e3d2a);
+  animation: sozPulse 3.2s ease-in-out infinite;
+}
+@keyframes tileIn {
+  from { opacity: 0; transform: translateY(16px) scale(.7); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(12px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+.screen > .s-home, .screen > .s-app, .screen > .s-soz, .screen > .s-break, .screen > .s-consent {
+  animation: screenIn .42s cubic-bezier(.22,1,.36,1);
+}
+@keyframes barIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: none; }
+}
+.appbar { animation: barIn .4s cubic-bezier(.22,1,.36,1); }
+.mock-feed .post-card { animation: feedIn .45s ease backwards; }
+.mock-feed .post-card:nth-child(1) { animation-delay: .08s; }
+.mock-feed .post-card:nth-child(2) { animation-delay: .16s; }
+.mock-feed .post-card:nth-child(3) { animation-delay: .24s; }
+.s-score { position: relative; overflow: hidden; }
+.s-score::after {
+  content: ""; position: absolute; top: 0; left: -70%; width: 45%; height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,.35), transparent);
+  animation: shine 3.6s ease-in-out infinite; pointer-events: none;
+}
+@keyframes shine {
+  0% { left: -70%; }
+  60%, 100% { left: 140%; }
+}
+@keyframes sozPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 2px rgba(34,197,94,.5), 0 6px 14px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.18);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(34,197,94,.28), 0 8px 24px rgba(34,197,94,.5), inset 0 1px 0 rgba(255,255,255,.18);
+  }
+}
+
+.s-soz { padding: 66px 14px 30px; height: 100%; display: flex; flex-direction: column; }
+.s-soz .soz-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; border-radius: 14px; color: #fff;
+  background: linear-gradient(160deg, #16a34a, #0e3d2a 72%);
+}
+.s-soz .soz-title { font-weight: 800; font-size: 17px; letter-spacing: .4px; }
+.s-soz .soz-mood { font-size: 12px; opacity: .92; }
+.s-soz .soz-stats { display: flex; gap: 8px; margin: 10px 0 8px; }
+.s-soz .soz-stat {
+  flex: 1; background: rgba(255,255,255,.05); border: 1px solid var(--line);
+  border-radius: 12px; padding: 10px 4px; text-align: center;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.s-soz .soz-stat b { font-size: 18px; color: #fff; }
+.s-soz .soz-stat span { font-size: 11px; color: var(--muted); }
+.s-soz .soz-top {
+  font-size: 12px; color: #cbd5e1; border: 1px dashed var(--line);
+  border-radius: 10px; padding: 8px 10px; margin-bottom: 10px; line-height: 1.5;
+}
+.s-soz .soz-menu { flex: 1; overflow: auto; display: flex; flex-direction: column; gap: 6px; }
+.s-soz .soz-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,.05); border: 1px solid var(--line);
+  border-radius: 12px; padding: 11px 12px; font-size: 13px; color: #e2e8f0; cursor: pointer;
+}
+.s-soz .soz-row:hover { background: rgba(34,197,94,.15); border-color: #16a34a; }
+.s-soz .soz-row .chev { color: #86efac; font-weight: 800; }
+.s-soz .btn { margin-top: 10px; }
+
+/* telefon içi KVKK / açık rıza ekranı */
+.s-consent { padding: 66px 14px 30px; height: 100%; display: flex; flex-direction: column; overflow: auto; }
+.s-consent .brand { margin-bottom: 10px; }
+.s-consent h2 { font-size: 18px; color: #fff; margin-bottom: 10px; }
+.s-consent p { font-size: 13px; color: #94a3b8; margin-bottom: 12px; line-height: 1.6; }
+.s-consent .consent-body { background: #0b1220; border: 1px solid #334155; border-radius: 14px; padding: 12px; margin-bottom: 12px; flex: 1; overflow: auto; }
+.s-consent .consent-body h4 { font-size: 12px; color: #86efac; margin: 8px 0 6px; letter-spacing: .3px; }
+.s-consent .consent-body ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.s-consent .consent-body li { font-size: 12px; color: #cbd5e1; line-height: 1.55; }
+.s-consent .consent-body li::before { content: "▪"; color: var(--green-500); margin-right: 6px; }
+.s-consent .btn { margin-top: 8px; }
+
+/* ---- uygulama içi sayfa (tam ekran) ---- */
+.s-app {
+  position: relative; height: 100%; color: #e2e8f0; display: flex; flex-direction: column;
+  background: linear-gradient(180deg, #0f1a2e, #0b1220 40%, #0a101d);
+}
+.appbar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 52px 14px 12px;
+}
+.appbar-back {
+  width: 32px; height: 32px; flex: none; border: 0; cursor: pointer; border-radius: 50%;
+  background: rgba(255,255,255,.08); color: #e2e8f0; font-size: 20px; line-height: 1;
+  display: grid; place-items: center; transition: background .15s ease;
+}
+.appbar-back:hover { background: rgba(255,255,255,.16); }
+.appbar-icon {
+  width: 32px; height: 32px; flex: none; border-radius: 9px; color: #fff;
+  font-size: 12px; font-weight: 800; display: grid; place-items: center;
+}
+.appbar-mid { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.appbar-name { font-weight: 800; font-size: 15px; color: #fff; }
+.appbar-cat { font-size: 11px; color: #94a3b8; }
+.appbar-badge {
+  font-size: 10px; font-weight: 800; letter-spacing: .4px; color: #86efac;
+  background: rgba(34,197,94,.14); border: 1px solid rgba(34,197,94,.4);
+  border-radius: 999px; padding: 3px 9px; flex: none;
+}
+.timer-card {
+  margin: 0 12px 12px; z-index: 25; color: #e2e8f0;
+  background: rgba(21,32,54,.72); border: 1px solid rgba(148,163,184,.18);
+  border-radius: 18px; padding: 14px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.35);
+}
+.timer-row { display: flex; align-items: center; gap: 16px; }
+.timer-ring {
+  width: 84px; height: 84px; flex: none; border-radius: 50%; position: relative;
+  background: conic-gradient(#22c55e calc(var(--p) * 1%), rgba(255,255,255,.08) 0);
+}
+.timer-ring-in {
+  position: absolute; inset: 6px; border-radius: 50%; background: #0f1a2e;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+}
+.timer-num { font-size: 27px; font-weight: 800; color: #fff; line-height: 1; }
+.timer-num-label { font-size: 10px; color: #94a3b8; }
+.timer-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+.timer-info-row { display: flex; justify-content: space-between; font-size: 12px; }
+.timer-info-row span { color: #94a3b8; }
+.timer-info-row b { color: #fff; }
+.timer-tip { font-size: 11px; color: #86efac; line-height: 1.45; }
+.timer-card.over { border-color: rgba(239,68,68,.5); }
+.timer-card.over .timer-ring { background: conic-gradient(#ef4444 calc(var(--p) * 1%), rgba(255,255,255,.08) 0); }
+.timer-card.over .timer-num { color: #f87171; }
+.timer-card.over .timer-tip { color: #fca5a5; }
+.s-app .mock-feed {
+  flex: 1; overflow: hidden; padding: 4px 12px 116px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.post-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,.25); flex: none; }
+.post-head { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+.post-ava {
+  width: 30px; height: 30px; flex: none; border-radius: 50%; color: #fff;
+  font-size: 11px; font-weight: 800; display: grid; place-items: center;
+}
+.post-id { flex: 1; min-width: 0; line-height: 1.3; }
+.post-user { font-size: 13px; font-weight: 700; color: #0f172a; }
+.post-time { font-size: 11px; color: #64748b; }
+.post-more { color: #94a3b8; font-size: 14px; letter-spacing: 1px; }
+.post-media {
+  height: 94px; margin: 0 12px; border-radius: 10px; color: #fff;
+  display: grid; place-items: center; font-size: 34px;
+}
+.post-actions { display: flex; gap: 14px; padding: 9px 12px 11px; font-size: 12px; color: #334155; }
+.s-app .app-actions {
+  position: absolute; bottom: 16px; left: 12px; right: 12px; z-index: 25;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+/* buttons */
+.btn {
+  border-radius: 14px; padding: 10px 14px; font-size: 13px; font-weight: 700;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(15,23,42,.14); }
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-primary {
+  background: linear-gradient(135deg, #22c55e, #15803d); color: #fff; border-color: transparent;
+  box-shadow: 0 6px 18px rgba(22,163,74,.35);
+}
+.btn-glow { box-shadow: 0 8px 22px rgba(22,163,74,.4); }
+.btn-glow:hover { box-shadow: 0 10px 28px rgba(22,163,74,.5); }
+.btn-success { background: var(--green-600); color: #fff; border-color: var(--green-600); }
+.btn-warn { background: var(--warn); color: #fff; border-color: var(--warn); }
+.btn-danger { background: var(--danger); color: #fff; border-color: var(--danger); }
+.btn-ghost { background: rgba(255,255,255,.06); border-color: rgba(148,163,184,.35); color: #cbd5e1; font-weight: 600; }
+.btn-settings {
+  background: linear-gradient(180deg, #475569, #334155);
+  border-color: #64748b; color: #fff; font-weight: 700;
+  box-shadow: 0 2px 10px rgba(51,65,85,.4);
+}
+.btn-settings:hover { background: linear-gradient(180deg, #567089, #3f4d61); color: #fff; box-shadow: 0 6px 16px rgba(51,65,85,.5); }
+.btn-lg { width: 100%; padding: 14px; font-size: 15px; }
+.btn-sm { padding: 6px 10px; font-size: 12px; border-radius: 9px; }
+.btn-danger-ghost { background: transparent; color: var(--danger); border-color: #fecaca; }
+
+/* demo controls */
+.demo-controls {
+  max-width: 400px; margin: 10px auto 0; display: flex; flex-direction: column; gap: 8px;
+  background: rgba(255,255,255,.62); border: 1px solid rgba(226,232,240,.9);
+  border-radius: 16px; padding: 12px 14px;
+  box-shadow: 0 10px 26px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.hint { font-size: 12px; color: var(--muted); text-align: center; }
+.controls-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.switch-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-soft); cursor: pointer; }
+
+/* son aktiviteler (zaman çizelgesi) */
+.feed {
+  display: flex; flex-direction: column; gap: 2px;
+  max-height: 300px; overflow-y: auto;
+  background: linear-gradient(180deg, #fbfdfc, #f3f9f7);
+  border: 1px solid var(--line); border-radius: 14px; padding: 8px 12px;
+  scrollbar-width: thin;
+}
+.feed::-webkit-scrollbar { width: 6px; }
+.feed::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+.feed.muted {
+  display: block; font-size: 13px; color: var(--muted);
+  padding: 18px 12px; text-align: center; letter-spacing: .2px;
+}
+.feed-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+  padding: 7px 4px; border-bottom: 1px dashed #e8eef5; position: relative;
+  animation: feedIn .28s ease;
+}
+.feed-item:last-child { border-bottom: 0; }
+.feed-item .feed-emoji { flex: none; font-size: 14px; line-height: 1.4; }
+.feed-item .feed-text { flex: 1; min-width: 0; word-break: break-word; }
+.feed-item .feed-time {
+  flex: none; font-size: 10.5px; font-weight: 800; color: var(--green-700);
+  background: var(--green-100); border-radius: 999px; padding: 2px 9px; margin-top: 1px;
+  letter-spacing: .3px;
+}
+.feed-item:hover {
+  background: rgba(255,255,255,.75); border-radius: 8px;
+}
+@keyframes feedIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* modal */
+.modal-root { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; }
+.modal-root.open { display: flex; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(2,6,23,.55); }
+.modal {
+  position: relative; background: var(--card); border-radius: 20px; max-width: 460px; width: calc(100% - 40px);
+  padding: 22px; box-shadow: var(--shadow); animation: fade .2s ease; max-height: 86vh; overflow: auto;
+}
+.modal h3 { margin-bottom: 10px; }
+.modal p { font-size: 13px; color: var(--ink-soft); margin-bottom: 12px; }
+.modal .row { margin-top: 14px; }
+.time-opts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.time-opts button { flex: 1 0 60px; max-width: 80px; }
+
+/* stats */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 14px; }
+.stat-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
+.stat-card .stat-label { font-size: 12px; color: var(--muted); }
+.stat-card .stat-value { font-size: 24px; font-weight: 800; color: var(--green-800); margin-top: 4px; }
+.stat-card.s-ok .stat-value { color: var(--green-700); }
+.stat-card.s-bad .stat-value { color: var(--danger); }
+.stat-card.s-amber .stat-value { color: var(--warn); }
+
+.cat-bars { display: flex; flex-direction: column; gap: 10px; }
+.cat-bar-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.cat-bar-label { flex: 0 0 110px; color: var(--ink-soft); font-weight: 600; }
+.cat-bar-track { flex: 1; height: 14px; border-radius: 7px; background: #eef2f7; overflow: hidden; }
+.cat-bar-fill { height: 100%; border-radius: 7px; background: linear-gradient(90deg, var(--green-600), var(--green-500)); }
+.cat-bar-min { flex: 0 0 60px; text-align: right; color: var(--muted); font-size: 12px; }
+
+.challenge-box { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.challenge-progress { flex: 1; min-width: 160px; }
+.challenge-progress .cnt { font-size: 13px; margin-bottom: 6px; }
+
+/* rewards */
+.reward-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 14px; }
+.reward-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+.reward-icon {
+  width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--green-500), var(--green-700));
+  color: #fff; font-weight: 800; font-size: 20px;
+}
+.reward-name { font-weight: 700; font-size: 14px; }
+.reward-desc { font-size: 12px; color: var(--muted); flex: 1; }
+.reward-price { font-weight: 800; color: var(--green-800); }
+.reward-badge { font-size: 11px; color: var(--green-700); background: var(--green-100); border-radius: 999px; padding: 2px 8px; align-self: flex-start; }
+
+/* charts */
+.cmp { display: flex; gap: 18px; align-items: flex-end; justify-content: center; margin-top: 4px; }
+.cmp-col { flex: 1; max-width: 150px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.cmp-label { font-size: 12px; color: var(--muted); font-weight: 700; }
+.cmp-track { width: 100%; height: 120px; background: #eef2f7; border-radius: 12px; display: flex; align-items: flex-end; overflow: hidden; }
+.cmp-bar {
+  width: 100%; border-radius: 12px; min-height: 0;
+  background: linear-gradient(180deg, var(--green-500), var(--green-700));
+  transition: height .4s ease;
+}
+.cmp-bar.mut { background: linear-gradient(180deg, #cbd5e1, #94a3b8); }
+.cmp-value { font-size: 18px; font-weight: 800; color: var(--green-800); }
+.cmp-diff { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 10px; }
+
+.days { display: flex; gap: 8px; align-items: flex-end; justify-content: space-between; }
+.day-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.day-track { width: 100%; max-width: 46px; height: 100px; background: #eef2f7; border-radius: 8px; display: flex; align-items: flex-end; overflow: hidden; }
+.day-bar {
+  width: 100%; border-radius: 8px; min-height: 0;
+  background: linear-gradient(180deg, var(--green-500), var(--green-700));
+  transition: height .4s ease;
+}
+.day-col.today .day-bar { background: linear-gradient(180deg, #fbbf24, #b45309); }
+.day-min { font-size: 11px; color: var(--muted); font-weight: 600; }
+.day-name { font-size: 11px; color: var(--muted); font-weight: 700; }
+.day-col.today .day-name { color: var(--warn); }
+
+.weeks { display: flex; gap: 10px; align-items: flex-end; justify-content: space-between; }
+.week-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.week-track { width: 100%; max-width: 70px; height: 110px; background: #eef2f7; border-radius: 10px; display: flex; align-items: flex-end; overflow: hidden; }
+.week-bar {
+  width: 100%; border-radius: 10px; min-height: 0; background: #94a3b8;
+  transition: height .4s ease;
+}
+.week-bar.now { background: linear-gradient(180deg, var(--green-500), var(--green-700)); }
+.week-min { font-size: 11px; color: var(--muted); font-weight: 600; }
+.week-name { font-size: 11px; color: var(--muted); font-weight: 700; }
+
+.donut-wrap { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 6px; }
+.donut { position: relative; width: 140px; height: 140px; flex: none; }
+.donut svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.donut-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.donut-center b { font-size: 22px; color: var(--green-800); line-height: 1.1; }
+.donut-center span { font-size: 11px; color: var(--muted); }
+.legend { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 170px; }
+.legend-row { font-size: 12px; color: var(--ink-soft); display: flex; gap: 8px; align-items: center; }
+.legend-row .dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.legend-pct { margin-left: auto; color: var(--muted); font-weight: 700; }
+
+/* prizes / roadmap */
+.prizes, .roadmap { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+.prizes li, .roadmap li { display: flex; gap: 8px; align-items: flex-start; color: var(--ink-soft); }
+.prizes li::before { content: "■"; color: var(--green-500); font-size: 10px; line-height: 18px; }
+.roadmap li { list-style: disc inside; display: list-item; color: var(--muted); }
+
+/* ai */
+.ai-status { font-size: 12px; margin-bottom: 12px; }
+.ai-status.live { color: var(--green-800); font-weight: 700; }
+.ai-output { white-space: pre-wrap; font-size: 13px; line-height: 1.65; color: var(--ink); }
+.ai-output.busy { color: var(--muted); font-style: italic; }
+.ai-output.error { color: var(--danger); }
+.prompt-box {
+  background: #0f172a; color: #cbd5e1; border-radius: 12px; padding: 12px;
+  font-size: 12px; white-space: pre-wrap; margin-top: 8px; font-family: Consolas, monospace;
+}
+.prompt-toggle { font-size: 12px; color: var(--info); background: none; border: 0; cursor: pointer; padding: 0; }
+
+/* chat */
+.chat-log { display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow: auto; padding: 4px 2px; }
+.chat-empty { text-align: center; padding: 16px 8px; font-size: 13px; }
+.chat-msg { max-width: 85%; border-radius: 14px; padding: 9px 12px; font-size: 13px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+.chat-msg.user { align-self: flex-end; background: var(--green-700); color: #fff; border-bottom-right-radius: 4px; }
+.chat-msg.assistant { align-self: flex-start; background: #f1f5f9; color: var(--ink); border-bottom-left-radius: 4px; }
+.chat-msg.chat-busy { font-style: italic; color: var(--muted); }
+.chat-msg .chat-note { font-size: 11px; color: var(--muted); margin-top: 5px; }
+.input-ai-note { font-size: 11px; color: var(--muted); font-style: italic; margin: 8px 0; line-height: 1.5; }
+.chat-chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0 10px; }
+.chip { border: 1px solid var(--green-600); background: var(--green-100); color: var(--green-800); border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background .12s ease, color .12s ease; }
+.chip:hover { background: var(--green-600); color: #fff; }
+.chat-input-row { display: flex; gap: 8px; }
+.chat-input-row input { flex: 1; border: 1px solid var(--line); border-radius: 10px; padding: 10px; font-size: 13px; }
+
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.field label { font-size: 12px; font-weight: 700; color: var(--ink-soft); }
+.field input, .field select {
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px; font-size: 13px;
+}
+
+.footer { text-align: center; margin-top: 24px; }
+
+.over-banner {
+  position: absolute; top: 40px; left: 12px; right: 12px; z-index: 28;
+  background: rgba(185,28,28,.92); color: #fff; border-radius: 999px; padding: 10px 14px;
+  font-size: 12px; font-weight: 700; text-align: center; animation: slideIn .3s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,.4);
+}
+
+@media (max-width: 620px) {
+  .phone { width: 100%; max-width: 342px; margin: 0 auto; height: 78vh; min-height: 560px; }
+}
+
+/* haftalık görevler */
+.ch-list { display: flex; flex-direction: column; gap: 12px; }
+.ch-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
+.ch-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.ch-title { font-weight: 800; font-size: 14px; color: var(--ink); }
+.ch-reward { flex: none; font-size: 12px; font-weight: 800; color: var(--green-700); background: var(--green-100); border-radius: 999px; padding: 3px 10px; }
+.ch-text { font-size: 12px; color: var(--muted); margin: 6px 0 10px; }
+.ch-progress { display: flex; align-items: center; gap: 10px; }
+.ch-bar { flex: 1; height: 10px; border-radius: 6px; background: #eef2f7; overflow: hidden; }
+.ch-bar > div { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--green-600), var(--green-500)); }
+.ch-cur { font-size: 12px; color: var(--ink-soft); }
+.ch-action { margin-top: 10px; }
+
+/* AI damgası / rozeti */
+.ai-badge { display: inline-block; font-size: 10px; font-weight: 800; color: #fff; background: var(--green-600); border-radius: 6px; padding: 1px 6px; margin-bottom: 5px; letter-spacing: .5px; animation: badgeGlow 3s ease-in-out infinite; }
+.ai-stamp { font-size: 11px; color: var(--muted); margin-top: 8px; font-style: italic; }
+
+/* ---- şov efektleri ---- */
+
+/* YZ düşünüyor: üç nokta */
+.ai-dots { display: inline-block; margin-left: 3px; }
+.ai-dots::after {
+  content: ".";
+  animation: dotsBlink 1.2s steps(1) infinite;
+  font-weight: 800;
+}
+@keyframes dotsBlink {
+  0% { content: "."; }
+  33% { content: ".."; }
+  66% { content: "..."; }
+  100% { content: "."; }
+}
+
+/* puan uçuş efekti */
+.float-pts {
+  position: absolute; font-size: 16px; font-weight: 800; color: var(--green-600);
+  text-shadow: 0 1px 2px rgba(0,0,0,.15); pointer-events: none; z-index: 60;
+  animation: floatUp 1.05s ease-out forwards;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 1; }
+  100% { transform: translateY(-34px); opacity: 0; }
+}
+
+/* mola geri sayımı halkası */
+.bk-ring {
+  width: 132px; height: 132px; border-radius: 50%; position: relative;
+  display: grid; place-items: center;
+  background: conic-gradient(#16a34a 0%, #86efac 78%, rgba(255,255,255,.06) 78%);
+  animation: ringPulse 2.4s ease-in-out infinite;
+  box-shadow: 0 0 26px rgba(22,163,74,.45);
+}
+.bk-ring::before {
+  content: ""; position: absolute; inset: 9px; border-radius: 50%; background: #0f172a;
+}
+.bk-ring .bk-count { position: relative; z-index: 1; font-size: 52px; font-weight: 800; color: #86efac; line-height: 1; }
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 26px rgba(22,163,74,.45); }
+  50% { transform: scale(1.045); box-shadow: 0 0 40px rgba(22,163,74,.6); }
+}
+
+/* KVKK / modal açılışı: fade + ölçek */
+@keyframes popIn { from { opacity: 0; transform: scale(.92) translateY(8px); } to { opacity: 1; transform: none; } }
+.modal { animation: popIn .24s cubic-bezier(.22,1,.36,1); }
+.modal-backdrop { animation: fade .25s ease; }
+.anim-pop { animation: popIn .3s cubic-bezier(.22,1,.36,1); }
+
+/* 'Canlı YZ' rozeti */
+.ai-status.live .live-dot {
+  display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+  background: #16a34a; margin-right: 6px; vertical-align: middle;
+  animation: livePulse 1.6s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22,163,74,.55); }
+  50% { box-shadow: 0 0 0 6px rgba(22,163,74,0); }
+}
+@keyframes badgeGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22,163,74,.45); }
+  50% { box-shadow: 0 0 6px 1px rgba(22,163,74,.55); }
+}
+
+/* ---- süre sözü: telefon içi alt sayfa (sheet) ---- */
+.s-sheet-backdrop {
+  position: absolute; inset: 0; background: rgba(2,6,23,.55); z-index: 40;
+  animation: fade .22s ease;
+}
+.s-sheet {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 41;
+  background: linear-gradient(180deg, #152338, #0b1220);
+  border: 1px solid rgba(148,163,184,.18); border-bottom: 0;
+  border-radius: 24px 24px 0 0; padding: 10px 18px calc(18px + env(safe-area-inset-bottom));
+  color: #e2e8f0; display: flex; flex-direction: column; gap: 12px;
+  box-shadow: 0 -14px 34px rgba(0,0,0,.5);
+  animation: sheetUp .42s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes sheetUp { from { transform: translateY(70%); opacity: .5; } to { transform: none; opacity: 1; } }
+.sheet-grab { width: 38px; height: 4px; border-radius: 999px; background: rgba(255,255,255,.22); margin: 0 auto 4px; }
+.sheet-head { display: flex; align-items: center; gap: 11px; }
+.sheet-appicon {
+  width: 44px; height: 44px; flex: none; border-radius: 12px; color: #fff;
+  font-size: 14px; font-weight: 800; display: grid; place-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.sheet-meta { min-width: 0; line-height: 1.3; }
+.sheet-apptitle { font-weight: 800; font-size: 16px; color: #fff; }
+.sheet-cat { font-size: 11px; color: #94a3b8; }
+.sheet-q { font-size: 20px; font-weight: 800; line-height: 1.35; }
+.sheet-q b { color: #86efac; }
+.dur-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.dur-chip {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(148,163,184,.3);
+  color: #fff; border-radius: 13px; padding: 10px 4px; cursor: pointer;
+  font-size: 15px; font-weight: 800; text-align: center; line-height: 1.15;
+  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.dur-chip span { display: block; font-size: 10px; font-weight: 600; color: #94a3b8; margin-top: 3px; }
+.dur-chip:hover { background: rgba(255,255,255,.11); }
+.dur-chip.sel {
+  border-color: #22c55e; background: rgba(34,197,94,.18); color: #86efac;
+  box-shadow: 0 0 0 1px rgba(34,197,94,.5), 0 4px 14px rgba(34,197,94,.28);
+}
+.dur-chip.sel span { color: #b8f5cf; }
+.dur-custom { display: flex; align-items: center; gap: 8px; }
+.dur-custom input {
+  flex: 1; background: rgba(255,255,255,.07); border: 1px solid rgba(148,163,184,.3);
+  border-radius: 13px; padding: 11px 12px; color: #fff; font-size: 13px; min-width: 0;
+}
+.dur-custom input::placeholder { color: #64748b; }
+.dur-dice {
+  flex: none; width: 44px; height: 44px; border-radius: 13px; cursor: pointer;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(148,163,184,.3);
+  font-size: 18px; transition: transform .15s ease, background .15s ease;
+}
+.dur-dice:hover { transform: rotate(-6deg) scale(1.06); background: rgba(255,255,255,.12); }
+.sheet-reward { display: flex; justify-content: center; gap: 16px; font-size: 12px; color: #94a3b8; }
+.p-plus { color: #86efac; font-weight: 700; }
+.p-minus { color: #f87171; font-weight: 700; }
+.sheet-link {
+  background: none; border: 0; color: #94a3b8; font-size: 13px; cursor: pointer;
+  padding: 8px; width: 100%; text-align: center; transition: color .15s ease;
+}
+.sheet-link:hover { color: #cbd5e1; }
+</style>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCc+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSdzJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+PHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMzRkMzk5Jy8+PHN0b3Agb2Zmc2V0PScuNTUnIHN0b3AtY29sb3I9JyMxNmEzNGEnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyMwZTc0OTAnLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PScyJyB5PScyJyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHJ4PSc2JyBmaWxsPSd1cmwoI3MpJy8+PHBhdGggZD0nTTEyIDMuM2w1LjkgMi4zNXY1LjM1YzAgMy42NS0yLjM1IDYuODUtNS45IDguMy0zLjU1LTEuNDUtNS45LTQuNjUtNS45LTguM1Y1LjY1eicgZmlsbD0nI2ZmZicvPjxwYXRoIGQ9J004LjcgMTIuMmwyLjMgMi4zIDQuNi00Ljg1JyBmaWxsPSdub25lJyBzdHJva2U9JyMxNTgwM2QnIHN0cm9rZS13aWR0aD0nMi4xJyBzdHJva2UtbGluZWNhcD0ncm91bmQnIHN0cm9rZS1saW5lam9pbj0ncm91bmQnLz48cGF0aCBkPSdNMTcgMy40Yy4xNiAxLjM1LjY2IDEuOTQgMiAyLjEtMS4zNC4xNi0xLjg0Ljc1LTIgMi4xLS4xNi0xLjM1LS42Ni0xLjk0LTItMi4xIDEuMzQtLjE2IDEuODQtLjc1IDItMi4xeicgZmlsbD0nI2ZkZTA0NycvPjwvc3ZnPg==">
+</head>
+<body>
+<div class="app-layout">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">SS</span>
+      <span class="brand-name">SÖZÜM <b>SÖZ</b></span>
+    </div>
+    <div class="topbar-metrics">
+      <span class="pill points-pill">PUAN <b id="hPoints">0</b></span>
+      <span class="pill streak-pill">SERİ <b id="hStreak">0</b></span>
+      <span class="pill mood-pill">Bu hafta <b id="hMood">😐</b></span>
+      <button class="btn btn-settings" id="btnSettings">Ayarlar</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="phone">Telefon</button>
+    <button class="tab" data-tab="stats">Durum</button>
+    <button class="tab" data-tab="charts">Grafikler</button>
+    <button class="tab" data-tab="challenges">Görevler</button>
+    <button class="tab" data-tab="rewards">Ödül Kataloğu</button>
+    <button class="tab" data-tab="draw">Çekiliş</button>
+    <button class="tab" data-tab="ai">Yansıma (YZ)</button>
+    <button class="tab" data-tab="chat">Sohbet</button>
+  </nav>
+
+  <main>
+
+    <section id="tab-phone" class="tabpanel active">
+      <div class="phone-stage">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div id="notifStack" class="notif-stack"></div>
+          <div id="phoneScreen" class="screen"></div>
+          <div class="phone-home-bar"></div>
+        </div>
+      </div>
+      <div class="demo-controls">
+        <span class="hint">Demo hızı: 1 saniye ≈ 1 dakika (süre sözünü hızla test edebilirsin)</span>
+        <div class="controls-row">
+          <label class="switch-line">
+            <input type="checkbox" id="speedToggle" checked>
+            <span>Hızlı demo (1 sn = 1 dk)</span>
+          </label>
+          <button class="btn btn-danger" id="btnReset">Sıfırla</button>
+        </div>
+        <div class="controls-row" id="moodRow">
+          <span class="hint">Haftalık skor emojisi (demo):</span>
+          <button class="btn btn-sm" data-mood="good">😀 İyi</button>
+          <button class="btn btn-sm" data-mood="mid">😐 Orta</button>
+          <button class="btn btn-sm" data-mood="bad">🙁 Kötü</button>
+          <button class="btn btn-sm" data-mood="auto">Otomatik</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Son aktiviteler</h3>
+        <div id="phoneFeed" class="feed muted">Henüz aktivite yok.</div>
+      </div>
+    </section>
+
+    <section id="tab-stats" class="tabpanel">
+      <div class="panel-head">
+        <h2>Durum Tablosu</h2>
+        <p class="muted">Veriler yalnızca bu tarayıcıda (cihazında) saklanır; hiçbir sunucuya gönderilmez.</p>
+      </div>
+      <div id="statCards" class="stat-grid"></div>
+      <div class="card">
+        <h3>Son 7 gün - en çok zaman harcadığın kategoriler</h3>
+        <div id="categoryBars" class="cat-bars"></div>
+      </div>
+      <div class="card" id="challengeCard"></div>
+      <div class="card">
+        <h3>Yol haritası (bu prototipin dışında)</h3>
+        <ul class="roadmap">
+          <li>Gerçek telefon takibi: Android Usage Stats + erişilebilirlik servisi (yalnızca söz verdiğin uygulamada çalışır, şeffaf izinli).</li>
+          <li>Streak'e göre orantılı ödüller: ay içinde sınırsız prim değil, dengeli teşvik.</li>
+          <li>Cihazlar arası şifreli senkron, ebeveyn modu, haftalık kendi kendine değerlendirme.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="tab-charts" class="tabpanel">
+      <div class="panel-head">
+        <h2>Grafikler</h2>
+        <p class="muted">Geçmiş aktivite görünümü: bugünkü kullanımın, geçen haftanın aynı günüyle ve son haftalarla karşılaştırması.</p>
+      </div>
+      <div id="chartTodayVsWeek" class="card"></div>
+      <div id="chartLast7" class="card"></div>
+      <div id="chartWeeks" class="card"></div>
+      <div id="chartCategories" class="card"></div>
+      <div id="chartTopApps" class="card"></div>
+    </section>
+
+    <section id="tab-challenges" class="tabpanel">
+      <div class="panel-head">
+        <h2>Haftalık Görevler</h2>
+        <p class="muted">Her haftanın başında da katılabilirsin: göreve katıl, koşulu sağla, puanı kazan. İlerleme son 7 günün kayıtlarından sayılır; her Pazartesi sıfırlanır.</p>
+      </div>
+      <div class="card">
+        <div id="challengeList" class="ch-list"></div>
+      </div>
+    </section>
+
+    <section id="tab-rewards" class="tabpanel">
+      <div class="panel-head">
+        <h2>Ödül Kataloğu</h2>
+        <p class="muted">Yeşilay ortak ödül kataloğu (prototip senaryosu). Biriktirdiğin puanlarla ödül seçersin.</p>
+      </div>
+      <div id="rewardGrid" class="reward-grid"></div>
+      <div id="myRewards" class="card">
+        <h3>Sipariş ettiklerin</h3>
+        <div id="myRewardsList" class="muted">Henüz sipariş vermedin.</div>
+      </div>
+    </section>
+
+    <section id="tab-draw" class="tabpanel">
+      <div class="panel-head">
+        <h2>Aylık Çekiliş</h2>
+        <p class="muted">Ay boyunca hiçbir sözünü bozmazsan çekilişe katılmaya hak kazanırsın. Senaryodur; gerçek kurallar Yeşilay protokolüne bağlıdır.</p>
+      </div>
+      <div class="card">
+        <h3>Bu ayki ilerleme</h3>
+        <div id="monthProgress"></div>
+        <div id="monthStatus" class="muted"></div>
+      </div>
+      <div class="card">
+        <h3>Ödüller</h3>
+        <ul class="prizes" id="prizeList"></ul>
+      </div>
+      <div class="card">
+        <button class="btn btn-primary btn-lg" id="btnEnterDraw" disabled>Çekilişe Katıl</button>
+        <div id="drawEnteredNote" class="muted"></div>
+      </div>
+    </section>
+
+    <section id="tab-ai" class="tabpanel">
+      <div class="panel-head">
+        <h2>Yansıma Koçu (Üretken YZ)</h2>
+        <p class="muted">Söz geçmişinden yargılamasız bir yansıma ve haftalık özet üretir. Tanı koymaz; tıbbi tanı/tedavi önerisi değildir.</p>
+      </div>
+      <div id="aiStatus" class="ai-status muted"></div>
+      <div class="card">
+        <h3>Günlük Yansıma</h3>
+        <p class="muted">Bugünkü oturumlarından kısa, yargılamasız bir özet üretir: kalıplar, olası tetikleyiciler ve küçük iyileştirme önerileri.</p>
+        <div class="row">
+          <button class="btn btn-primary" id="btnDailyAI">Yansımayı Oluştur</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Haftalık Özet</h3>
+        <p class="muted">Son 7 günün genel özeti ve haftaya hazırlık önerileri.</p>
+        <div class="row">
+          <button class="btn btn-primary" id="btnWeeklyAI">Haftalık Özeti Oluştur</button>
+        </div>
+      </div>
+      <div class="card" id="aiOutputCard">
+        <h3>YZ Çıktısı</h3>
+        <div id="aiOutput" class="ai-output muted">Henüz çıktı yok. Yukarıdaki butonlardan birine bas.</div>
+        <div class="input-ai-note">Bu çıktı bir yapay zekâ (YZ) modeli tarafından üretilir. YZ hata yapabilir; içerik farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir. Gerekirse bir uzman görüşü alınması önerilir.</div>
+      </div>
+      <div id="aiPromptWrap"></div>
+      <p class="muted small">Not: YZ yalnızca farkındalık desteğidir. Verilerin cihazında kalır; dışarıya yalnızca anonim özet (prompt) gider.</p>
+    </section>
+
+    <section id="tab-chat" class="tabpanel">
+      <div class="panel-head">
+        <h2>Sohbet · YZ Koç</h2>
+        <p class="muted">Çok turlu sohbet: koç, geçmiş oturumlarını ve konuşma geçmişini hatırlayarak yanıt verir. Tanı koymaz; tıbbi tanı/tedavi önerisi değildir.</p>
+      </div>
+      <div class="card">
+        <div id="chatLog" class="chat-log">
+          <div class="chat-empty muted">Koça soru sormak için alttaki önerilerden birine dokun veya mesajını yaz.</div>
+        </div>
+        <div class="chat-chips" id="chatChips">
+          <button class="chip" data-q="Bugün için bana 3 sözlük bir plan çıkar">Bugünlük plan</button>
+          <button class="chip" data-q="Akşamları neden bu kadar ekrana kayıyorum?">Akşam kayması</button>
+          <button class="chip" data-q="Ödül hedefime nasıl ulaşırım?">Hedefime ulaşma</button>
+          <button class="chip" data-q="Şu an kısa bir mola öner">Mola öner</button>
+        </div>
+        <div class="input-ai-note">Bu sohbet bir yapay zekâ (YZ) modeliyle yürütülür. YZ hata yapabilir; verdiği bilgi farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir. Sağlığınla ilgili durumlarda bir uzman görüşü al.</div>
+        <div class="chat-input-row">
+          <input type="text" id="chatInput" placeholder="Koça yaz...">
+          <button class="btn btn-primary" id="chatSend">Gönder</button>
+        </div>
+        <p class="muted small">Canlı bağlantı kapalıysa şablon yanıt üretilir. Konuşma geçmişi yalnızca bu tarayıcıda saklanır; API'ye yalnızca bağlam + son 20 mesaj (anonim) gider.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer muted small">
+    SÖZÜM SÖZ - Dijital Bağımlılık ve Dijital İyi Olma Hâli hackathon prototipi.
+  </footer>
+</div>
+
+<div id="modalRoot" class="modal-root"></div>
+
+<script>
+// ---------- Veri: uygulamalar, ödüller, çekiliş, zorluklar ----------
+
+const CATEGORY_LABELS = {
+  social: "Sosyal Medya",
+  video: "Video",
+  messaging: "Mesajlaşma",
+  streaming: "Dizi / Film",
+  gaming: "Oyun",
+  music: "Müzik",
+  news: "Haber / Okuma"
+};
+
+const CATEGORY_GLYPHS = {
+  social: ["📱", "💬", "📸"],
+  video: ["🎬", "▶️", "🎞️"],
+  messaging: ["💬", "👋", "🗯️"],
+  streaming: ["🎬", "🍿", "📺"],
+  gaming: ["🎮", "🏆", "🕹️"],
+  music: ["🎧", "🎵", "🎤"],
+  news: ["📰", "📖", "☕"]
+};
+
+const APPS = [
+  {
+    id: "instagram", name: "Instagram", monogram: "IG", color: "#e1306c", category: "social",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#f09433'/><stop offset='0.4' stop-color='#e6683c'/><stop offset='0.6' stop-color='#dc2743'/><stop offset='1' stop-color='#cc2366'/></linearGradient><rect x='2' y='2' width='20' height='20' rx='6' fill='url(#g)'/><rect x='4.6' y='4.6' width='14.8' height='14.8' rx='4.4' fill='none' stroke='#fff' stroke-width='1.7'/><circle cx='12' cy='12' r='3.9' fill='none' stroke='#fff' stroke-width='1.7'/><circle cx='16.8' cy='7.2' r='1.25' fill='#fff'/></svg>"
+  },
+  {
+    id: "youtube", name: "YouTube", monogram: "YT", color: "#dc2626", category: "video",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='1.8' y='5.2' width='20.4' height='13.6' rx='4' fill='#ff0000'/><path d='M10 9.2v5.6l5-2.8z' fill='#fff'/></svg>"
+  },
+  {
+    id: "tiktok", name: "TikTok", monogram: "TT", color: "#111827", category: "video",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' rx='6' fill='#010101'/><path d='M12 6v7.4a2.6 2.6 0 1 1-2.6-2.6v2.2a.55.55 0 1 0 .55 1.1' stroke='#69c9d0' stroke-width='2.1' fill='none'/><path d='M12 6c.2 2.8 1.7 4.3 4.6 4.6' stroke='#fff' stroke-width='2.1' fill='none' stroke-linecap='round'/><path d='M12 6v7.4a2.6 2.6 0 1 1 2.6-2.9' stroke='#ee1d52' stroke-width='2.1' fill='none'/></svg>"
+  },
+  {
+    id: "whatsapp", name: "WhatsApp", monogram: "WA", color: "#16a34a", category: "messaging",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' rx='6' fill='#25d366'/><path d='M12 4.8a7.2 7.2 0 0 0-6.2 11l-1.1 3.8 3.9-1a7.2 7.2 0 1 0 3.4-13.8z' fill='#fff'/><path d='M9.2 8.6c.3-.6.8-.8 1.2-.4l.8 1c.3.4.2.7 0 1l-.6.6c.1.6.5 1.2 1.2 1.8.7.6 1.3.7 1.8.5l.6-.5c.3-.3.6-.3 1 0l.9.8c.4.4.3.7-.2 1a5 5 0 0 1-1.9.9c-1.1.3-2.8-.4-4.3-1.9-1.5-1.5-1.9-3.2-1.5-4.3.2-.8.4-1.4.9-1.5z' fill='#fff'/></svg>"
+  },
+  {
+    id: "x", name: "X", monogram: "X", color: "#334155", category: "social",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' rx='6' fill='#0f172a'/><path d='M5.6 6.2h3.6l3.2 3.5 3.8-3.5h1.5l-4.7 4.7-4.1 3.9h3l-4.4 4.5V14.3l3-2.8' fill='#fff'/></svg>"
+  },
+  {
+    id: "netflix", name: "Netflix", monogram: "NF", color: "#b91c1c", category: "streaming",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' rx='4' fill='#e50914'/><path d='M8.5 5v14H11V10.4L13.5 19h2.1V5h-2.3v8.8L11.1 5z' fill='#fff'/></svg>"
+  },
+  {
+    id: "clashroyale", name: "Clash Royale", monogram: "CR", color: "#7c3aed", category: "gaming",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' rx='6' fill='#7c3aed'/><path d='M7 6.2l2.1 2.1L12 5.8l2.9 2.5L17 6.2l.8 2.7-.8 1.7h-1l-.3 3.4H8.3l-.3-3.4H7l-.8-1.7z' fill='#ffd54a'/></svg>"
+  },
+  {
+    id: "reddit", name: "Reddit", monogram: "RD", color: "#ea580c", category: "news",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' rx='6' fill='#ff4500'/><circle cx='8.6' cy='9.4' r='2.3' fill='#fff'/><circle cx='15.4' cy='9.4' r='2.3' fill='#fff'/><path d='M4.6 12.6c1.8-.5 3.6-.3 4.9.6M19.4 12.6c-1.8-.5-3.6-.3-4.9.6M12 13.4c-2.3 0-3.5 1.3-3.5 2.8 0 1.7 1.5 2.7 3.5 2.7s3.5-1 3.5-2.7c0-1.5-1.2-2.8-3.5-2.8z' fill='none' stroke='#fff' stroke-width='1.5' stroke-linecap='round'/></svg>"
+  },
+  {
+    id: "spotify", name: "Spotify", monogram: "SP", color: "#15803d", category: "music",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' rx='6' fill='#1db954'/><path d='M6 11.3c3.6-1.2 8-.3 12 1.8M6.6 14.5c3-1 6.6-.3 9.4 1.4M7.2 17.4c2.5-.8 5.2-.3 7.4.9' stroke='#191414' stroke-width='1.8' fill='none' stroke-linecap='round'/></svg>"
+  },
+  {
+    id: "news", name: "Haber", monogram: "HN", color: "#0f766e", category: "news",
+    svg: "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' rx='6' fill='#0f766e'/><rect x='6.2' y='4.8' width='7.4' height='4.4' fill='#fff'/><path d='M6.2 12h11.6M6.2 14.8h11.6M6.2 17.6h8.6' stroke='#fff' stroke-width='1.6' stroke-linecap='round'/></svg>"
+  }
+];
+
+const TIME_OPTIONS = [2, 5, 10, 15, 20, 30, 45, 60];
+
+// Inline SVG logo'ların data-URI'ye dönüştürülmesi (çevrimdışı + tek dosya uyumlu)
+// Not: Chromium yüzde-encoded (utf8,) svg data-URI'lerini reddediyor → base64 kullan.
+function svgLogoURI(markup) {
+  var bin = "";
+  for (var i = 0; i < markup.length; i++) {
+    var c = markup.charCodeAt(i);
+    bin += String.fromCharCode(c > 255 ? 63 : c);
+  }
+  return "data:image/svg+xml;base64," + btoa(bin);
+}
+function appLogoURI(app) {
+  return (app && app.svg) ? svgLogoURI(app.svg) : "";
+}
+
+// Tıklanabilir uygulama ikonu HTML'i (logo varsa img, yoksa monogram)
+function appIconHTML(app, extraClass) {
+  var base = "background:linear-gradient(135deg," + app.color + ",#0f172a)";
+  var inner = app.svg
+    ? "<img class='app-icon-img' src='" + appLogoURI(app) + "' alt='' data-mono='" + app.monogram + "' onerror='window.__ssIconFallback(this)'>"
+    : "<span class='app-icon-fall'>" + app.monogram + "</span>";
+  return "<div class='" + (extraClass || "app-icon") + "' style='" + base + "'>" + inner + "</div>";
+}
+
+// SÖZÜM SÖZ marka logosu: kalkan + onay işareti (söz/sözde kalmak) + parıltı
+var SOZ_LOGO_SVG =
+  "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>" +
+  "<defs><linearGradient id='s' x1='0' y1='0' x2='1' y2='1'>" +
+  "<stop offset='0' stop-color='#34d399'/><stop offset='.55' stop-color='#16a34a'/><stop offset='1' stop-color='#0e7490'/>" +
+  "</linearGradient></defs>" +
+  "<rect x='2' y='2' width='20' height='20' rx='6' fill='url(#s)'/>" +
+  "<path d='M12 3.3l5.9 2.35v5.35c0 3.65-2.35 6.85-5.9 8.3-3.55-1.45-5.9-4.65-5.9-8.3V5.65z' fill='#fff'/>" +
+  "<path d='M8.7 12.2l2.3 2.3 4.6-4.85' fill='none' stroke='#15803d' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/>" +
+  "<path d='M17 3.4c.16 1.35.66 1.94 2 2.1-1.34.16-1.84.75-2 2.1-.16-1.35-.66-1.94-2-2.1 1.34-.16 1.84-.75 2-2.1z' fill='#fde047'/>" +
+  "</svg>";
+var SOZ_LOGO = svgLogoURI(SOZ_LOGO_SVG);
+
+// Ödül kataloğu - Yeşilay ortak senaryosu
+const REWARDS = [
+  { id: "sertifika", name: "Yeşilay Sağlıklı Yaşam Sertifikası", desc: "Aylık söz karnen ve katılım belgen.", price: 500, monogram: "BE" },
+  { id: "kitap", name: "Yeşilay Çocuk Kitabı", desc: "İyi olma hâli temalı çocuk kitabı seti.", price: 1000, monogram: "KI" },
+  { id: "kumbara", name: "Kumbara", desc: "Çocuklar için hedef biriktirme kumbarası.", price: 1500, monogram: "KU" },
+  { id: "matara", name: "Yeşilay Matara", desc: "Şişeni yanında taşı, suyunu unutma.", price: 2000, monogram: "MA" },
+  { id: "masa-saati", name: "Masa Saati", desc: "Ekranla geçen süreyi değil, molalarını ödüllendir.", price: 3000, monogram: "MS" },
+  { id: "termos", name: "Termos", desc: "Gün boyu suyunu yanında taşı.", price: 4000, monogram: "TE" },
+  { id: "tabak", name: "Yeşilay Tabak Takımı", desc: "Yemeğin kadar ekranın da sınırlı kalsın.", price: 5000, monogram: "TA" }
+];
+
+const MILESTONES = { 3: 10, 7: 25, 14: 60, 30: 150 };
+
+const DAILY_CHALLENGE = {
+  id: "3-soz",
+  target: 3,
+  title: "Günün sözü",
+  text: "Bugün 3 sözünü tut, ekstra puan kazan.",
+  reward: 20,
+  metric: "tutulanSoz"
+};
+
+// Haftalık görevler: her hafta kullanıcı katılır, koşul sağlanınca puan kazanır.
+// metric -> app.js'teki challengeCurrent() fonksiyonunda hesaplanır.
+// direction "less" = değer HEDEFİN ALTINDA kalmalı (örn. ekran < 10 saat).
+const CHALLENGES = [
+  {
+    id: "ekran10",
+    title: "Haftalık ekran süresi < 10 saat",
+    text: "Bu hafta toplam ekran kullanımını 10 saatten (600 dk) az tut.",
+    metric: "weeklyMin", target: 600, unit: "dk", direction: "less", reward: 10
+  },
+  {
+    id: "tut7",
+    title: "7 sözü zamanında kapat",
+    text: "Hafta içinde en az 7 oturumu hedef süresinde bitir.",
+    metric: "keptCount", target: 7, unit: "söz", direction: "more", reward: 15
+  },
+  {
+    id: "mola5",
+    title: "5 mikromolayı tamamla",
+    text: "Hafta içinde en az 5 mikromolayı tamamla (Yansıma Koçu'nun önerdiği).",
+    metric: "breaks", target: 5, unit: "mola", direction: "more", reward: 10
+  },
+  {
+    id: "farkli3",
+    title: "3 farklı uygulamada söz ver",
+    text: "Hafta içinde en az 3 farklı uygulamada süre sözü koy.",
+    metric: "distinctApps", target: 3, unit: "uygulama", direction: "more", reward: 8
+  },
+  {
+    id: "az-asim",
+    title: "Süre aşımı 3'ten az",
+    text: "Hafta içinde süreyi en fazla 2 kez aş (aşım erken fark edilen söz bozması sayılmaz).",
+    metric: "overshootCount", target: 3, unit: "aşım", direction: "less", reward: 12
+  }
+];
+
+const DRAW_PRIZES = [
+  "Tatil / seyahat paketi (aile ile)",
+  "Dizüstü bilgisayar",
+  "Akıllı telefon",
+  "Oyun konsolu ve aksesuar",
+  "Yeşilay deneyim paketi (farkındalık kampı)"
+];
+
+const DRAW_TARGET_KEPT = 30; // ay içinde tutulması gereken söz sayısı
+
+const MOCK_MEDIA = ["#7dd3fc", "#fca5a5", "#86efac", "#fde68a", "#d8b4fe", "#f9a8d4", "#93c5fd", "#fdba74"];
+</script>
+<script>
+// ---------- Üretken YZ katmanı: prompt tasarımı + API + fallback ----------
+
+const AI = {
+
+  systemPrompt() {
+    return [
+      "Sen 'SÖZÜM SÖZ' dijital iyi olma hâli koçusun. Görevin, kullanıcının ekran kullanım kayıtlarını yargısız, tıbbi olmayan bir dille yansıtmasına yardımcı olmak.",
+      "Kurallar:",
+      "1) 'bağımlı', 'hasta', 'tedavi', 'bozukluk' gibi tıbbi veya damgalayıcı kelimeler kullanma. Tanı koyma.",
+      "2) Kişisel suçlama yapma; davranış kalıplarına ve bağlamlara odaklan.",
+      "3) Yanıtı en fazla 6-8 kısa madde hâlinde ver: Desen -> Olası tetikleyici -> Küçük iyileştirme önerisi.",
+      "4) Rakamları yalnızca verilen verilere dayandır; veri yoksa kesin rakam iddia etme.",
+      "5) Öneriler somut, erişilebilir ve kısa süreli (1-2 dakikalık) 'deney' şeklinde olsun; kullanıcıyı zorlamasın.",
+      "6) Her zaman Türkçe yanıt ver.",
+      "7) Çıktının sonuna 'Bu bilgi farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir.' satırını ekle.",
+      "8) Kriz sinyali görürsen (intihar, kendine zarar, ağır umutsuzluk, dayanamıyorum) tanı koymadan, sakin ve yargısız biçimde ücretsiz destek hatlarına yönlendir: Yeşilay Danışmanlık Hattı 115, acil durumlar için 112.",
+      "9) DOĞRULAMA (yanıtı göndermeden önce): kullandığın her sayı veride var mı? Emin değilsen rakam uydurma, 'bu bilgi kaydımda yok' de. Tıbbi, suçlayıcı veya cezalandırıcı bir ifade var mı? Biçim kurallarına (madde '-', son satır uyarı) uyuluyor mu?"
+    ].join("\n");
+  },
+
+  // ---------- kriz guard ----------
+  crisisPattern: /kendime zarar|kendimi öldür|kendime kıy|intihar|ölmek istiyorum|yaşamak istemiyorum|canıma kıy|kimse beni (anlamıyor|sevmiyor|önemsemiyor)|dayanamıyorum|dayanacak gücüm yok|umutsuzum|yaşamı (bitirmek|sonlandırmak) istiyorum/i,
+
+  isCrisis(text) {
+    return !!String(text || "").match(AI.crisisPattern);
+  },
+
+  crisisReply() {
+    return [
+      "Önemli bir şey yazdın ve bunu ciddiye alıyorum. SÖZÜM SÖZ tanı koymaz ve tıbbi destek sağlamaz; ama en doğru adım, bu duyguları tek başına tutmamak.",
+      "",
+      "Lütfen hemen bir yetişkinle konuş (aile büyüğü, velin, öğretmen veya rehber öğretmen) ya da ücretsiz destek hattını ara:",
+      "- Yeşilay Danışmanlık Hattı: 115",
+      "- Acil durum / güvenlik riski: 112",
+      "",
+      "Bu bilgi farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir."
+    ].join("\n");
+  },
+
+  // ---------- tıbbi geçit (tıbbi soruları yanıtlamayız, doktora yönlendiririz) ----------
+  medicalPattern: /(ağr(ı|ım)|sancı|iltihap|ateş|mide|baş dönmesi|dönüyor|uyuşma|karıncalanma|çarpıntı|kalp|tansiyon|şeker|ilaç|doz|reçete|ameliyat|yara|kanama|kusma|ishal|kabızlık|diyabet|kolesterol|grip|öksürük|nefes darlığı|kırık|çıkık|şişlik|döküntü|kaşıntı|vitamin|doktor|hap|şurup|eczane)/i,
+
+  isMedical(text) {
+    return !!String(text || "").match(AI.medicalPattern);
+  },
+
+  medicalReply() {
+    return [
+      "Bu tıbbi bir soru gibi görünüyor; SÖZÜM SÖZ tanı koymaz ve tıbbi tavsiye veremez.",
+      "Sağlık konularında bir doktora veya sağlık kuruluşuna danışman en doğru adım olur.",
+      "",
+      "Bunun yerine sana dijital iyi olma hâlinde destek olabilirim: ekran süresi, süre sözü, mola ve gece kullanımı üzerine konuşabiliriz."
+    ].join("\n");
+  },
+
+  // ---------- konu dışı (off-topic) tespiti, gruplara ayrılır ----------
+  wellbeingContext: /(telefon|ekran|uygulama|kaydır|feed|süre sözü|mola|bağımlı|bildirim|oturum|alışkanlık|aşırı|oyun bağ|sosyal medya|gece kullanım)/i,
+
+  offTopicGroups: [
+    { name: "finans", re: /döviz|dolar|euro|avro|borsa|hisse|kripto|bitcoin|coin|faiz|enflasyon|banka|piyasa|maaş/i },
+    { name: "haber", re: /seçim|siyaset|parti|hükümet|savaş|deprem|gündem|gazete|haber/i },
+    { name: "spor", re: /maç sonucu|takım|lig|şampiyon|gol|skor|futbolcu/i },
+    { name: "eğlence", re: /hile|mini sipariş|sanatçı|ünlü|magazin/i },
+    { name: "bilgi", re: /matematik|denklem|fizik|kimya|tarih sorusu|coğrafya|ne demek|anlamı nedir|ingilizce|ödev/i },
+    { name: "yaşam", re: /hava durumu|tarif|otel|gezi öner/i }
+  ],
+
+  detectOffTopic(q) {
+    const lower = String(q || "").toLowerCase();
+    if (AI.wellbeingContext.test(lower)) return null;
+    for (const g of AI.offTopicGroups) {
+      if (lower.match(g.re)) return g.name;
+    }
+    return null;
+  },
+
+  offTopicReply(group) {
+    const labels = {
+      finans: "Döviz, hisse ve piyasa bilgileri benim alanım değil",
+      haber: "Güncel haber ve siyaset benim alanım değil",
+      spor: "Spor sonuçları ve puanlar benim alanım değil",
+      eğlence: "Film, müzik veya oyun hileleri önermiyorum",
+      bilgi: "Genel bilgi ve ders konuları benim alanım değil",
+      yaşam: "Tarif, hava durumu ve yaşam tavsiyesi benim alanım dışında"
+    };
+    return [
+      (labels[group] || "Bu konu benim alanım değil") + "; ben dijital iyi olma hâli koçuyum.",
+      "Bunun yerine şunlarda yardımcı olabilirim: ekran süresi, süre sözü, mola önerisi, gece kullanımı, uygulama atlama alışkanlığı.",
+      "Seni şu anda en çok zorlayan ekran alışkanlığı hangisi?"
+    ].join("\n");
+  },
+
+  hourOf(ts) {
+    return new Date(ts).getHours();
+  },
+
+  periodOf(h) {
+    if (h >= 6 && h < 12) return "sabah";
+    if (h >= 12 && h < 18) return "öğleden sonra";
+    if (h >= 18 && h < 22) return "akşam";
+    return "gece";
+  },
+
+  aggregate(sessions) {
+    const byCategory = {};
+    const byApp = {};
+    const periodCounts = {};
+    let usedMin = 0, promisedMin = 0, kept = 0, brokenExceed = 0, brokenHop = 0, overshoot = 0;
+    const overshootSum = { total: 0, n: 0 };
+    sessions.forEach(s => {
+      usedMin += s.usedMin;
+      promisedMin += s.promisedMin;
+      byCategory[s.category] = (byCategory[s.category] || 0) + s.usedMin;
+      if (!byApp[s.appId]) byApp[s.appId] = { name: s.appName, used: 0, exceed: 0, kept: 0 };
+      byApp[s.appId].used += s.usedMin;
+      if (s.result === "kept") { kept++; byApp[s.appId].kept++; }
+      if (s.result === "broken_exceed") { brokenExceed++; byApp[s.appId].exceed++; }
+      if (s.result === "broken_hop") brokenHop++;
+      if (s.usedMin > s.promisedMin) {
+        overshoot++;
+        overshootSum.total += (s.usedMin - s.promisedMin);
+        overshootSum.n++;
+      }
+      const p = AI.periodOf(AI.hourOf(s.ts));
+      periodCounts[p] = (periodCounts[p] || 0) + (s.usedMin > s.promisedMin ? 1 : 0);
+    });
+    const topApps = Object.keys(byApp)
+      .map(k => ({ name: byApp[k].name, used: byApp[k].used, exceed: byApp[k].exceed }))
+      .sort((a, b) => b.used - a.used);
+    const categories = Object.keys(byCategory)
+      .map(k => ({ name: k, used: byCategory[k] }))
+      .sort((a, b) => b.used - a.used);
+    return {
+      total: sessions.length,
+      usedMin, promisedMin,
+      kept, brokenExceed, brokenHop, overshoot,
+      avgOvershootMin: overshootSum.n ? Math.round(overshootSum.total / overshootSum.n) : 0,
+      avgUsedMin: sessions.length ? Math.round(usedMin / sessions.length) : 0,
+      topApps, categories, periodCounts
+    };
+  },
+
+  serialized(sessions) {
+    return sessions.slice(0, 14).map(s => ({
+      uygulama: s.appName,
+      hedefDakika: s.promisedMin,
+      gercekDakika: s.usedMin,
+      sonuc: s.result,
+      kapanisSaat: AI.hourOf(s.ts)
+    }));
+  },
+
+  buildDaily(sessions) {
+    const agg = AI.aggregate(sessions);
+    return [
+      "===== BÖLÜM 1: KOMUT (görevin) =====",
+      "Kullanıcının bugüne ait ekran kullanım kaydını yargısız, tanı koymadan ve sayıları YALNIZCA aşağıdaki VERİ bölümünden alarak bir yansımaya dönüştür.",
+      "",
+      "===== BÖLÜM 2: VERİ (sayılar sadece buradan gelecek) =====",
+      "Kullanıcının bugüne ait ekran kullanım kaydı (JSON):",
+      JSON.stringify({
+        toplamOturum: agg.total,
+        toplamKullanimDk: agg.usedMin,
+        tutulanSoz: agg.kept,
+        bozulanSoz: agg.brokenExceed + agg.brokenHop
+      }, null, 2),
+      "",
+      "Oturumlar:",
+      AI.serialized(sessions).length
+        ? JSON.stringify(AI.serialized(sessions), null, 2)
+        : "Bugüne ait oturum kaydı yok; bunu belirt.",
+      "",
+      "===== BÖLÜM 3: ÖRNEK 1 — OLAĞAN GÜN (sözlerin çoğu tutulmuş) =====",
+      "\"Bugün 4 uygulamada toplam ~85 dakika geçirdin ve 2 sözünü tuttuğun için iyi bir başlangıç. En fazla aşım TikTok'ta görünüyor (2 kez, ortalama 7 dk). Akşam 21:00 sonrası aşım eğilimi dikkat çekiyor; yorgunluk döneminde otomatik kaydırma davranışı tetiklenmiş olabilir. Küçük deneyim: TikTok'a girmeden önce 1 dakika 'girme sebebimi' yaz. İkinci deneyim: telefonu saat 23:00'te başka odaya bırak.\"",
+      "",
+      "===== BÖLÜM 4: ÖRNEK 2 — ZOR GÜN (birçok söz bozulmuş, yumuşak ve cesaretlendirici dil) =====",
+      "\"Bugün zordu ve bunu saklamak yerine fark etmek önemli: 5 oturumda 4 hedef aşıldı, toplamda hedefinin ~40 dk üzerine çıktın. Bu bir başarısızlık değil; tekrar eden bir kalıp. Aşımlar öğleden sonra ve gece saatlerinde yoğunlaşıyor. Küçük deneyimin: öğleden sonra geçişlerinde 30 saniye nefes alıp sonra karar ver; 23:00'ten sonra telefonu başka odaya bırak.\"",
+      "",
+      "===== BÖLÜM 5: DOĞRULAMA (yanıtı göndermeden önce kendine sor) =====",
+      "1) Kullandığım her rakam BÖLÜM 2'deki VERİ'de var mı? Yoksa rakam uydurma; yerine 'kaydımda yok' demekten çekinme.",
+      "2) Hiçbir maddede tıbbi, suçlayıcı veya cezalandırıcı dil var mı?",
+      "3) Her madde '-' ile başlıyor mu ve son satırda yasal uyarı var mı?",
+      "",
+      "Şimdi bu kullanıcının verisiyle, ÖRNEK 1/2'nin yapısına ve tüm kurallara uyarak yanıt ver."
+    ].join("\n");
+  },
+
+  buildWeekly(sessions) {
+    const agg = AI.aggregate(sessions);
+    const catLines = agg.categories.length
+      ? agg.categories.map(c => "* " + (CATEGORY_LABELS[c.name] || c.name) + ": " + c.used + " dk").join("\n")
+      : "* Veri yok.";
+    const appLines = agg.topApps.length
+      ? agg.topApps.slice(0, 3).map(a => "* " + a.name + ": " + a.used + " dk (" + a.exceed + " aşım)").join("\n")
+      : "* Veri yok.";
+    return [
+      "===== BÖLÜM 1: KOMUT (görevin) =====",
+      "Kullanıcının son 7 günlük ekran kullanım kaydından, sayıları yalnızca aşağıdaki VERİ'den alarak yargısız bir haftalık yansıma üret.",
+      "",
+      "===== BÖLÜM 2: VERİ (sayılar sadece buradan gelecek) =====",
+      "Kullanıcının son 7 güne ait ekran kullanımı istatistiği:",
+      JSON.stringify({
+        toplamOturum: agg.total,
+        toplamKullanimDk: agg.usedMin,
+        tutulanSoz: agg.kept,
+        bozulanSozAsim: agg.brokenExceed,
+        bozulanSozAtlama: agg.brokenHop,
+        ortalamaAsimDk: agg.avgOvershootMin,
+        enCokKullanilan: agg.topApps.slice(0, 3).map(a => a.name),
+        kategoriDagilimDk: Object.fromEntries(agg.categories.map(c => [c.name, c.used]))
+      }, null, 2),
+      "",
+      "Kategori dağılımı:",
+      catLines,
+      "En çok kullanılan 3 uygulama:",
+      appLines,
+      "",
+      "===== BÖLÜM 3: ADIMLAR (sırayı asla bozma) =====",
+      "ADIM 1: Haftanın genel tablosunu 1-2 cümlelik, yargısız bir özetle. Tanı koyma.",
+      "ADIM 2: En belirgin 2 kalıbı seç; her biri için 'desen -> olası tetikleyici -> küçük deneyim' yapısında kısa madde yaz.",
+      "ADIM 3: Gelecek hafta için 2 somut ve esnek sınır/rota önerisi ver (sert 'günde 1 saat' gibi hedefler koyma).",
+      "ADIM 4: Cesaretlendirici ama gerçekçi bir kapanış cümlesi yaz ve yasal uyarı notunu ekle.",
+      "",
+      "===== BÖLÜM 4: DOĞRULAMA (yanıtı göndermeden önce kendine sor) =====",
+      "1) Tüm rakamlar VERİ'den mi? Bilmediğimi uydurma.",
+      "2) Tıbbi/suçlayıcı dil var mı?",
+      "3) Bölüm 3'teki adım sırası korundu mu ve son satır yasal uyarı mı?",
+      "",
+      "Şimdi bu kullanıcının verisiyle yanıt ver."
+    ].join("\n");
+  },
+
+  fallback(kind, agg) {
+    if (!agg || agg.total === 0) {
+      return "Henüz yeterli veri yok. Önce bir uygulamada süre sözü ver ve oturumu kapat; ardından buraya dönüp yeniden oluştur.";
+    }
+    const top = agg.topApps[0];
+    const exApps = agg.topApps.filter(a => a.exceed > 0);
+    const periodNames = { sabah: "sabah saatlerinde", "öğleden sonra": "öğleden sonra", akşam: "akşam saatlerinde", gece: "gece saatlerinde" };
+    const worstPeriod = Object.keys(agg.periodCounts)
+      .map(p => ({ p, n: agg.periodCounts[p] }))
+      .sort((a, b) => b.n - a.n)[0];
+    const periodStr = worstPeriod && worstPeriod.n > 0
+      ? "Aşımların en sık " + periodNames[worstPeriod.p] + " görülüyor."
+      : "Aşımların gün içinde dengeli dağılıyor.";
+    const exStr = exApps.length
+      ? "Hedef aşımın olan uygulamalar: " + exApps.slice(0, 2).map(a => a.name).join(" ve ") + " (" + exApps[0].exceed + " kez)."
+      : "Bu dönemde hedef aşımın yok, güzel bir disiplin.";
+    if (kind === "daily") {
+      return [
+        "Bugün " + agg.total + " oturumda toplam ~" + agg.usedMin + " dakika geçirdin ve " + agg.kept + " sözünü tuttun. İyi bir başlangıç.",
+        "",
+        "Desen: " + top.name + " en yüksek kullanımın (" + top.used + " dk). " + exStr,
+        periodStr,
+        "",
+        "Olası tetikleyiciler: Akış (feed) tabanlı uygulamalarda süre fark edilmeden akar; otomatik içerik önerisi, 'bir dakika daha' isteğini artırabilir. Bunun farkında olmak ilk basamağı atlamanı kolaylaştırır.",
+        "",
+        "Küçük deneyler (1 hafta):",
+        "1) " + top.name + " adlı uygulamayı açmadan önce 10 saniye 'şu an ne hissettiğimi / neden girdiğimi' yaz.",
+        "2) Oturuma başlamadan önce bitiş saati söyle; süre dolunca telefonu ters çevir ve 2 dakika uzaklaş.",
+        "",
+        "Bu bilgi farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir."
+      ].join("\n");
+    }
+    return [
+      "Haftalık genel görünüm: Toplam " + agg.total + " oturum, ~" + agg.usedMin + " dakika ekran zamanı. " + agg.kept + " söz tutuldu, " + (agg.brokenExceed + agg.brokenHop) + " söz bozuldu.",
+      "",
+      "Desen 1: " + top.name + " toplam kullanımının önemli bir bölümünü alıyor (" + top.used + " dk) ve aşım eğilimi taşıyor.",
+      "Desen 2: " + periodStr + " Yorgunluk ve geç saatteki geçişler, 'kısa bir bakış' ile başlayıp uzayan oturumların eşiği olabiliyor.",
+      "",
+      "Küçük deneyler: 1) Haftada bir gün tüm bildirimleri kapat. 2) Bir uygulamayı açmadan önce 'kaç dakika' sorusunu sesli olarak yanıtla, sonra aç.",
+      "",
+      "Önümüzdeki hafta için: 'Sıfır aşım' gibi sert bir hedef yerine, aynı saat dilimlerindeki oturumları her gün 3 dakika kısaltmayı dene.",
+      "",
+      "Bu bilgi farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir."
+    ].join("\n");
+  },
+
+  async generate(kind, sessions, cfg) {
+    const system = AI.systemPrompt();
+    const user = kind === "daily" ? AI.buildDaily(sessions) : AI.buildWeekly(sessions);
+    const promptText = "SİSTEM PROMPTU:\n" + system + "\n\n\nKULLANICI PROMPTU:\n" + user;
+    if (cfg.live && cfg.apiKey) {
+      try {
+        const callCfg = Object.assign({}, cfg, { temperature: 0.5 });
+        const text = await AI.callLLM(callCfg, system, user);
+        return { text, source: "live", prompt: promptText };
+      } catch (err) {
+        const fb = AI.fallback(kind, AI.aggregate(sessions));
+        return { text: fb, source: "live-error", prompt: promptText, error: err.message };
+      }
+    }
+    await new Promise(r => setTimeout(r, 700));
+    return { text: AI.fallback(kind, AI.aggregate(sessions)), source: "template", prompt: promptText };
+  },
+
+  async callLLM(cfg, system, user) {
+    return AI.requestChat(cfg, [
+      { role: "system", content: system },
+      { role: "user", content: user }
+    ]);
+  },
+
+  async requestChat(cfg, messages) {
+    if ((cfg.provider || "openai") === "gemini") {
+      return AI.requestGemini(cfg, messages);
+    }
+    const base = (cfg.baseUrl || "https://api.openai.com/v1").replace(/\/+$/, "");
+    const res = await fetch(base + "/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + cfg.apiKey
+      },
+      body: JSON.stringify({
+        model: cfg.model || "gpt-4o-mini",
+        messages: messages,
+        temperature: cfg.temperature !== undefined ? cfg.temperature : 0.7,
+        max_tokens: 1500
+      })
+    });
+    if (!res.ok) {
+      let detail = res.status;
+      try {
+        const j = await res.json();
+        if (j.error) detail = j.error.message || j.error.code || res.status;
+      } catch (e) { /* boş */ }
+      throw new Error("API isteğinde hata (HTTP " + detail + ").");
+    }
+    const j = await res.json();
+    const text = j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content;
+    if (!text) throw new Error("YZ'dan boş yanıt geldi.");
+    return text.trim();
+  },
+
+  async requestGemini(cfg, messages) {
+    const base = (cfg.baseUrl || "https://generativelanguage.googleapis.com/v1beta").replace(/\/+$/, "");
+    const model = cfg.model || "gemini-3.6-flash";
+    const systemParts = [];
+    const contents = [];
+    (messages || []).forEach(m => {
+      if (m.role === "system") { systemParts.push(m.content); }
+      else { contents.push({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.content }] }); }
+    });
+    const body = { contents, generationConfig: { temperature: cfg.temperature !== undefined ? cfg.temperature : 0.7, maxOutputTokens: 1500 } };
+    if (systemParts.length) body.systemInstruction = { parts: systemParts.map(t => ({ text: t })) };
+    const res = await fetch(base + "/models/" + encodeURIComponent(model) + ":generateContent?key=" + encodeURIComponent(cfg.apiKey), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      let detail = res.status;
+      try {
+        const je = await res.json();
+        if (je.error) detail = je.error.message || je.error.code || res.status;
+      } catch (e) { /* boş */ }
+      throw new Error("Gemini isteğinde hata (HTTP " + detail + ").");
+    }
+    const j = await res.json();
+    const parts = j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts;
+    const text = parts ? parts.map(p => p.text || "").join("") : "";
+    if (!text) throw new Error("YZ'dan boş yanıt geldi.");
+    return text.trim();
+  },
+
+  coachSystem() {
+    return [
+      "Sen 'SÖZÜM SÖZ' dijital iyi olma hâli koçusun. Görevin, kullanıcının oturumuyla ilgili kısa, empatik ve suçluluk hissettirmeyen tek bir bildirim üretmek.",
+      "Kurallar:",
+      "1) Yargılama, suçlama yapma; 'bağımlı', 'hasta', 'tedavi' gibi tıbbi veya damgalayıcı sözcükler kullanma.",
+      "2) En fazla 2 cümle; içten ve teşvik edici ol.",
+      "3) Somut, hemen yapılabilir bir küçük mola öner (gözleri dinlendir, su iç, ayaklarını uzat, 20 nefes vb.).",
+      "4) Molayı puan cinsinden sun (points): makul aralık 10-20.",
+      "5) Sert hedef koyma, kullanıcıyı zorlama; öneri bir seçenek olsun.",
+      "6) Çıktıyı yalnızca JSON olarak üret: {\"title\": \"...\", \"body\": \"...\", \"breakOffer\": \"...\", \"points\": <sayı>}",
+      "7) Her zaman Türkçe cevap ver, markdown işareti kullanma."
+    ].join("\n");
+  },
+
+  buildCoach(opts) {
+    return [
+      "===== BÖLÜM 1: KOMUT =====",
+      "Tek, empatik, suçluluk hissettirmeyen bir bildirim üret. Çıktı YALNIZCA bu JSON şeması olacak: {\"title\": \"...\", \"body\": \"...\", \"breakOffer\": \"...\", \"points\": <sayı>}",
+      "",
+      "===== BÖLÜM 2: VERİ / BAĞLAM =====",
+      "Uygulama: " + opts.appName,
+      "Kategori: " + (CATEGORY_LABELS[opts.category] || opts.category || "bilinmiyor"),
+      "Saat: " + opts.hour + ":00",
+      "Durum: " + (opts.type === "overshoot"
+        ? "hedef " + opts.promisedMin + " dk idi, " + opts.overMin + " dk aşıldı"
+        : "kapatıp hemen başka uygulamaya geçildi (uygulama atlama)."),
+      "Kullanıcının güncel serisi: " + opts.streak + (opts.streak > 1 ? " söz arka arkaya tutuldu" : ""),
+      "",
+      "===== BÖLÜM 3: ÖRNEK 1 — SÜRE AŞIMI =====",
+      "{\"title\": \"Mola zamanı\", \"body\": \"30 dakikalık oturum biraz uzadı; bu gayet doğal.\", \"breakOffer\": \"Gözlerini 20 saniye dinlendirip bir bardak su içmek ister misin?\", \"points\": 15}",
+      "",
+      "===== BÖLÜM 4: ÖRNEK 2 — HIZLI GEÇİŞ =====",
+      "{\"title\": \"Hızlı geçiş fark ettik\", \"body\": \"Bir uygulamayı kapatıp hemen diğerine geçmek stresle daha sık olur.\", \"breakOffer\": \"10 saniye dur ve kendine sor: şu an gerçekten neye ihtiyacım var?\", \"points\": 10}",
+      "",
+      "===== BÖLÜM 5: DOĞRULAMA (göndermeden önce) =====",
+      "1) title, body, breakOffer, points alanları var mı?",
+      "2) points 1-20 aralığında mı?",
+      "3) Tıbbi veya suçlayıcı bir ifade var mı?",
+      "İçeriği bu kullanıcının bağlamına uyarla, şema dışına çıkma."
+    ].join("\n");
+  },
+
+  fallbackCoach(opts) {
+    var title, body, breakOffer, points;
+    if (opts.type === "overshoot") {
+      title = "Süre hedefini hafifçe aştın";
+      body = (opts.appName || "Oturum") + " beklediğinden " + opts.overMin + " dk uzadı. Fark etmen yeterli.";
+      breakOffer = "Küçük bir mola: gözlerini 20 sn kapat, nefes al, su iç.";
+      points = 5;
+    } else {
+      title = "Hızlı geçiş fark ettik";
+      body = (opts.appName || "Yeni uygulama") + " oturumuna geçtin; hemen ardından diğerine geçmek dikkati böler.";
+      breakOffer = "10 saniye dur ve kendine sor: şu an gerçekten neye ihtiyacım var?";
+      points = 3;
+    }
+    return { title: title, body: body, breakOffer: breakOffer, points: points };
+  },
+
+  parseCoach(text, opts) {
+    var m = String(text).match(/\{[\s\S]*\}/);
+    try {
+      var obj = m ? JSON.parse(m[0]) : null;
+      return {
+        title: (obj && obj.title) || "Mola zamanı",
+        body: (obj && obj.body) || "",
+        breakOffer: (obj && obj.breakOffer) || "",
+        points: (obj && typeof obj.points === "number") ? obj.points : 5
+      };
+    } catch (e) {
+      return AI.fallbackCoach(opts);
+    }
+  },
+
+  async generateCoach(opts, cfg) {
+    var system = AI.coachSystem();
+    var user = AI.buildCoach(opts);
+    var promptText = "SİSTEM PROMPTU:\n" + system + "\n\n\nKULLANICI PROMPTU:\n" + user;
+    if (cfg.live && cfg.apiKey) {
+      try {
+        var callCfg = Object.assign({}, cfg, { temperature: 0.8 });
+        var text = await AI.callLLM(callCfg, system, user);
+        return { msg: AI.parseCoach(text, opts), source: "live", prompt: promptText };
+      } catch (err) {
+        return { msg: AI.fallbackCoach(opts), source: "live-error", prompt: promptText, error: err.message };
+      }
+    }
+    await new Promise(function (r) { setTimeout(r, 600); });
+    return { msg: AI.fallbackCoach(opts), source: "template", prompt: promptText };
+  },
+
+  chatSystem() {
+    return [
+      "Sen 'SÖZÜM SÖZ' dijital iyi olma hâli koçusun. Kullanıcıyla karşılıklı sohbet edersin.",
+      "Kurallar:",
+      "1) Yargısız, empatik ve teşvik edici ol; 'bağımlı', 'hasta', 'tedavi' gibi tıbbi veya damgalayıcı sözcükler kullanma, tanı koyma.",
+      "2) Yanıtı 6-10 satırla sınırla; daha uzun cevapları kısa paragraflara böl, gereksiz madde yığma.",
+      "3) Öneriler kısa, somut ve 'küçük deney' niteliğinde olsun; sert hedefler koyma, kullanıcıyı zorlama.",
+      "4) Gerekirse tek bir net soru sor ve yanıtına göre devam et (çok turlu sohbet).",
+      "5) Rakamları yalnızca verdiğim anonim veri bağlamına dayandır; veri yoksa varsayım yapma.",
+      "6) Her zaman Türkçe yanıt ver.",
+      "7) Yönlendirici öneri verdiğinde sona 'Bu bilgi farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir.' satırını ekle.",
+      "8) Kriz sinyali görürsen (intihar, kendine zarar, ağır umutsuzluk) tanı koyma; sakin ve yargısız biçimde ücretsiz destek hatlarına yönlendir: Yeşilay Danışmanlık Hattı 115, acil için 112.",
+      "9) Soru ekran kullanımı/dijital iyi olma ile ilgisizse (döviz, yemek, genel haber, matematik vb.) soruyu yanıtlama; bu konunun alanının dışında olduğunu kısaca söyle ve konuyu kullanıcının ekran alışkanlıklarına geri getir.",
+      "10) DOĞRULAMA: yanıtı göndermeden önce rakamların yalnızca verilen bağlamdan olduğunu kontrol et; emin değilsen rakam uydurma. Yanıt içinde tıbbi/suçlayıcı ifade varsa düzelt."
+    ].join("\n");
+  },
+
+  fallbackChat(agg, q) {
+    var lines = [];
+    if (AI.isCrisis(q)) return AI.crisisReply();
+    if (agg && agg.total > 0) {
+      var top = agg.topApps[0];
+      lines.push("Son 7 gününün özeti: " + agg.total + " oturum, ~" + agg.usedMin + " dk ekran süresi; " + agg.kept + " söz tutuldu, " + (agg.brokenExceed + agg.brokenHop) + " bozuldu." + (top ? " En çok " + top.name + " öne çıkıyor (" + top.used + " dk)." : ""));
+      lines.push("");
+    } else {
+      lines.push("Henüz yeterli verim yok; ama birlikte küçük bir başlangıç yapabiliriz.");
+      lines.push("");
+    }
+var lower = String(q || "").toLowerCase();
+    if (AI.isCrisis(q)) {
+      return AI.crisisReply();
+    }
+    if (AI.isMedical(q)) {
+      lines.push(AI.medicalReply());
+    } else {
+      var off = AI.detectOffTopic(q);
+      if (off) {
+        lines.push(AI.offTopicReply(off));
+      } else if (/mola|stres|yorgun|dinlen|göz/i.test(lower)) {
+        lines.push("İyi bir adım. Şimdi 20 saniye gözlerini kapat, 3 yavaş nefes al ve bir bardak su iç.");
+        lines.push("Telefon ekranındayken 'Mola başla' butonu sana kısa bir mola ve +5 puan kazandırır.");
+      } else if (/plan|hedef|başla|nasıl|ipucu|öner/i.test(lower)) {
+        lines.push("Küçük ve esnek başlayalım:");
+        lines.push("1) Bugün 3 uygulama için süre sözü ver; ilkini 10 dakika tut.");
+        lines.push("2) Her sözden sonra 1 dakikalık nefes molası ver.");
+        lines.push("3) En çok aşım yaptığın saati not et; yarın o saatte 3 dakika kısaltmayı dene.");
+        lines.push("Dilersen şimdi Telefon sekmesinden ilk sözünü koyalım.");
+      } else if (/akşam|gece|kaydır|kayma|döngü|bağımlı|uyku|uyuyam/i.test(lower)) {
+        lines.push("Geç saatteki oturumlar genellikle yorgunlukla başlar; otomatik kaydırma fark edilmeden sürer.");
+        lines.push("Küçük deney: akşam 21:00'den sonra telefonu başka odaya bırak. İlk denemeyi hangi gün yaparsın?");
+      } else if (/motivasyon|isteksiz|heves|sıkıldım|can sıkıntısı|enerji/i.test(lower)) {
+        lines.push("Motivasyonun düşük olması çok normal; burada önemli olan kendini zorlamak değil, küçük bir ilk adım.");
+        lines.push("Şimdi telefonu üç katmana ayır: olmazsa olmaz (mesaj), keyifli (video), kaçış (feed). Kaçış katmanına bugün 5 dakikalık 'giriş sözü' koy.");
+        lines.push("Küçük deney: yarın sabah telefonu 20 dakika dışarıda bırak ve kahvaltıda telefonsuz kal.");
+      } else if (/bildirim|sürekli bak|tıklama dürtüsü|telefon elime/i.test(lower)) {
+        lines.push("Sürekli bakma dürtüsü, bildirim tasarımının bizi yönlendirmesinden gelir; bu senin disiplin eksikliğin değil.");
+        lines.push("Küçük deneyler: 1) Uygulama bildirimlerini toplu sessize al (yalnızca kişisel sohbetleri açık bırak). 2) Telefonu evde sabit bir noktada tut, cebinde değil.");
+      } else if (/iş|ders|odak|verim|dikkat|çalışamıyorum/i.test(lower)) {
+        lines.push("Odak için en etkili perde, telefonu çalışma alanından uzaklaştırmaktır; görünmeyen telefon, çok daha az özlenir.");
+        lines.push("Pomodoro denemesi: 25 dakika söz ver (telefon başka odaya), 5 dakika mola. Üç turda bir bildirimlere bak.");
+        lines.push("Bugün ilk turu kaçta başlatacağız?");
+      } else if (/alternatif|bahçe|spor|yürüyüş|kitap|dışarı|arkadaş|hobi/i.test(lower)) {
+        lines.push("Ekran yerine somut bir alternatif öneriyorum: bugün 10 dakikalık yürüyüş + 1 sayfa kitap.");
+        lines.push("Küçük deney: feed yerine radyo/playlist dinle, ellerin meşgulken kaydırma isteği azalır.");
+      } else if (/üzgün|kızgı|suçlu|pişman|kötü hisset|mahcup/i.test(lower)) {
+        lines.push("Bu hissi adlandırdığın için bunu kutlayalım; suçluluk motivasyon yaratmaz, kalıp fark etmek yaratır.");
+        lines.push("Küçük deney: kendine mektup yaz 'yarın tek bir aşımı azaltırsam ne kazanırım?' ve o cümleyi alarm ekranına koy.");
+        lines.push("Unutma: burada ne sınav ne ceza var; sadece dikkatle seçilmiş küçük adımlar.");
+      } else if (/merhaba|selam|nasılsın|hey\b/i.test(lower)) {
+        lines.push("Merhaba! Ben SÖZÜM SÖZ koçunum; ekran alışkanlıklarını birlikte gözden geçirebiliriz.");
+        lines.push("Zamanın varsa: son 7 günün özetini çıkarayım mı, yoksa küçük bir hedefle mi başlayalım?");
+      } else {
+        lines.push("Sana netleştirici bir soru sorayım: Uygulamayı şu an hangi amaçla kullanıyorsun (can sıkıntısı, kaçış, alışkanlık)? Yanıtına göre odağı daraltayım.");
+      }
+    }
+    lines.push("");
+    lines.push("Bu bilgi farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir.");
+    return lines.join("\n");
+  },
+
+  async chat(cfg, sessions, chatHistory) {
+    var agg = AI.aggregate(sessions);
+    var context = {
+      son7Gun: {
+        toplamOturum: agg.total,
+        toplamKullanimDk: agg.usedMin,
+        tutulanSoz: agg.kept,
+        bozulanSoz: agg.brokenExceed + agg.brokenHop,
+        enCokKullanilan: agg.topApps.slice(0, 3).map(function (a) { return a.name + " (" + a.used + " dk)"; })
+      }
+    };
+    var messages = [
+      { role: "system", content: AI.chatSystem() },
+      { role: "system", content: "Kullanıcının anonim veri bağlamı (JSON; kimlik içermez): " + JSON.stringify(context) }
+    ];
+    chatHistory.slice(-20).forEach(function (m) { messages.push({ role: m.role, content: m.content }); });
+    var promptText = messages.map(function (m) { return (m.role === "user" ? "KULLANICI" : m.role === "assistant" ? "KOÇ" : "SİSTEM") + ":\n" + m.content; }).join("\n\n");
+    var last = chatHistory[chatHistory.length - 1];
+    var lastQ = (last && last.content) || "";
+    if (AI.isCrisis(lastQ)) {
+      return { text: AI.crisisReply(), source: "guard", prompt: promptText };
+    }
+    if (AI.isMedical(lastQ)) {
+      return { text: AI.medicalReply(), source: "guard", prompt: promptText };
+    }
+    var offTopic = AI.detectOffTopic(lastQ);
+    if (offTopic) {
+      return { text: AI.offTopicReply(offTopic), source: "guard", prompt: promptText };
+    }
+    if (cfg.live && cfg.apiKey) {
+      try {
+        var text = await AI.requestChat(cfg, messages);
+        return { text: text, source: "live", prompt: promptText };
+      } catch (err) {
+        return { text: AI.fallbackChat(agg, lastQ), source: "live-error", prompt: promptText, error: err.message };
+      }
+    }
+    await new Promise(function (r) { setTimeout(r, 700); });
+    return { text: AI.fallbackChat(agg, lastQ), source: "template", prompt: promptText };
+  }
+};
+</script>
+<script>
+// ---------- SÖZÜM SÖZ: çekirdek uygulama mantığı ----------
+
+(function () {
+  "use strict";
+
+  var STORE_KEY = "sozumsoz-v1";
+  var AI_STAMP = "Bu içerik bir yapay zekâ (YZ) modeli tarafından üretilmiştir. YZ hata yapabilir; çıktı farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir. Önemli kararlar için bir uzman görüşü (doktor, psikolog) almanız önerilir.";
+
+  // Logo resmi yüklenemezse monograma düş (inline SVG'de pratikte tetiklenmez)
+  window.__ssIconFallback = function (img) {
+    if (!img) return;
+    var mono = document.createElement("span");
+    mono.className = "app-icon-fall";
+    mono.textContent = img.getAttribute("data-mono") || "";
+    try { img.parentNode.replaceChild(mono, img); } catch (e) { img.remove(); }
+  };
+
+  var noStorage = false;
+  try { localStorage.setItem("__sozumsoz_probe", "1"); localStorage.removeItem("__sozumsoz_probe"); }
+  catch (e) { noStorage = true; }
+
+  function getStore() {
+    return noStorage ? null : localStorage;
+  }
+  var HOP_WINDOW_MS = 90 * 1000;
+  var REWARD_KEPT = 3;
+  var PENALTY = -5;
+  var BREAK_SECONDS = 20;
+
+  function todayKey() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function nowHM(ts) {
+    return new Date(ts || Date.now()).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function appById(id) {
+    return APPS.filter(function (a) { return a.id === id; })[0];
+  }
+
+  // ---------- durum ----------
+  var state = {
+    points: 0,
+    streak: 0,
+    bestStreak: 0,
+    kept: 0,
+    brokenExceed: 0,
+    brokenHop: 0,
+    milestones: [],
+    history: [],
+    today: todayKey(),
+    todayKept: 0,
+    challengeClaimed: false,
+    rewardOrders: [],
+    breaksTaken: 0,
+    lotteryEnteredMonth: null,
+    lastClose: null,
+    feed: [],
+    ai: { live: false, provider: "openai", baseUrl: "https://api.openai.com/v1", model: "gpt-4o-mini", apiKey: "" },
+    speedFast: true,
+    seenIntro: false,
+    weeklyDemo: null,
+    chatHistory: [],
+    breaksLog: [],
+    consent: false,
+    challenges: { week: null, joined: [], claimed: [] }
+  };
+
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* boş */ }
+  }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (raw) {
+        var s = JSON.parse(raw);
+        Object.keys(state).forEach(function (k) {
+          if (typeof s[k] !== "undefined") state[k] = s[k];
+        });
+      }
+    } catch (e) { /* boş */ }
+    if (!state.ai.provider) state.ai.provider = "openai";
+    if (!state.challenges) state.challenges = { week: null, joined: [], claimed: [] };
+    if (!state.breaksLog) state.breaksLog = [];
+    var tk = todayKey();
+    if (state.today !== tk) {
+      state.today = tk;
+      state.todayKept = 0;
+      state.challengeClaimed = false;
+    }
+  }
+
+  // ---------- yardımcılar ----------
+  function $(id) { return document.getElementById(id); }
+
+  var session = null;
+  var tickerId = null;
+  var bgMode = "session";
+  var appBooted = false;
+
+  function fmtDelta(delta) { return (delta >= 0 ? "+" : "") + delta; }
+
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  // ---------- yazı-yazılma efekti (typewriter) ----------
+  function typeText(container, text, done) {
+    if (window.__SS_INSTANT) {
+      container.textContent = text;
+      if (done) done();
+      return;
+    }
+    var i = 0, n = text.length;
+    if (!n) { if (done) done(); return; }
+    (function tick() {
+      i += 1;
+      container.textContent = text.slice(0, i);
+      if (i < n) { setTimeout(tick, 1); }
+      else if (done) { done(); }
+    })();
+  }
+
+  // ---------- puan uçuş efekti ----------
+  function floatPoints(delta) {
+    try {
+      var anchor = $("hPoints");
+      if (!anchor) return;
+      var el = document.createElement("span");
+      el.className = "float-pts";
+      el.textContent = (delta > 0 ? "+" : "") + delta;
+      anchor.parentNode.appendChild(el);
+      var r = anchor.getBoundingClientRect();
+      var rr = anchor.parentNode.getBoundingClientRect();
+      el.style.left = (r.left - rr.left + r.width / 2 - 15) + "px";
+      el.style.top = (r.top - rr.top) + "px";
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 1100);
+    } catch (e) { /* görsel, hata olursa süreç etkilenmesin */ }
+  }
+
+  // ---------- bildirimler ----------
+  var NOTIF_ICONS = { info: "💬", warn: "⏰", danger: "🚫", good: "🎉", bg: "📲" };
+  if (window.__SS_INSTANT) { window.__ss_notify = function (t, b, k, a) { return notify(t, b, k, a); }; }
+  function notify(title, body, kind, actions) {
+    var stack = $("notifStack");
+    if (!stack) return null;
+    var key = title + "|" + body;
+    for (var i = stack.children.length - 1; i >= 0; i--) {
+      if (stack.children[i].getAttribute("data-key") === key) stack.removeChild(stack.children[i]);
+    }
+    while (stack.querySelectorAll(".notif:not(.fading)").length >= 3) {
+      var oldest = stack.querySelector(".notif:not(.fading)");
+      if (!oldest) break;
+      stack.removeChild(oldest);
+    }
+    var el = document.createElement("div");
+    el.className = "notif k-" + (kind || "info");
+    el.setAttribute("data-key", key);
+    el.innerHTML =
+      "<div class='n-icon'>" + (NOTIF_ICONS[kind] || "💬") + "</div>" +
+      "<div class='n-box'><div class='n-title'>" + title + "</div><div class='n-body'>" + body + "</div></div>";
+    if (actions && actions.length) {
+      var row = document.createElement("div");
+      row.className = "notif-actions";
+      actions.forEach(function (a) {
+        var b = document.createElement("button");
+        b.className = "btn " + (a.cls || "btn-ghost");
+        b.textContent = a.label;
+        b.addEventListener("click", function () { a.onClick(); });
+        row.appendChild(b);
+      });
+      el.appendChild(row);
+    }
+    stack.appendChild(el);
+    if (state && state.feed) pushFeed(title + " - " + body);
+    var life = actions && actions.length ? 30000 : 4500;
+    setTimeout(function () {
+      el.classList.add("fading");
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 520);
+    }, life);
+    return el;
+  }
+  function dismissNotif(el) {
+    if (!el) return;
+    el.classList.add("fading");
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 300);
+  }
+
+  // ---------- besleme ----------
+  function pushFeed(text) {
+    state.feed.unshift({ text: text, ts: Date.now() });
+    state.feed = state.feed.slice(0, 30);
+    save();
+    renderFeed();
+  }
+
+  function feedEmoji(text) {
+    if (/mola/i.test(text)) return "☕";
+    if (/çekiliş/i.test(text)) return "🎟️";
+    if (/sipariş|ödül/i.test(text)) return "🏆";
+    if (/seri/i.test(text)) return "⚡";
+    if (/tuttun|tamamlandı|kazandın/i.test(text)) return "🎉";
+    if (/aştın|aşım|geçti/i.test(text)) return "⏰";
+    if (/atladın/i.test(text)) return "🚫";
+    if (/puan/i.test(text)) return "🌟";
+    return "📲";
+  }
+
+  function renderFeed() {
+    var el = $("phoneFeed");
+    if (!el) return;
+    if (!state.feed.length) { el.innerHTML = "Henüz aktivite yok."; el.className = "feed muted"; return; }
+    el.className = "feed";
+    el.innerHTML = state.feed.slice(0, 10).map(function (f) {
+      return "<div class='feed-item'><span class='feed-emoji'>" + feedEmoji(f.text) + "</span>" +
+        "<span class='feed-text'>" + f.text + "</span>" +
+        "<span class='feed-time'>" + nowHM(f.ts) + "</span></div>";
+    }).join("");
+  }
+
+  // ---------- sekme yönlendirme ----------
+  function setTab(name) {
+    document.querySelectorAll(".tab").forEach(function (t) {
+      t.classList.toggle("active", t.getAttribute("data-tab") === name);
+    });
+    document.querySelectorAll(".tabpanel").forEach(function (p) {
+      p.classList.toggle("active", p.id === "tab-" + name);
+    });
+    if (name === "stats") renderStats();
+    if (name === "charts") renderCharts();
+    if (name === "challenges") renderChallenges();
+    if (name === "rewards") renderRewards();
+    if (name === "draw") renderDraw();
+    if (name === "ai") renderAIStatus();
+  }
+
+  document.querySelectorAll(".tab").forEach(function (t) {
+    t.addEventListener("click", function () { setTab(t.getAttribute("data-tab")); });
+  });
+
+  // ---------- başlık ----------
+  var WEEKLY_MOODS = {
+    good: { emoji: "😀", label: "iyi" },
+    mid: { emoji: "😐", label: "ortalama" },
+    bad: { emoji: "🙁", label: "kötü" }
+  };
+
+  function weeklyMoodKey() {
+    var key = state.weeklyDemo;
+    if (!key) {
+      var since = Date.now() - 7 * 86400000;
+      var kept = 0, broken = 0;
+      state.history.forEach(function (h) {
+        if (h.ts >= since) {
+          if (h.result === "kept") kept++; else broken++;
+        }
+      });
+      if (kept === 0 && broken === 0) key = "mid";
+      else if (kept >= 3 && (kept / (kept + broken)) >= 0.8) key = "good";
+      else if (kept >= 2 && (kept / (kept + broken)) >= 0.5) key = "mid";
+      else key = "bad";
+    }
+    return key;
+  }
+
+  function weeklyMood() {
+    return WEEKLY_MOODS[weeklyMoodKey()] || WEEKLY_MOODS.mid;
+  }
+
+  function moodFaceSVG(key) {
+    var paths = {
+      good: "<circle cx='9' cy='9.4' r='1.15'/><circle cx='15' cy='9.4' r='1.15'/><path d='M8 13.8c1.1 1.25 2.6 1.9 4 1.9s2.9-.65 4-1.9'/>",
+      mid: "<circle cx='9' cy='9.4' r='1.15'/><circle cx='15' cy='9.4' r='1.15'/><path d='M8.6 15h6.8'/>",
+      bad: "<path d='M8.1 8.4c.35-.95 1-1.5 1.7-1.5s1.35.55 1.7 1.5'/><path d='M12.5 8.4c.35-.95 1-1.5 1.7-1.5s1.35.55 1.7 1.5'/><path d='M8 16.6c1.1-1.3 2.6-2 4-2s2.9.7 4 2'/>"
+    };
+    return "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>" +
+      (paths[key] || paths.mid) + "</svg>";
+  }
+
+  function updatePhoneMood() {
+    var el = $("phoneMood");
+    if (!el) return;
+    var okno = weeklyMoodKey();
+    el.className = "s-status-mood mood-" + okno;
+    el.innerHTML = moodFaceSVG(okno);
+  }
+
+  function updateMoodUI() {
+    var pill = $("hMood");
+    if (pill) pill.textContent = weeklyMood().emoji;
+    updatePhoneMood();
+    updateBgNotif();
+  }
+
+  function updateBgNotif() {
+    var e = $("bgNotif");
+    if (!e) return;
+    var mood = weeklyMood();
+    if (bgMode === "soz") {
+      e.innerHTML =
+        "<div class='n-icon'>📊</div>" +
+        "<div class='n-box'><div class='n-title'>SÖZÜM SÖZ açık " + mood.emoji + "</div>" +
+        "<div class='n-body'>Bu hafta: " + mood.label + " performans · özet uygulama içinde.</div></div>";
+    } else {
+      e.innerHTML =
+        "<div class='n-icon'>🛡️</div>" +
+        "<div class='n-box'><div class='n-title'>SÖZÜM SÖZ arka planda çalışıyor " + mood.emoji + "</div>" +
+        "<div class='n-body'>Söz takibi aktif · saat " + nowHM() + "</div></div>";
+    }
+  }
+
+  function showBgNotif(mode) {
+    bgMode = mode || "session";
+    if (!$("bgNotif")) {
+      var el = document.createElement("div");
+      el.id = "bgNotif";
+      el.className = "notif k-bg";
+      $("notifStack").appendChild(el);
+    }
+    updateBgNotif();
+  }
+
+  function hideBgNotif() {
+    var e = $("bgNotif");
+    if (e && e.parentNode) e.parentNode.removeChild(e);
+  }
+
+  function renderHeader() {
+    $("hPoints").textContent = state.points;
+    $("hStreak").textContent = state.streak;
+    updateMoodUI();
+  }
+
+  // ---------- TELEFON: ana ekran ----------
+  function renderHome() {
+    var screen = $("phoneScreen");
+    var now = new Date();
+    var hour = now.getHours();
+    var selam = hour < 12 ? "Günaydın" : hour < 18 ? "İyi günler" : "İyi akşamlar";
+    var html =
+      "<div class='s-home'>" +
+      "<div class='s-statusbar'><span class='s-status-left'>" +
+      "<span class='s-status-mood mood-" + weeklyMoodKey() + "' id='phoneMood'>" + moodFaceSVG(weeklyMoodKey()) + "</span>" +
+      nowHM() + "</span><span>🔋</span></div>" +
+      "<div class='s-top-row'>" +
+      "<div class='s-greet'><h1>" + selam + " 👋</h1>" +
+      "<p class='s-sub'>Bugün " + state.todayKept + " sözün tutuldu. Hangi uygulamayı açıyorsun?</p></div>" +
+      "<div class='s-score'>" +
+      "<div class='s-score-label'>PUAN</div><div class='s-score-val'>" + state.points + "</div>" +
+      "</div></div>" +
+      "<div class='app-grid'>" +
+      "<div class='app-tile' data-app='sozumsoz' style='animation-delay:60ms'>" +
+      "<div class='app-icon soz-icon'>" +
+      "<img class='app-icon-img' src='" + SOZ_LOGO + "' alt='' data-mono='SS' onerror='window.__ssIconFallback(this)'>" +
+      "</div>" +
+      "<div class='app-name'>SÖZÜM SÖZ</div>" +
+      "</div>" +
+      APPS.map(function (a, i) {
+        return "<div class='app-tile' data-app='" + a.id + "' style='animation-delay:" + (130 + i * 45) + "ms'>" +
+          appIconHTML(a) +
+          "<div class='app-name'>" + a.name + "</div>" +
+          "</div>";
+      }).join("") +
+      "</div></div>";
+    screen.innerHTML = html;
+    screen.querySelectorAll(".app-tile").forEach(function (t) {
+      t.addEventListener("click", function () { onTileClick(t.getAttribute("data-app")); });
+    });
+  }
+
+  function onTileClick(appId) {
+    if (appId === "sozumsoz") {
+      if (state.consent) { openSozumsozApp(); return; }
+      openSozumsozConsent();
+      return;
+    }
+    var app = appById(appId);
+    if (!app) return;
+    openPromiseDialog(app);
+  }
+
+  // ---------- TELEFON: SÖZÜM SÖZ uygulaması içi ----------
+  function topAppName7() {
+    var since = Date.now() - 7 * 86400000;
+    var sums = {}, best = null;
+    state.history.forEach(function (h) {
+      if (h.ts >= since) sums[h.appName] = (sums[h.appName] || 0) + h.usedMin;
+    });
+    Object.keys(sums).forEach(function (k) {
+      if (!best || sums[k] > best.min) best = { name: k, min: sums[k] };
+    });
+    return best;
+  }
+
+  function sozMenuRow(label, tab) {
+    return "<div class='soz-row' data-soztab='" + tab + "'><span>" + label + "</span><span class='chev'>&rsaquo;</span></div>";
+  }
+
+  function openSozumsozConsent(cb) {
+    showBgNotif("soz");
+    $("phoneScreen").innerHTML =
+      "<div class='s-consent anim-pop'>" +
+      "<div class='brand'><span class='brand-mark'><img class='brand-mark-img' src='" + SOZ_LOGO + "' alt='SÖZÜM SÖZ'></span><span class='brand-name'>SÖZÜM <b>SÖZ</b></span></div>" +
+      "<h2>Bilgilendirme ve Açık Rıza</h2>" +
+      "<div class='consent-body'>" +
+      "<h4>1. Veri Sorumlusu ve Kapsam</h4>" +
+      "<p>Bu uygulama (SÖZÜM SÖZ) bir hackathon prototipidir ve 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) madde 10 uyarınca, uygulamanın geliştiricisi veri sorumlusu sıfatıyla aşağıdaki şekilde aydınlatma yapmaktadır.</p>" +
+      "<h4>2. İşlenen Kişisel Veriler</h4>" +
+      "<ul>" +
+      "<li><b>Süre sözü kayıtları:</b> uygulama adı, kategori, hedeflenen ve gerçekleşen süre.</li>" +
+      "<li><b>Etkileşim istatistikleri:</b> puan, seri, mola sayısı, görev katılımı.</li>" +
+      "<li><b>Sohbet geçmişi:</b> YZ koç sohbetindeki mesajların tamamı.</li>" +
+      "<li><b>Cihaz ayarları:</b> seçili YZ sağlayıcı, model ve (isterseniz) API anahtarı.</li>" +
+      "</ul>" +
+      "<h4>3. İşleme Amaçları</h4>" +
+      "<ul>" +
+      "<li>Dijital iyi olma hâlinin izlenmesi ve kişisel raporlama.</li>" +
+      "<li>Söz/puan/seri/ödül motivasyon sisteminin çalıştırılması.</li>" +
+      "<li>İsteğe bağlı YZ koç sohbeti ile yansıma desteği.</li>" +
+      "</ul>" +
+      "<h4>4. Hukuki Sebep ve Aktarım</h4>" +
+      "<ul>" +
+      "<li>KVKK m.5: veri sahibinin <b>açık rızası</b> (bu ekranda verdiğiniz onay) ve meşru menfaat.</li>" +
+      "<li>KVKK m.8-9: yurt dışı aktarım yalnızca canlı YZ açıkken ve seçtiğiniz sağlayıcıya yapılır; aksi hâlde verileriniz hiçbir sunucuya otomatik gönderilmez.</li>" +
+      "</ul>" +
+      "<p>Verileriniz yalnızca bu cihazın tarayıcı hafızasında (localStorage) saklanır. Canlı YZ'yi Ayarlar'dan açıp anahtar girmediğiniz sürece cihazdan dışarı çıkmaz. Canlı YZ açılırsa yalnızca anonim oturum özeti ve sohbetin son mesajları seçtiğiniz sağlayıcıya (OpenAI/Gemini) gönderilir; ad, fotoğraf ve iletişim bilgisi asla toplanmaz.</p>" +
+      "<h4>5. Saklama Süresi</h4>" +
+      "<p>Verileriniz, uygulamayı kullandığınız süre boyunca cihazda saklanır. 'Verilerimi sil' işlemiyle veya tarayıcı verileri temizlendiğinde kalıcı olarak silinir.</p>" +
+      "<h4>6. Veri Sahibinin Hakları (KVKK m.11)</h4>" +
+      "<ul>" +
+      "<li>Verilerinizin işlenip işlenmediğini öğrenme,</li>" +
+      "<li>İşlenmişse bilgi talep etme,</li>" +
+      "<li>İşleme amacını ve amaca uygun kullanımı öğrenme,</li>" +
+      "<li>Eksik veya yanlış işlenmiş verilerin düzeltilmesini isteme,</li>" +
+      "<li>Verilerin silinmesini veya yok edilmesini isteme,</li>" +
+      "<li>Değişiklik ve silme işlemlerinin aktarıldığı kişilere bildirilmesini isteme,</li>" +
+      "<li>Otomatik işlemeye itiraz etme ve uğranılan zararın giderilmesini talep etme.</li>" +
+      "</ul>" +
+      "<p class='small'>Bu haklarınızı uygulama içindeki <b>Ayarlar → Verilerimi indir / Verilerimi sil / Rızayı geri al</b> seçenekleriyle veya tarayıcının gizlilik araçlarıyla doğrudan kullanabilirsiniz.</p>" +
+      "<h4>7. Açık Rıza</h4>" +
+      "<p class='muted small'>Yukarıdaki aydınlatma metnini okudum; verilerimin belirtilen amaçlarla işlenmesine, gerektiğinde sohbet mesajlarımın seçtiğim YZ sağlayıcısına iletilmesine ve bu kapsamda kişisel verilerimin işlenmesine <b>açık rıza</b> veriyorum. Rızamı istediğim an geri alabilirim (Ayarlar → Rızayı geri al).</p>" +
+      "</div>" +
+      "<button class='btn btn-primary btn-lg' id='consentYes'>Kabul ediyorum, uygulamayı aç</button>" +
+      "<button class='btn btn-ghost btn-lg' id='consentNo'>Kabul etmiyorum</button>" +
+      "</div>";
+    $("consentYes").addEventListener("click", function () {
+      state.consent = true;
+      save();
+      renderSozumsozApp();
+    });
+    $("consentNo").addEventListener("click", function () {
+      hideBgNotif();
+      $("phoneScreen").innerHTML =
+        "<div class='s-consent'>" +
+        "<div class='brand'><span class='brand-mark'><img class='brand-mark-img' src='" + SOZ_LOGO + "' alt='SÖZÜM SÖZ'></span><span class='brand-name'>SÖZÜM <b>SÖZ</b></span></div>" +
+        "<h2>Uygulama kullanılamıyor</h2>" +
+        "<p>Bilgilendirmeyi kabul etmediğin için SÖZÜM SÖZ uygulaması açılmadı. Hiçbir verin toplanmaz, saklanmaz ve işlenmez.</p>" +
+        "<p class='muted small'>İstersen bilgilendirmeyi tekrar okuyup kararını değiştirebilirsin.</p>" +
+        "<button class='btn btn-primary btn-lg' id='consentBack'>Bilgilendirmeyi tekrar oku</button>" +
+        "<button class='btn btn-ghost btn-lg' id='consentExit'>Ana ekrana dön</button>" +
+        "</div>";
+      $("consentBack").addEventListener("click", function () { openSozumsozConsent(); });
+      $("consentExit").addEventListener("click", renderHome);
+    });
+  }
+
+  function openSozumsozApp() {
+    if (!state.consent) { openSozumsozConsent(); return; }
+    renderSozumsozApp();
+  }
+
+  function renderSozumsozApp() {
+    var mood = weeklyMood();
+    var top = topAppName7();
+    $("phoneScreen").innerHTML =
+      "<div class='s-soz'>" +
+      "<div class='soz-header'>" +
+      "<span class='soz-title'>SÖZÜM SÖZ</span>" +
+      "<span class='soz-mood'>Bu hafta " + mood.emoji + " " + mood.label + "</span>" +
+      "</div>" +
+      "<div class='soz-stats'>" +
+      "<div class='soz-stat'><b>" + state.points + "</b><span>Puan</span></div>" +
+      "<div class='soz-stat'><b>" + state.streak + "</b><span>Seri</span></div>" +
+      "<div class='soz-stat'><b>" + state.todayKept + "</b><span>Bugün tutulan</span></div>" +
+      "</div>" +
+      "<div class='soz-top'>" + (top
+        ? "Son 7 günde en çok kullandığın: <b>" + top.name + "</b> (" + top.min + " dk)"
+        : "Henüz veri yok. " + state.points + " puanınla başlamak için bir söz ver.") + "</div>" +
+      "<div class='soz-menu'>" +
+      sozMenuRow("Durum", "stats") +
+      sozMenuRow("Grafikler", "charts") +
+      sozMenuRow("Ödül Kataloğu", "rewards") +
+      sozMenuRow("Aylık Çekiliş", "draw") +
+      sozMenuRow("Yansıma (YZ)", "ai") +
+      "</div>" +
+      "<button class='btn btn-ghost btn-lg' id='sozBack'>Geri dön</button>" +
+      "</div>";
+    $("sozBack").addEventListener("click", function () { hideBgNotif(); renderHome(); });
+    $("phoneScreen").querySelectorAll("[data-soztab]").forEach(function (row) {
+      row.addEventListener("click", function () { setTab(row.getAttribute("data-soztab")); });
+    });
+    showBgNotif("soz");
+  }
+
+  // ---------- TELEFON: süre sözü diyaloğu (telefon içi alt sayfa) ----------
+  function openPromiseDialog(app) {
+    var chosen = null;
+    var opts = TIME_OPTIONS.map(function (m) {
+      return "<button class='time-btn dur-chip' data-min='" + m + "'>" + m + "<span>dk</span></button>";
+    }).join("");
+    var sc = $("phoneScreen");
+    sc.innerHTML =
+      "<div class='s-sheet-backdrop' id='promiseScrim'></div>" +
+      "<div class='s-sheet'>" +
+      "<div class='sheet-grab'></div>" +
+      "<div class='sheet-head'>" +
+      appIconHTML(app, "sheet-appicon") +
+      "<div class='sheet-meta'><div class='sheet-apptitle'>" + app.name + "</div>" +
+      "<span class='sheet-cat'>" + CATEGORY_LABELS[app.category] + "</span></div>" +
+      "</div>" +
+      "<div class='sheet-q'>Kaç dakikaya <b>söz veriyorsun?</b></div>" +
+      "<div class='dur-chips' id='durChips'>" + opts + "</div>" +
+      "<div class='dur-custom'>" +
+      "<input type='number' id='customMin' min='1' max='240' placeholder='Özel süre (dk)'>" +
+      "<button class='dur-dice' id='durSuggest' title='Rastgele süre öner'>🎲</button>" +
+      "</div>" +
+      "<div class='sheet-reward'><span>Sözünü tutarsan <b class='p-plus'>+3 puan</b></span><span>Aşarsan <b class='p-minus'>−5 puan</b></span></div>" +
+      "<button class='btn btn-primary btn-lg btn-glow' id='promiseOk' disabled>Söz ver</button>" +
+      "<button class='sheet-link' id='promiseNo'>Vazgeç</button>" +
+      "</div>";
+    var ok = $("promiseOk");
+    var custom = $("customMin");
+    var dice = $("durSuggest");
+    var btnPromise = function (min) {
+      chosen = min;
+      document.querySelectorAll(".dur-chip").forEach(function (b) {
+        b.classList.toggle("sel", parseInt(b.getAttribute("data-min"), 10) === min);
+      });
+      if (ok) { ok.textContent = "Söz ver (" + min + " dk)"; ok.disabled = false; }
+    };
+    document.querySelectorAll(".dur-chip").forEach(function (b) {
+      b.addEventListener("click", function () { btnPromise(parseInt(b.getAttribute("data-min"), 10)); });
+    });
+    custom.addEventListener("input", function () {
+      var v = parseInt(custom.value, 10);
+      if (v >= 1 && v <= 240) btnPromise(v);
+    });
+    dice.addEventListener("click", function () {
+      var v = 2 + Math.floor(Math.random() * 9);
+      custom.value = v;
+      btnPromise(v);
+    });
+    ok.addEventListener("click", function () {
+      if (chosen) { renderHome(); enterApp(app, chosen); }
+    });
+    $("promiseNo").addEventListener("click", renderHome);
+    $("promiseScrim").addEventListener("click", renderHome);
+  }
+
+  // ---------- uygulama içine girme ----------
+  function enterApp(app, minutes) {
+    checkHopGuard(app);
+    session = {
+      appId: app.id,
+      appName: app.name,
+      category: app.category,
+      promisedMin: minutes,
+      startedAt: Date.now(),
+      elapsedSec: 0,
+      usedMin: 0,
+      overshootNotified: false
+    };
+    renderAppScreen();
+    showBgNotif();
+    if (tickerId) clearInterval(tickerId);
+    tickerId = setInterval(tick, 1000);
+  }
+
+  function checkHopGuard(app) {
+    var last = state.lastClose;
+    if (!last) return;
+    var withinWindow = (Date.now() - last.ts) <= HOP_WINDOW_MS;
+    if (last.result === "broken_exceed") {
+      notify("Biraz mola ver", "Aşım ile kapattığın oturumun ardından yeni bir uygulama açtın. Ekran dışında birkaç dakika kal.", "warn");
+      state.lastClose = { ts: Date.now(), result: "broken_exceed" };
+      save();
+      return;
+    }
+    if (last.result === "kept" && withinWindow) {
+      recordResult("broken_hop", PENALTY, {
+        appId: app.id, appName: app.name, category: app.category, promisedMin: 1, usedMin: 1
+      });
+      notify("Uygulama atlama", app.name + " uygulamasına kapatır kapatmaz girdin. Uygulama atlamak sözünü bozar; puanın düştü.", "danger");
+      requestCoach("hop", { appName: app.name, category: app.category, promisedMin: 0, overMin: 0 });
+      state.lastClose = { ts: Date.now(), result: "broken_hop" };
+      save();
+      renderHeader();
+      renderStats();
+    }
+  }
+
+  // ---------- YZ koçu: dinamik bildirim + mola ----------
+  function requestCoach(type, extra) {
+    var s = session;
+    var opts = {
+      type: type,
+      appName: s ? s.appName : (extra && extra.appName) || "",
+      category: s ? s.category : (extra && extra.category) || "",
+      promisedMin: s ? s.promisedMin : 0,
+      overMin: (s && s.usedMin > s.promisedMin) ? (s.usedMin - s.promisedMin) : 0,
+      hour: new Date().getHours(),
+      streak: state.streak
+    };
+    AI.generateCoach(opts, state.ai).then(function (res) {
+      var m = res.msg;
+      var el = notify(m.title, m.body + " " + m.breakOffer + " (YZ üretimi)", type === "overshoot" ? "warn" : "danger", [
+        {
+          label: "Mola başla (+" + m.points + " puan)",
+          cls: "btn-success",
+          onClick: function () { dismissNotif(el); startMicroBreak(m.points, m.breakOffer); }
+        },
+        {
+          label: "Şimdi değil",
+          cls: "btn-ghost",
+          onClick: function () { dismissNotif(el); }
+        }
+      ]);
+    }).catch(function (err) {
+      notify("Bildirim üretilemedi", err.message, "info");
+    });
+  }
+
+  // ---------- mikromola ----------
+  function startMicroBreak(points, offerText) {
+    if (!session) {
+      notify("Mola", "Oturum kapalı olduğu için mola önerisi iptal edildi; bir sonraki oturumda kullanılabilir.", "info");
+      return;
+    }
+    var sc = $("phoneScreen");
+    var end = Date.now() + BREAK_SECONDS * 1000;
+    sc.innerHTML =
+      "<div class='s-break'>" +
+      "<div class='bk-ring'><div class='bk-count' id='breakCount'>" + BREAK_SECONDS + "</div></div>" +
+      "<div class='bk-text'>" + offerText + "</div>" +
+      "<div class='bk-hint'>Mola bitiminde +" + points + " puan kazanırsın.</div>" +
+      "<div class='row'><button class='btn btn-warn' id='bkCancel'>Mola değil</button></div>" +
+      "</div>";
+    $("bkCancel").addEventListener("click", function () { clearInterval(bkTimer); renderAppScreen(); });
+    var bkTimer = setInterval(function () {
+      var left = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+      var c = $("breakCount");
+      if (c) c.textContent = left;
+      if (left <= 0) {
+        clearInterval(bkTimer);
+        finishMicroBreak(points);
+      }
+    }, 250);
+  }
+
+  function finishMicroBreak(points) {
+    state.points += points;
+    floatPoints(points);
+    state.breaksTaken++;
+    state.breaksLog.push({ ts: Date.now() });
+    state.breaksLog = state.breaksLog.slice(-60);
+    pushFeed("Molayı tamamladın: +" + points + " puan");
+    notify("Mola tamamlandı", "+" + points + " puan kazandın 🎉", "good");
+    save();
+    renderHeader();
+    if (session) renderAppScreen(); else renderHome();
+    renderStats();
+  }
+
+  // ---------- süre sayacı ----------
+  function tick() {
+    if (!session) return;
+    session.elapsedSec += 1;
+    var speed = state.speedFast ? 1 : 1 / 60;
+    session.usedMin = Math.floor(session.elapsedSec * speed + 1e-9);
+    if (!session.overshootNotified && session.usedMin > session.promisedMin) {
+      session.overshootNotified = true;
+      requestCoach("overshoot");
+    }
+    renderAppTicker();
+  }
+
+  function renderAppTicker() {
+    var el = $("appTimerCard");
+    if (!el || !session) return;
+    var over = session.usedMin > session.promisedMin;
+    var remain = Math.max(0, session.promisedMin - session.usedMin);
+    var pct = Math.min(100, Math.round(session.usedMin / session.promisedMin * 100));
+    el.className = "timer-card" + (over ? " over" : "");
+    el.innerHTML =
+      "<div class='timer-row'>" +
+      "<div class='timer-ring' style='--p:" + pct + "%'>" +
+      "<div class='timer-ring-in'>" +
+      "<div class='timer-num'>" + (over ? "+" + (session.usedMin - session.promisedMin) : remain) + "</div>" +
+      "<div class='timer-num-label'>" + (over ? "dk aşım" : "dk kaldı") + "</div>" +
+      "</div></div>" +
+      "<div class='timer-info'>" +
+      "<div class='timer-info-row'><span>Söz</span><b>" + session.promisedMin + " dk</b></div>" +
+      "<div class='timer-info-row'><span>Kullanılan</span><b>" + session.usedMin + " dk</b></div>" +
+      "<div class='timer-tip'>Sözünü tutarsan <b>+3 puan</b></div>" +
+      "</div></div>";
+    if (over && !$("overBanner")) {
+      var sc = $("phoneScreen");
+      var feed = sc.querySelector(".mock-feed");
+      if (feed) {
+        var b = document.createElement("div");
+        b.id = "overBanner";
+        b.className = "over-banner";
+        b.innerHTML = "⏰ Süren aşıldı — ekranı kapatıp kısa bir mola ver";
+        feed.insertBefore(b, feed.firstChild);
+      }
+    }
+  }
+
+  // ---------- uygulama ekranı ----------
+  function renderAppScreen() {
+    var sc = $("phoneScreen");
+    var app = appById(session.appId);
+    var glyphs = CATEGORY_GLYPHS[app.category] || ["✨", "💬", "🚀"];
+    var feed = "";
+    for (var i = 0; i < 3; i++) {
+      feed +=
+        "<div class='post-card'>" +
+        "<div class='post-head'><span class='post-ava' style='background:linear-gradient(135deg," + app.color + ",#0f172a)'>" + app.monogram + "</span>" +
+        "<div class='post-id'><div class='post-user'>" + app.name + "</div><div class='post-time'>1 saniye önce · sponsorlu</div></div>" +
+        "<span class='post-more'>•••</span></div>" +
+        "<div class='post-media' style='background:linear-gradient(135deg," + MOCK_MEDIA[(i * 3) % MOCK_MEDIA.length] + ",#0f172a)'>" + glyphs[i] + "</div>" +
+        "<div class='post-actions'><span>♥ " + (128 + i * 97) + "</span><span>💬 " + (23 + i * 18) + "</span><span>↗ " + (34 + i * 21) + "</span></div>" +
+        "</div>";
+    }
+    sc.innerHTML =
+      "<div class='s-app'>" +
+      "<div class='appbar'>" +
+      "<button class='appbar-back' id='appBackBtn'>‹</button>" +
+      appIconHTML(app, "appbar-icon") +
+      "<div class='appbar-mid'><div class='appbar-name'>" + app.name + "</div><div class='appbar-cat'>" + CATEGORY_LABELS[app.category] + "</div></div>" +
+      "<span class='appbar-badge'>SÖZ aktif</span>" +
+      "</div>" +
+      "<div id='appTimerCard' class='timer-card'></div>" +
+      "<div class='mock-feed'>" + feed + "</div>" +
+      "<div class='app-actions'>" +
+      "<button class='btn btn-success btn-lg btn-glow' id='btnKeep'>Sözümü tut ve kapat</button>" +
+      "<button class='btn btn-ghost btn-lg' id='btnSwitch'>Başka uygulamaya geç</button>" +
+      "</div></div>";
+    $("appBackBtn").addEventListener("click", function () { finishSession(false); });
+    $("btnKeep").addEventListener("click", function () { finishSession(false); });
+    $("btnSwitch").addEventListener("click", function () {
+      if (session && session.usedMin > session.promisedMin) {
+        notify("Süre aşımı", "Süreni aştın; oturum bozulan olarak kapanıyor ve puanın düşüyor.", "danger");
+        finishSession(false);
+      } else {
+        notify("Uygulama atlama", "Başka uygulamaya geçiş sözünü bozar; puanın düşer.", "warn");
+        finishSession(true);
+      }
+    });
+    renderAppTicker();
+  }
+
+  // ---------- oturum bitişi ----------
+  function finishSession(hopFlag) {
+    if (!session) return;
+    var s = session;
+    session = null;
+    if (tickerId) { clearInterval(tickerId); tickerId = null; }
+    var result = hopFlag ? "broken_hop"
+      : (s.usedMin > s.promisedMin ? "broken_exceed" : "kept");
+    var delta = result === "kept" ? REWARD_KEPT : PENALTY;
+    recordResult(result, delta, s);
+    state.lastClose = { ts: Date.now(), result: result };
+    save();
+    renderHome();
+    hideBgNotif();
+    renderHeader();
+    renderStats();
+  }
+
+  function recordResult(result, delta, info) {
+    var usedMin = info.usedMin || 0;
+    var promisedMin = info.promisedMin || 0;
+    var entry = {
+      ts: Date.now(),
+      appId: info.appId,
+      appName: info.appName,
+      category: info.category,
+      promisedMin: promisedMin,
+      usedMin: usedMin,
+      result: result,
+      delta: delta
+    };
+    state.history.unshift(entry);
+    state.history = state.history.slice(0, 120);
+    state.points = Math.max(0, state.points + delta);
+    if (delta !== 0) floatPoints(delta);
+
+    if (result === "kept") {
+      state.kept++;
+      state.todayKept++;
+      state.streak++;
+      if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+      if (MILESTONES[state.streak] && state.milestones.indexOf(state.streak) === -1) {
+        state.milestones.push(state.streak);
+        state.points += MILESTONES[state.streak];
+        floatPoints(MILESTONES[state.streak]);
+        notify("Seri bonusu", "" + state.streak + ". sözünü üst üste tuttun! +" + MILESTONES[state.streak] + " puan bonus 🎉", "good");
+        pushFeed("Seri bonusu: " + state.streak + " arka arkaya söz tutma, +" + MILESTONES[state.streak] + " puan");
+      }
+      if (state.todayKept >= DAILY_CHALLENGE.target && !state.challengeClaimed) {
+        notify("Günün sözü tamam", "Bugün " + DAILY_CHALLENGE.target + " sözünü tuttun; Durum sekmesinden ekstra +" + DAILY_CHALLENGE.reward + " puan al 👏", "good");
+      }
+    } else {
+      state.streak = 0;
+      if (result === "broken_exceed") state.brokenExceed++;
+      else state.brokenHop++;
+    }
+    pushFeed((delta >= 0 ? "+" : "") + delta + " puan | " + (result === "kept" ? "sözünü tuttun" : result === "broken_exceed" ? "sözünü aştın" : "uygulama atladın") + " (" + info.appName + ")");
+  }
+
+  // ---------- DURUM sekmesi ----------
+  function sessionsSince(days) {
+    var cutoff = Date.now() - days * 86400000;
+    return state.history.filter(function (h) { return h.ts >= cutoff; });
+  }
+
+  function renderStats() {
+    var cards = $("statCards");
+    var todaySessions = sessionsSince(1).filter(function (h) { return dailyOf(h.ts) === todayKey(); });
+    var todayMin = todaySessions.reduce(function (a, h) { return a + h.usedMin; }, 0);
+    var stat = [
+      { label: "Puanın", value: state.points, cls: "s-ok" },
+      { label: "Şu anki seri", value: state.streak + " söz", cls: "s-amber" },
+      { label: "En iyi seri", value: state.bestStreak + " söz", cls: "" },
+      { label: "Tutulan söz", value: state.kept, cls: "s-ok" },
+      { label: "Bozulan (aşım)", value: state.brokenExceed, cls: "s-bad" },
+      { label: "Bozulan (atlama)", value: state.brokenHop, cls: "s-bad" },
+      { label: "Tamamlanan mola", value: state.breaksTaken || 0, cls: "s-ok" },
+      { label: "Bugünkü kullanım", value: todayMin + " dk", cls: "" }
+    ];
+    cards.innerHTML = stat.map(function (s) {
+      return "<div class='stat-card " + s.cls + "'><div class='stat-label'>" + s.label + "</div><div class='stat-value'>" + s.value + "</div></div>";
+    }).join("");
+
+    var last7 = sessionsSince(7);
+    var cat = {};
+    last7.forEach(function (h) { cat[h.category] = (cat[h.category] || 0) + h.usedMin; });
+    var sorted = Object.keys(cat).map(function (k) { return { name: CATEGORY_LABELS[k] || k, min: cat[k] }; })
+      .sort(function (a, b) { return b.min - a.min; });
+    var maxMin = sorted.length ? sorted[0].min : 0;
+    var barsEl = $("categoryBars");
+    if (!sorted.length) {
+      barsEl.innerHTML = "<div class='muted'>Henüz veri yok.</div>";
+    } else {
+      barsEl.innerHTML = sorted.map(function (c) {
+        var w = maxMin ? Math.round(c.min / maxMin * 100) : 0;
+        return "<div class='cat-bar-row'><span class='cat-bar-label'>" + c.name + "</span>" +
+          "<div class='cat-bar-track'><div class='cat-bar-fill' style='width:" + w + "%'></div></div>" +
+          "<span class='cat-bar-min'>" + c.min + " dk</span></div>";
+      }).join("");
+    }
+
+    renderChallenge();
+    renderCharts();
+  }
+
+  function dailyOf(ts) {
+    var d = new Date(ts);
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function renderChallenge() {
+    var el = $("challengeCard");
+    var prog = Math.min(state.todayKept, DAILY_CHALLENGE.target);
+    var done = state.todayKept >= DAILY_CHALLENGE.target;
+    var html =
+      "<h3>" + DAILY_CHALLENGE.title + "</h3>" +
+      "<p>" + DAILY_CHALLENGE.text + "</p>" +
+      "<div class='challenge-box'><div class='challenge-progress'>" +
+      "<div class='cnt'>" + prog + " / " + DAILY_CHALLENGE.target + " söz tutuldu</div>" +
+      "<div class='progress'><div style='width:" + Math.round(prog / DAILY_CHALLENGE.target * 100) + "%'></div></div>" +
+      "</div>";
+    if (done) {
+      html += state.challengeClaimed
+        ? "<button class='btn' disabled>Ödül alındı (+" + DAILY_CHALLENGE.reward + ")</button>"
+        : "<button class='btn btn-primary' id='btnClaim'>Ödülü al (+" + DAILY_CHALLENGE.reward + " puan)</button>";
+    }
+    html += "</div>";
+    el.innerHTML = html;
+    if (done && !state.challengeClaimed) {
+      $("btnClaim").addEventListener("click", function () {
+        state.challengeClaimed = true;
+        state.points += DAILY_CHALLENGE.reward;
+        pushFeed("Günün sözü ödülü: +" + DAILY_CHALLENGE.reward + " puan");
+        notify("Ödül eklendi", "Günün sözü ödülü +" + DAILY_CHALLENGE.reward + " puan hesabına eklendi.", "good");
+        save();
+        renderHeader();
+        renderStats();
+      });
+    }
+  }
+
+  // ---------- HAFTALIK GÖREVLER ----------
+  function ensureWeeklyChallenges() {
+    if (!state.challenges) state.challenges = { week: null, joined: [], claimed: [] };
+    var wk = weekIdx(Date.now());
+    if (state.challenges.week !== wk) {
+      state.challenges = { week: wk, joined: [], claimed: [] };
+    }
+  }
+
+  function challengeCurrent(c) {
+    var since = Date.now() - 7 * 86400000;
+    var h7 = state.history.filter(function (h) { return h.ts >= since; });
+    switch (c.metric) {
+      case "weeklyMin":
+        return h7.reduce(function (a, h) { return a + h.usedMin; }, 0);
+      case "keptCount":
+        return h7.filter(function (h) { return h.result === "kept"; }).length;
+      case "breaks":
+        return state.breaksLog.filter(function (b) { return b.ts >= since; }).length;
+      case "distinctApps": {
+        var set = {};
+        h7.forEach(function (h) { set[h.appId] = 1; });
+        return Object.keys(set).length;
+      }
+      case "overshootCount":
+        return h7.filter(function (h) { return h.result === "broken_exceed"; }).length;
+    }
+    return 0;
+  }
+
+  function challengeMet(c, cur, hasData) {
+    if (c.direction === "less") return hasData && cur < c.target;
+    return cur >= c.target;
+  }
+
+  function renderChallenges() {
+    var el = $("challengeList");
+    if (!el) return;
+    ensureWeeklyChallenges();
+    var joined = state.challenges.joined;
+    var claimed = state.challenges.claimed;
+    var has7 = state.history.some(function (h) { return (Date.now() - h.ts) <= 7 * 86400000; });
+    el.innerHTML = CHALLENGES.map(function (c) {
+      var cur = challengeCurrent(c);
+      var met = challengeMet(c, cur, has7);
+      var isJ = joined.indexOf(c.id) !== -1;
+      var isC = claimed.indexOf(c.id) !== -1;
+      var barPct = Math.min(100, Math.round(Math.min(cur, c.target) / c.target * 100));
+      var stateTxt, btn;
+      if (isC) {
+        stateTxt = "Tamamlandı ✓";
+        btn = "<button class='btn' disabled>Ödül alındı (+" + c.reward + " puan)</button>";
+      } else if (!isJ) {
+        stateTxt = c.direction === "less"
+          ? "Şu an: " + cur + " " + c.unit + " (hedef: < " + c.target + " " + c.unit + ")"
+          : "Şu an: " + cur + " / " + c.target + " " + c.unit;
+        btn = "<button class='btn btn-primary' data-join='" + c.id + "'>Göreve katıl</button>";
+      } else if (met) {
+        stateTxt = "Şart sağlandı!";
+        btn = "<button class='btn btn-success' data-claim='" + c.id + "'>Ödülü al (+" + c.reward + " puan)</button>";
+      } else {
+        stateTxt = c.direction === "less"
+          ? "İlerleme: " + cur + " " + c.unit + " (hedef < " + c.target + ")"
+          : "İlerleme: " + cur + " / " + c.target + " " + c.unit;
+        btn = "<button class='btn' disabled>Katıldın</button>";
+      }
+      return "<div class='ch-card'>" +
+        "<div class='ch-head'><div class='ch-title'>" + c.title + "</div><div class='ch-reward'>+" + c.reward + " puan</div></div>" +
+        "<p class='ch-text'>" + c.text + "</p>" +
+        "<div class='ch-progress'><div class='ch-bar'><div style='width:" + barPct + "%'></div></div></div>" +
+        "<div class='ch-cur'>" + stateTxt + "</div>" +
+        "<div class='ch-action'>" + btn + "</div>" +
+        "</div>";
+    }).join("");
+
+    el.querySelectorAll("[data-join]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state.challenges.joined.push(b.getAttribute("data-join"));
+        save();
+        renderChallenges();
+      });
+    });
+    el.querySelectorAll("[data-claim]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var c = CHALLENGES.filter(function (x) { return x.id === b.getAttribute("data-claim"); })[0];
+        if (!c) return;
+        state.challenges.joined = state.challenges.joined.filter(function (x) { return x !== c.id; });
+        state.challenges.claimed.push(c.id);
+        state.points += c.reward;
+        pushFeed("Haftalık görev tamamlandı: " + c.title + " · +" + c.reward + " puan");
+        notify("Görev tamamlandı", c.title + " +" + c.reward + " puan hesabına eklendi.", "good");
+        save();
+        renderHeader();
+        renderStats();
+        renderChallenges();
+      });
+    });
+  }
+
+  // ---------- GRAFİKLER sekmesi ----------
+  var DAY_NAMES = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
+  var CATEGORY_COLORS = { social: "#e1306c", video: "#dc2626", messaging: "#16a34a", streaming: "#b91c1c", gaming: "#7c3aed", music: "#15803d", news: "#ea580c" };
+
+  function minOnDayKey(key) {
+    var m = 0;
+    state.history.forEach(function (h) { if (dailyOf(h.ts) === key) m += h.usedMin; });
+    return m;
+  }
+
+  function dayKeyOffset(offset) {
+    var d = new Date();
+    d.setHours(12, 0, 0, 0);
+    d.setDate(d.getDate() + offset);
+    return dailyOf(d.getTime());
+  }
+
+  function pctOf(v, max) { return max > 0 ? Math.round(v / max * 100) : 0; }
+
+  function weekIdx(ts) {
+    var d = new Date(ts);
+    d.setHours(0, 0, 0, 0);
+    var dow = (d.getDay() + 6) % 7;
+    d.setDate(d.getDate() - dow);
+    return Math.floor(d.getTime() / (7 * 86400000));
+  }
+
+  function renderCharts() {
+    renderTodayCompare();
+    renderLast7Days();
+    renderLast4Weeks();
+    renderCategoryDonut();
+    renderTopApps();
+  }
+
+  function renderTodayCompare() {
+    var el = $("chartTodayVsWeek");
+    if (!el) return;
+    var todayMin = minOnDayKey(todayKey());
+    var lastMin = minOnDayKey(dayKeyOffset(-7));
+    var maxVal = Math.max(todayMin, lastMin, 1);
+    var todayName = DAY_NAMES[new Date().getDay()];
+    var lastName = DAY_NAMES[new Date(Date.now() - 7 * 86400000).getDay()];
+    var todayH = todayMin > 0 ? Math.max(8, Math.round(todayMin / maxVal * 110)) : 0;
+    var lastH = lastMin > 0 ? Math.max(8, Math.round(lastMin / maxVal * 110)) : 0;
+    var dif = todayMin - lastMin;
+    var diffTxt =
+      dif === 0
+        ? "Geçen haftanın aynı günüyle aynı kullanım süren var (" + todayMin + " dk)."
+        : dif > 0
+          ? "Bugün, geçen hafta aynı güne göre " + dif + " dk daha çok zaman harcadın."
+          : "Bugün, geçen hafta aynı güne göre " + (-dif) + " dk daha az zaman harcadın.";
+    el.innerHTML =
+      "<h3>Bugün vs geçen haftanın aynı günü</h3>" +
+      "<div class='cmp'>" +
+      "<div class='cmp-col'><div class='cmp-label'>Bugün · " + todayName + "</div>" +
+      "<div class='cmp-track'><div class='cmp-bar' style='height:" + todayH + "px'></div></div>" +
+      "<div class='cmp-value'>" + todayMin + " dk</div></div>" +
+      "<div class='cmp-col'><div class='cmp-label'>Geçen hafta · " + lastName + "</div>" +
+      "<div class='cmp-track'><div class='cmp-bar mut' style='height:" + lastH + "px'></div></div>" +
+      "<div class='cmp-value'>" + lastMin + " dk</div></div>" +
+      "</div>" +
+      "<div class='cmp-diff'>" + diffTxt + "</div>";
+  }
+
+  function renderLast7Days() {
+    var el = $("chartLast7");
+    if (!el) return;
+    var maxMin = 1, days = [];
+    for (var i = -6; i <= 0; i++) {
+      var k = dayKeyOffset(i);
+      var m = minOnDayKey(k);
+      if (m > maxMin) maxMin = m;
+      days.push({ key: k, min: m, name: DAY_NAMES[new Date(k + "T12:00:00").getDay()], today: i === 0 });
+    }
+    var total7 = days.reduce(function (a, d) { return a + d.min; }, 0);
+    el.innerHTML = "<h3>Son 7 gün - ekran kullanımı</h3>" +
+      (total7 === 0
+        ? "<div class='muted'>Henüz veri yok.</div>"
+        : "<div class='days'>" + days.map(function (d) {
+            return "<div class='day-col" + (d.today ? " today" : "") + "'>" +
+              "<div class='day-min'>" + d.min + "</div>" +
+              "<div class='day-track'><div class='day-bar' style='height:" + Math.max(3, Math.round(d.min / maxMin * 100)) + "px'></div></div>" +
+              "<div class='day-name'>" + d.name + "</div>" +
+              "</div>";
+          }).join("") + "</div>" +
+          "<p class='muted small' style='margin-top:8px'>Turuncu çubuk bugünü gösterir.</p>");
+  }
+
+  function renderLast4Weeks() {
+    var el = $("chartWeeks");
+    if (!el) return;
+    var sums = {};
+    state.history.forEach(function (h) {
+      var w = weekIdx(h.ts);
+      sums[w] = (sums[w] || 0) + h.usedMin;
+    });
+    var thisW = weekIdx(Date.now());
+    var labels = ["3 hafta önce", "2 hafta önce", "Geçen hafta", "Bu hafta"];
+    var data = labels.map(function (l, i) { return { label: l, min: sums[thisW - 3 + i] || 0 }; });
+    var maxMin = 1;
+    data.forEach(function (d) { if (d.min > maxMin) maxMin = d.min; });
+    var totalW = data.reduce(function (a, d) { return a + d.min; }, 0);
+    el.innerHTML = "<h3>Haftalık karşılaştırma (son 4 hafta)</h3>" +
+      (totalW === 0
+        ? "<div class='muted'>Henüz veri yok.</div>"
+        : "<div class='weeks'>" + data.map(function (d) {
+            return "<div class='week-col'><div class='week-min'>" + d.min + " dk</div>" +
+              "<div class='week-track'><div class='week-bar" + (d.label === "Bu hafta" ? " now" : "") + "' style='height:" + Math.max(4, Math.round(d.min / maxMin * 100)) + "px'></div></div>" +
+              "<div class='week-name'>" + d.label + "</div></div>";
+          }).join("") + "</div>");
+  }
+
+  function renderCategoryDonut() {
+    var el = $("chartCategories");
+    if (!el) return;
+    var since = Date.now() - 7 * 86400000;
+    var sums = {};
+    state.history.forEach(function (h) { if (h.ts >= since) sums[h.category] = (sums[h.category] || 0) + h.usedMin; });
+    var data = Object.keys(sums).map(function (k) {
+      return { name: CATEGORY_LABELS[k] || k, color: CATEGORY_COLORS[k] || "#6366f1", min: sums[k] };
+    }).sort(function (a, b) { return b.min - a.min; });
+    var total = data.reduce(function (a, d) { return a + d.min; }, 0);
+    if (!total) { el.innerHTML = "<h3>Kategori dağılımı (son 7 gün)</h3><div class='muted'>Henüz veri yok.</div>"; return; }
+    var size = 140, c = size / 2, r = 48, C = 2 * Math.PI * r;
+    var acc = 0, parts = "";
+    data.forEach(function (d) {
+      var frac = d.min / total;
+      parts += "<circle r='" + r + "' cx='" + c + "' cy='" + c + "' fill='none' stroke='" + d.color + "' stroke-width='24' " +
+        "stroke-dasharray='" + (frac * C) + " " + C + "' stroke-dashoffset='" + (-(acc * C + C * 0.25)) + "'/>";
+      acc += frac;
+    });
+    var legend = data.map(function (d) {
+      return "<div class='legend-row'><span class='dot' style='background:" + d.color + "'></span>" +
+        d.name + "<span class='legend-pct'>%" + Math.round(d.min / total * 100) + " (" + d.min + " dk)</span></div>";
+    }).join("");
+    el.innerHTML = "<h3>Kategori dağılımı (son 7 gün)</h3>" +
+      "<div class='donut-wrap'>" +
+      "<div class='donut'><svg viewBox='0 0 " + size + " " + size + "'>" + parts + "</svg>" +
+      "<div class='donut-center'><b>" + total + "</b><span>dk</span></div></div>" +
+      "<div class='legend'>" + legend + "</div>" +
+      "</div>";
+  }
+
+  function renderTopApps() {
+    var el = $("chartTopApps");
+    if (!el) return;
+    var since = Date.now() - 7 * 86400000;
+    var sums = {};
+    state.history.forEach(function (h) { if (h.ts >= since) sums[h.appName] = (sums[h.appName] || 0) + h.usedMin; });
+    var data = Object.keys(sums).map(function (k) { return { name: k, min: sums[k] }; })
+      .sort(function (a, b) { return b.min - a.min; })
+      .slice(0, 6);
+    var maxMin = data.length ? data[0].min : 1;
+    el.innerHTML = "<h3>En çok kullanılan uygulamalar (son 7 gün)</h3>" +
+      (data.length
+        ? "<div class='cat-bars'>" + data.map(function (a) {
+            return "<div class='cat-bar-row'><span class='cat-bar-label'>" + a.name + "</span>" +
+              "<div class='cat-bar-track'><div class='cat-bar-fill' style='width:" + pctOf(a.min, maxMin) + "%'></div></div>" +
+              "<span class='cat-bar-min'>" + a.min + " dk</span></div>";
+          }).join("") + "</div>"
+        : "<div class='muted'>Henüz veri yok.</div>");
+  }
+
+  // ---------- ÖDÜL sekmesi ----------
+  function renderRewards() {
+    var grid = $("rewardGrid");
+    grid.innerHTML = REWARDS.map(function (r) {
+      var affordable = state.points >= r.price;
+      return "<div class='reward-card'>" +
+        "<div class='reward-icon'>" + r.monogram + "</div>" +
+        "<div class='reward-badge'>Yeşilay ödülü</div>" +
+        "<div class='reward-name'>" + r.name + "</div>" +
+        "<div class='reward-desc'>" + r.desc + "</div>" +
+        "<div class='reward-price'>" + r.price + " puan</div>" +
+        "<button class='btn " + (affordable ? "btn-success" : "") + "' data-reward='" + r.id + "' " + (affordable ? "" : "disabled") + ">Al</button>" +
+        "</div>";
+    }).join("");
+    grid.querySelectorAll("[data-reward]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var r = REWARDS.filter(function (x) { return x.id === b.getAttribute("data-reward"); })[0];
+        if (state.points >= r.price) {
+          state.points -= r.price;
+          state.rewardOrders.push({ id: r.id, name: r.name, ts: Date.now(), price: r.price });
+          pushFeed("Ödül siparişi: " + r.name + " (" + r.price + " puan)");
+          notify("Sipariş alındı", r.name + " siparişin Yeşilay'a iletildi (prototip senaryosu).", "good");
+          save();
+          renderHeader();
+          renderRewards();
+        }
+      });
+    });
+    var mine = $("myRewardsList");
+    mine.className = "muted";
+    mine.innerHTML = state.rewardOrders.length
+      ? state.rewardOrders.slice().reverse().map(function (o) {
+          return "<div class='feed-item'>" + nowHM(o.ts) + " - " + o.name + " (" + o.price + " puan)</div>";
+        }).join("")
+      : "Henüz sipariş vermedin.";
+  }
+
+  // ---------- ÇEKİLİŞ sekmesi ----------
+  function monthKeyOf(ts) { return dailyOf(ts).slice(0, 7); }
+
+  function computeMonthStats() {
+    var mk = todayKey().slice(0, 7);
+    var kept = 0, broken = 0;
+    state.history.forEach(function (h) {
+      if (monthKeyOf(h.ts) === mk) {
+        if (h.result === "kept") kept++;
+        else broken++;
+      }
+    });
+    return { kept: kept, broken: broken, mk: mk };
+  }
+
+  function renderDraw() {
+    var ms = computeMonthStats();
+    var eligible = ms.broken === 0 && ms.kept >= DRAW_TARGET_KEPT;
+    var entered = state.lotteryEnteredMonth === ms.mk;
+    var pct = Math.min(100, Math.round(ms.kept / DRAW_TARGET_KEPT * 100));
+    $("monthProgress").innerHTML =
+      "<div class='cat-bar-row'><span class='cat-bar-label'>Tutulan söz</span>" +
+      "<div class='cat-bar-track'><div class='cat-bar-fill' style='width:" + pct + "%'></div></div>" +
+      "<span class='cat-bar-min'>" + ms.kept + "/" + DRAW_TARGET_KEPT + "</span></div>";
+    $("monthStatus").textContent =
+      ms.broken === 0
+        ? "Bu ay bozulan söz yok. Tutulan: " + ms.kept + " / " + DRAW_TARGET_KEPT
+        : "Bu ay " + ms.broken + " sözün bozuldu; çekilişe katılabilmen için bozulan söz olmamalı.";
+    $("prizeList").innerHTML = DRAW_PRIZES.map(function (p) { return "<li>" + p + "</li>"; }).join("");
+    var btn = $("btnEnterDraw");
+    btn.disabled = !(eligible && !entered);
+    btn.textContent = entered ? "Bu ay çekilişe katıldın" : eligible ? "Çekilişe Katıl" : "Şartlar sağlanmadı";
+    $("drawEnteredNote").textContent = entered
+      ? "Katılımın kayıtlı. Sonuçlar ay sonunda Yeşilay protokolüyle duyurulur (senaryo)."
+      : "";
+  }
+
+  $("btnEnterDraw").addEventListener("click", function () {
+    var mk = todayKey().slice(0, 7);
+    if (state.lotteryEnteredMonth !== mk) {
+      state.lotteryEnteredMonth = mk;
+      pushFeed("Aylık çekilişe katıldın (" + mk + ")");
+      notify("Çekilişe katıldın", "Bu ayki tüm sözlerini tuttun. Şansın bol olsun!", "good");
+      save();
+      renderDraw();
+    }
+  });
+
+  // ---------- YZ sekmesi ----------
+  function renderAIStatus() {
+    var el = $("aiStatus");
+    if (state.ai.live && state.ai.apiKey) {
+      el.innerHTML = "<span class='live-dot'></span> Canlı YZ · " + providerLabel() + " · " + esc(state.ai.model) + " @ " + esc(state.ai.baseUrl);
+      el.className = "ai-status live";
+    } else {
+      el.textContent = "Mod: YZ bağlantısı kapalı - şablon özet üretimi (canlı için Ayarlar'dan API anahtarı ekleyebilirsin).";
+      el.className = "ai-status muted";
+    }
+  }
+
+  function sessionsDaily() {
+    return state.history.filter(function (h) { return dailyOf(h.ts) === todayKey(); });
+  }
+
+  function runAI(kind) {
+    var out = $("aiOutput");
+    var wrap = $("aiPromptWrap");
+    out.className = "ai-output busy";
+    out.innerHTML = "<span>Yapay zekâ düşünüyor</span><span class='ai-dots'></span>";
+    wrap.innerHTML = "";
+    var sessions = kind === "daily" ? sessionsDaily() : sessionsSince(7);
+    AI.generate(kind, sessions, state.ai).then(function (res) {
+      out.className = "ai-output";
+      var tag = res.source === "live" ? "Canlı YZ yanıtı" : res.source === "live-error" ? "Canlı çağrı başarısız, şablon gösterildi: " + res.error : "Şablon üretimi (canlı bağlantı kapalı)";
+      var tagLine = document.createElement("div");
+      tagLine.className = "muted small";
+      tagLine.style.marginBottom = "8px";
+      tagLine.textContent = tag;
+      var body = document.createElement("div");
+      body.style.whiteSpace = "pre-wrap";
+      out.classList.remove("busy");
+      out.textContent = "";
+      out.appendChild(tagLine);
+      out.appendChild(body);
+      typeText(body, res.text, function () {
+        var stamp = document.createElement("div");
+        stamp.className = "ai-stamp";
+        stamp.textContent = AI_STAMP;
+        out.appendChild(stamp);
+      });
+      var btn = document.createElement("button");
+      btn.className = "prompt-toggle";
+      btn.textContent = "Kullanılan promptu göster (+ tasarım gerekçesi)";
+      btn.addEventListener("click", function () {
+        var existing = wrap.querySelector(".prompt-box");
+        if (existing) { existing.remove(); btn.textContent = "Kullanılan promptu göster (+ tasarım gerekçesi)"; return; }
+        var pb = document.createElement("div");
+        pb.className = "prompt-box";
+        var note =
+          "PROMPT TASARIM NOTU: Bu projede şu teknikler kullanıldı:\n" +
+          "- Sistem rolü + kural listesi (yönlendirilmiş üretim): yargısız dil, tanı yasağı, puan donanımı.\n" +
+          "- Günlük yansıma: few-shot (2 örnek: olağan gün + zor gün) + yapılandırılmış veri (JSON) + doğrulama adımı.\n" +
+          "- Haftalık özet: adım adım (ADIM 1-4) structured prompting + doğrulama adımı.\n" +
+          "- Bölüm ayırıcıları (delimiter): KOMUT/VERİ/ÖRNEK/DOĞRULAMA ayrımı.\n" +
+          "- Bildirim koçu (mola önerisi): sistem kuralları + 2 few-shot örnek + JSON çıktı (" +
+          "title/body/breakOffer/points) ile kullanıcının bağlamına göre (saat, aşım, seri) dinamik, suçluluk hissettirmeyen bildirimler." +
+          "\n- Sıcaklık (temperature): yansıma 0.5, sohbet 0.7, bildirim 0.8.\n" +
+          "\n- Verinin anonim özeti gönderilir; kullanıcı adı/kimlik içermez.\n\n" +
+          res.prompt;
+        pb.textContent = note;
+        wrap.appendChild(pb);
+        btn.textContent = "Promptu gizle";
+      });
+      wrap.appendChild(btn);
+    }).catch(function (err) {
+      out.className = "ai-output error";
+      out.textContent = "Beklenmedik hata: " + err.message;
+    });
+  }
+
+  $("btnDailyAI").addEventListener("click", function () { runAI("daily"); });
+  $("btnWeeklyAI").addEventListener("click", function () { runAI("weekly"); });
+
+  // ---------- modal ----------
+  function openModal(innerHTML) {
+    var root = $("modalRoot");
+    root.innerHTML = "<div class='modal-backdrop'></div><div class='modal'>" + innerHTML + "</div>";
+    root.classList.add("open");
+    root.querySelector(".modal-backdrop").addEventListener("click", closeModal);
+  }
+
+  function closeModal() {
+    var root = $("modalRoot");
+    root.classList.remove("open");
+    root.innerHTML = "";
+  }
+
+  function providerLabel() {
+    return state.ai.provider === "gemini" ? "Google Gemini" : "OpenAI";
+  }
+
+  // ---------- Ayarlar ----------
+  function openSettings() {
+    openModal(
+      "<h3>Ayarlar</h3>" +
+      "<div class='field'><label>Canlı YZ bağlantısı</label><label class='switch-line'>" +
+      "<input type='checkbox' id='setLive'" + (state.ai.live ? " checked" : "") + "> <span>API anahtarıyla gerçek modeli kullan</span></label></div>" +
+      "<div class='field'><label>Sağlayıcı (YZ tedarikçisi)</label>" +
+      "<select id='setProvider'>" +
+      "<option value='openai'" + (state.ai.provider !== "gemini" ? " selected" : "") + ">OpenAI</option>" +
+      "<option value='gemini'" + (state.ai.provider === "gemini" ? " selected" : "") + ">Google Gemini</option>" +
+      "</select></div>" +
+      "<div class='field'><label>API temel adresi</label><input id='setBase' value='" + esc(state.ai.baseUrl) + "'></div>" +
+      "<div class='field'><label>Model (Gemini ince-ayarlı bir model adı ise buraya yazılabilir)</label><input id='setModel' value='" + esc(state.ai.model) + "'></div>" +
+      "<div class='field'><label>API anahtarı (yalnızca cihazda saklanır)</label><input id='setKey' type='password' value='" + esc(state.ai.apiKey) + "' placeholder='sk-... veya AIza...'></div>" +
+      "<div class='row'>" +
+      "<button class='btn btn-primary' id='setSave'>Kaydet</button>" +
+      "<button class='btn' id='setCancel'>Vazgeç</button>" +
+      "</div>" +
+      "<div class='row' style='margin-top:16px'>" +
+      "<button class='btn btn-danger-ghost' id='btnReset2'>Demoyu sıfırla</button>" +
+      "</div>" +
+      "<div class='row' style='margin-top:16px'>" +
+      "<button class='btn btn-primary' id='btnExport'>Verilerimi indir (JSON)</button>" +
+      "</div>" +
+      "<div class='row' style='margin-top:8px'>" +
+      "<button class='btn btn-danger-ghost' id='btnRevokeConsent'>Rızayı geri al</button>" +
+      "</div>" +
+      "<div class='row' style='margin-top:8px'>" +
+      "<button class='btn btn-danger-ghost' id='btnWipeData'>Verilerimi sil</button>" +
+      "</div>" +
+      "<p class='muted small' style='margin-top:12px'>KVKK m.7, m.10, m.11 uyarınca: açık rızanızı dilediğiniz an geri alabilir, verilerinizi JSON olarak indirebilir (erişim hakkı) veya kalıcı olarak sildirebilirsiniz (silme hakkı). 'Demoyu sıfırla' demo verilerini temizler; 'Verilerimi sil' ise açık rıza dahil tüm verilerinizi bu cihazdan kalıcı olarak kaldırır ve uygulamayı kilide alır.</p>" +
+      "<p class='muted small' style='margin-top:8px'>Genel amaçlı dil modelleri; projeye özel koç davranışı sistem promptuyla sağlanır (ince-ayar eşdeğeri). Canlı bağlantı kapalıyken şablon üretim çalışır. Veri gizliliği: kayıtlar yalnızca bu tarayıcıda; API'ye yalnızca anonim oturum özeti ve (sohbette) son mesajlar gider. Gemini'de model adresi ve anahtar, seçili sağlayıcının otomatik olarak ayarlanır; model adını değiştirerek özel/ince-ayar model kullanabilirsin.</p>"
+    );
+    $("setSave").addEventListener("click", function () {
+      state.ai.live = $("setLive").checked;
+      state.ai.provider = $("setProvider").value;
+      state.ai.baseUrl = $("setBase").value.trim() || "https://api.openai.com/v1";
+      state.ai.model = $("setModel").value.trim() || "gpt-4o-mini";
+      state.ai.apiKey = $("setKey").value.trim();
+      save();
+      closeModal();
+      renderAIStatus();
+    });
+    $("setProvider").addEventListener("change", function () {
+      var p = $("setProvider").value;
+      if (p === "gemini") {
+        if (!$("setBase").value || $("setBase").value.indexOf("generativelanguage") === -1) $("setBase").value = "https://generativelanguage.googleapis.com/v1beta";
+        if ($("setModel").value.indexOf("gemini") === -1) $("setModel").value = "gemini-3.6-flash";
+      } else {
+        if ($("setBase").value.indexOf("generativelanguage") !== -1) $("setBase").value = "https://api.openai.com/v1";
+        if ($("setModel").value.indexOf("gemini") !== -1) $("setModel").value = "gpt-4o-mini";
+      }
+    });
+    $("setCancel").addEventListener("click", closeModal);
+    $("btnReset2").addEventListener("click", confirmReset);
+    $("btnExport").addEventListener("click", exportData);
+    $("btnRevokeConsent").addEventListener("click", confirmRevokeConsent);
+    $("btnWipeData").addEventListener("click", confirmWipeData);
+  }
+
+  function exportData() {
+    closeModal();
+    try {
+      var blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "sozumsoz-verilerim.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { try { URL.revokeObjectURL(url); } catch (e) { /* boş */ } }, 1000);
+    } catch (e) {
+      openModal(
+        "<h3>Verilerimi indir</h3>" +
+        "<p>Tarayıcı bu ortamda dosya indirmeyi desteklemiyor. Verileriniz hâlâ bu cihazda; 'Ayarlar → Verilerimi sil' ile istediğiniz an kalıcı olarak silebilirsiniz.</p>" +
+        "<div class='row'><button class='btn btn-primary' id='exportOk'>Tamam</button></div>"
+      );
+      $("exportOk").addEventListener("click", closeModal);
+    }
+  }
+
+  function confirmRevokeConsent() {
+    closeModal();
+    openModal(
+      "<h3>Rızayı geri al</h3>" +
+      "<p>KVKK m.7 uyarınca açık rızanızı geri alıyorsunuz. Rıza geri alındığında SÖZÜM SÖZ uygulaması kilitlenir ve verileriniz artık bu amaçlarla işlenmez. Mevcut verileriniz cihazda kalır; isterseniz 'Verilerimi sil' ile kalıcı olarak kaldırabilirsiniz.</p>" +
+      "<div class='row'>" +
+      "<button class='btn btn-danger' id='revokeYes'>Evet, rızamı geri al</button>" +
+      "<button class='btn' id='revokeNo'>Vazgeç</button>" +
+      "</div>"
+    );
+    $("revokeYes").addEventListener("click", function () {
+      state.consent = false;
+      save();
+      closeModal();
+      renderHome();
+    });
+    $("revokeNo").addEventListener("click", closeModal);
+  }
+
+  function confirmWipeData() {
+    closeModal();
+    openModal(
+      "<h3>Verilerimi sil</h3>" +
+      "<p>KVKK m.11 uyarınca silme hakkınızı kullanıyorsunuz. Açık rıza dahil tüm verileriniz bu cihazdan <b>kalıcı olarak silinecek</b>, SÖZÜM SÖZ uygulaması kilitlenecek ve bir dahaki açılışta yeniden rızanız sorulacak. Bu işlem geri alınamaz. Emin misiniz?</p>" +
+      "<div class='row'>" +
+      "<button class='btn btn-danger' id='wipeYes'>Evet, verilerimi sil</button>" +
+      "<button class='btn' id='wipeNo'>Vazgeç</button>" +
+      "</div>"
+    );
+    $("wipeYes").addEventListener("click", function () {
+      try { localStorage.removeItem(STORE_KEY); } catch (e) { /* boş */ }
+      location.reload();
+    });
+    $("wipeNo").addEventListener("click", closeModal);
+  }
+
+  function confirmReset() {
+    closeModal();
+    openModal(
+      "<h3>Demoyu sıfırla</h3>" +
+      "<p>Tüm puan, söz ve ayar verileri silinecek. Emin misin?</p>" +
+      "<div class='row'>" +
+      "<button class='btn btn-danger' id='resetYes'>Evet, sıfırla</button>" +
+      "<button class='btn' id='resetNo'>Vazgeç</button>" +
+      "</div>"
+    );
+    $("resetYes").addEventListener("click", function () {
+      try { localStorage.removeItem(STORE_KEY); } catch (e) { /* boş */ }
+      location.reload();
+    });
+    $("resetNo").addEventListener("click", closeModal);
+  }
+
+  // ---------- giriş adımı ----------
+  function showIntro() {
+    if (state.seenIntro) return;
+    openModal(
+      "<h3>SÖZÜM SÖZ'e Hoş geldin</h3>" +
+      "<p>Dijital bağımlılık ve dijital iyi olma hâli hackathon prototipi. 3 adımda çalışır:</p>" +
+      "<p>1) <b>Süre sözü ver:</b> Bir uygulamaya girince kaç dakika kalmayı taahhüt edeceğini söyle.<br>" +
+      "2) <b>Sözünü tut:</b> Süre içinde kapatırsan +3 puan; aşarsan ya da hemen başka uygulamaya geçersen -5 puan ve uyarı.<br>" +
+      "3) <b>Mola önerileri:</b> YZ koçu, süre aşımında su iç / gözlerini dinlendir gibi küçük molalar önerir; molayı tamamlayınca birkaç puan kazanırsın.<br>" +
+      "4) <b>Kazan ve yansıt:</b> Seri bonusları, günün sözü, Yeşilay ödül kataloğu, aylık çekiliş ve YZ yansıma koçu seni destekler.</p>" +
+      "<p class='muted small'>Hızlı demo açıkken 1 saniye ≈ 1 dakika sayılır; böylece tüm akışı saniyeler içinde test edebilirsin.</p>" +
+      "<div class='row'><button class='btn btn-primary btn-lg' id='introOk'>Anladım, başlayalım</button></div>"
+    );
+    $("introOk").addEventListener("click", function () {
+      state.seenIntro = true;
+      save();
+      closeModal();
+    });
+  }
+
+  // ---------- çeşitli ----------
+  $("btnSettings").addEventListener("click", openSettings);
+  $("btnReset").addEventListener("click", confirmReset);
+  $("speedToggle").addEventListener("change", function () {
+    state.speedFast = $("speedToggle").checked;
+    save();
+  });
+
+  // ---------- haftalık skor emojisi (demo) ----------
+  document.querySelectorAll("#moodRow .btn").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var m = b.getAttribute("data-mood");
+      state.weeklyDemo = m === "auto" ? null : m;
+      save();
+      renderHeader();
+    });
+  });
+
+  // ---------- SOHBET (çok turlu YZ koç) ----------
+  function appendChat(role, text, opts) {
+    var log = $("chatLog");
+    var empty = log.querySelector(".chat-empty");
+    if (empty) empty.remove();
+    var el = document.createElement("div");
+    el.className = "chat-msg " + (role === "user" ? "user" : "assistant");
+    if (role === "user") {
+      el.innerHTML = "<div>" + esc(text).split("\n").join("<br>") + "</div>";
+    } else if (opts && opts.busy) {
+      el.innerHTML = "<span>Koç düşünüyor</span><span class='ai-dots'></span>";
+      el.classList.add("chat-busy");
+    } else {
+      var badge = document.createElement("div");
+      badge.className = "ai-badge";
+      badge.textContent = "YZ";
+      el.appendChild(badge);
+      var body = document.createElement("div");
+      body.style.whiteSpace = "pre-wrap";
+      el.appendChild(body);
+      typeText(body, text, function () {
+        var stamp = document.createElement("div");
+        stamp.className = "ai-stamp";
+        stamp.textContent = AI_STAMP;
+        el.appendChild(stamp);
+        if (opts && opts.note) {
+          var n = document.createElement("div");
+          n.className = "chat-note";
+          n.textContent = opts.note;
+          el.appendChild(n);
+        }
+      });
+    }
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+    return el;
+  }
+
+  var chatBusy = false;
+
+  function doSendChat() {
+    var input = $("chatInput");
+    var text = (input.value || "").trim();
+    if (!text || chatBusy) return;
+    chatBusy = true;
+    var sendBtn = $("chatSend");
+    sendBtn.disabled = true;
+    input.value = "";
+    appendChat("user", text, {});
+    state.chatHistory.push({ role: "user", content: text, ts: Date.now() });
+    state.chatHistory = state.chatHistory.slice(-40);
+    save();
+    var busyEl = appendChat("assistant", "Koç düşünüyor...", { busy: true });
+    AI.chat(state.ai, sessionsSince(7), state.chatHistory).then(function (res) {
+      var note = res.source === "live" ? "Canlı model yanıtı"
+        : res.source === "live-error" ? "Canlı çağrı başarısız, şablon gösterildi: " + res.error
+        : "Şablon yanıtı (canlı bağlantı kapalı)";
+      state.chatHistory.push({ role: "assistant", content: res.text, ts: Date.now() });
+      state.chatHistory = state.chatHistory.slice(-40);
+      save();
+      if (busyEl.parentNode) busyEl.parentNode.removeChild(busyEl);
+      appendChat("assistant", res.text, { note: note });
+      chatBusy = false;
+      sendBtn.disabled = false;
+    }).catch(function (err) {
+      if (busyEl.parentNode) busyEl.parentNode.removeChild(busyEl);
+      appendChat("assistant", "Beklenmedik hata: " + err.message, {});
+      chatBusy = false;
+      sendBtn.disabled = false;
+    });
+  }
+
+  $("chatSend").addEventListener("click", doSendChat);
+  $("chatInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") doSendChat();
+  });
+  document.querySelectorAll(".chip").forEach(function (c) {
+    c.addEventListener("click", function () {
+      $("chatInput").value = c.getAttribute("data-q");
+      doSendChat();
+    });
+  });
+
+  function init() {
+    load();
+    ensureWeeklyChallenges();
+    bootApp();
+  }
+
+  function bootApp() {
+    appBooted = true;
+    var bm = document.querySelector(".topbar .brand-mark");
+    if (bm && SOZ_LOGO) {
+      bm.innerHTML = "<img class='brand-mark-img' src='" + SOZ_LOGO + "' alt='SÖZÜM SÖZ'>";
+    }
+    renderHeader();
+    setTab("phone");
+    renderHome();
+    renderFeed();
+    renderStats();
+    renderAIStatus();
+    setTimeout(showIntro, 350);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
