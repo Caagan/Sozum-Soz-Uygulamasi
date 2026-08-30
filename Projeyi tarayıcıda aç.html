@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SÃ–ZÃœM SÃ–Z - Dijital Ä°yi Olma HÃ¢li</title>
+<title>SÖZÜM SÖZ - Dijital İyi Olma Hâli</title>
 <link rel="stylesheet" href="src/css/styles.css">
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCc+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSdzJyB4MT0nMCcgeTE9JzAnIHgyPScxJyB5Mj0nMSc+PHN0b3Agb2Zmc2V0PScwJyBzdG9wLWNvbG9yPScjMzRkMzk5Jy8+PHN0b3Agb2Zmc2V0PScuNTUnIHN0b3AtY29sb3I9JyMxNmEzNGEnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyMwZTc0OTAnLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PScyJyB5PScyJyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHJ4PSc2JyBmaWxsPSd1cmwoI3MpJy8+PHBhdGggZD0nTTEyIDMuM2w1LjkgMi4zNXY1LjM1YzAgMy42NS0yLjM1IDYuODUtNS45IDguMy0zLjU1LTEuNDUtNS45LTQuNjUtNS45LTguM1Y1LjY1eicgZmlsbD0nI2ZmZicvPjxwYXRoIGQ9J004LjcgMTIuMmwyLjMgMi4zIDQuNi00Ljg1JyBmaWxsPSdub25lJyBzdHJva2U9JyMxNTgwM2QnIHN0cm9rZS13aWR0aD0nMi4xJyBzdHJva2UtbGluZWNhcD0ncm91bmQnIHN0cm9rZS1saW5lam9pbj0ncm91bmQnLz48cGF0aCBkPSdNMTcgMy40Yy4xNiAxLjM1LjY2IDEuOTQgMiAyLjEtMS4zNC4xNi0xLjg0Ljc1LTIgMi4xLS4xNi0xLjM1LS42Ni0xLjk0LTItMi4xIDEuMzQtLjE2IDEuODQtLjc1IDItMi4xeicgZmlsbD0nI2ZkZTA0NycvPjwvc3ZnPg==">
 </head>
@@ -13,12 +13,12 @@
   <header class="topbar">
     <div class="brand">
       <span class="brand-mark">SS</span>
-      <span class="brand-name">SÃ–ZÃœM <b>SÃ–Z</b></span>
+      <span class="brand-name">SÖZÜM <b>SÖZ</b></span>
     </div>
     <div class="topbar-metrics">
       <span class="pill points-pill">PUAN <b id="hPoints">0</b></span>
-      <span class="pill streak-pill">SERÄ° <b id="hStreak">0</b></span>
-      <span class="pill mood-pill">Bu hafta <b id="hMood">ğŸ˜</b></span>
+      <span class="pill streak-pill">SERİ <b id="hStreak">0</b></span>
+      <span class="pill mood-pill">Bu hafta <b id="hMood">😐</b></span>
       <button class="btn btn-settings" id="btnSettings">Ayarlar</button>
     </div>
   </header>
@@ -27,10 +27,10 @@
     <button class="tab active" data-tab="phone">Telefon</button>
     <button class="tab" data-tab="stats">Durum</button>
     <button class="tab" data-tab="charts">Grafikler</button>
-    <button class="tab" data-tab="challenges">GÃ¶revler</button>
-    <button class="tab" data-tab="rewards">Ã–dÃ¼l KataloÄŸu</button>
-    <button class="tab" data-tab="draw">Ã‡ekiliÅŸ</button>
-    <button class="tab" data-tab="ai">YansÄ±ma (YZ)</button>
+    <button class="tab" data-tab="challenges">Görevler</button>
+    <button class="tab" data-tab="rewards">Ödül Kataloğu</button>
+    <button class="tab" data-tab="draw">Çekiliş</button>
+    <button class="tab" data-tab="ai">Yansıma (YZ)</button>
     <button class="tab" data-tab="chat">Sohbet</button>
   </nav>
 
@@ -46,45 +46,45 @@
         </div>
       </div>
       <div class="demo-controls">
-        <span class="hint">Demo hÄ±zÄ±: 1 saniye â‰ˆ 1 dakika (sÃ¼re sÃ¶zÃ¼nÃ¼ hÄ±zla test edebilirsin)</span>
+        <span class="hint">Demo hızı: 1 saniye ≈ 1 dakika (süre sözünü hızla test edebilirsin)</span>
         <div class="controls-row">
           <label class="switch-line">
             <input type="checkbox" id="speedToggle" checked>
-            <span>HÄ±zlÄ± demo (1 sn = 1 dk)</span>
+            <span>Hızlı demo (1 sn = 1 dk)</span>
           </label>
-          <button class="btn btn-danger" id="btnReset">SÄ±fÄ±rla</button>
+          <button class="btn btn-danger" id="btnReset">Sıfırla</button>
         </div>
         <div class="controls-row" id="moodRow">
-          <span class="hint">HaftalÄ±k skor emojisi (demo):</span>
-          <button class="btn btn-sm" data-mood="good">ğŸ˜€ Ä°yi</button>
-          <button class="btn btn-sm" data-mood="mid">ğŸ˜ Orta</button>
-          <button class="btn btn-sm" data-mood="bad">ğŸ™ KÃ¶tÃ¼</button>
+          <span class="hint">Haftalık skor emojisi (demo):</span>
+          <button class="btn btn-sm" data-mood="good">😀 İyi</button>
+          <button class="btn btn-sm" data-mood="mid">😐 Orta</button>
+          <button class="btn btn-sm" data-mood="bad">🙁 Kötü</button>
           <button class="btn btn-sm" data-mood="auto">Otomatik</button>
         </div>
       </div>
       <div class="card">
         <h3>Son aktiviteler</h3>
-        <div id="phoneFeed" class="feed muted">HenÃ¼z aktivite yok.</div>
+        <div id="phoneFeed" class="feed muted">Henüz aktivite yok.</div>
       </div>
     </section>
 
     <section id="tab-stats" class="tabpanel">
       <div class="panel-head">
         <h2>Durum Tablosu</h2>
-        <p class="muted">Veriler yalnÄ±zca bu tarayÄ±cÄ±da (cihazÄ±nda) saklanÄ±r; hiÃ§bir sunucuya gÃ¶nderilmez.</p>
+        <p class="muted">Veriler yalnızca bu tarayıcıda (cihazında) saklanır; hiçbir sunucuya gönderilmez.</p>
       </div>
       <div id="statCards" class="stat-grid"></div>
       <div class="card">
-        <h3>Son 7 gÃ¼n - en Ã§ok zaman harcadÄ±ÄŸÄ±n kategoriler</h3>
+        <h3>Son 7 gün - en çok zaman harcadığın kategoriler</h3>
         <div id="categoryBars" class="cat-bars"></div>
       </div>
       <div class="card" id="challengeCard"></div>
       <div class="card">
-        <h3>Yol haritasÄ± (bu prototipin dÄ±ÅŸÄ±nda)</h3>
+        <h3>Yol haritası (bu prototipin dışında)</h3>
         <ul class="roadmap">
-          <li>GerÃ§ek telefon takibi: Android Usage Stats + eriÅŸilebilirlik servisi (yalnÄ±zca sÃ¶z verdiÄŸin uygulamada Ã§alÄ±ÅŸÄ±r, ÅŸeffaf izinli).</li>
-          <li>Streak'e gÃ¶re orantÄ±lÄ± Ã¶dÃ¼ller: ay iÃ§inde sÄ±nÄ±rsÄ±z prim deÄŸil, dengeli teÅŸvik.</li>
-          <li>Cihazlar arasÄ± ÅŸifreli senkron, ebeveyn modu, haftalÄ±k kendi kendine deÄŸerlendirme.</li>
+          <li>Gerçek telefon takibi: Android Usage Stats + erişilebilirlik servisi (yalnızca söz verdiğin uygulamada çalışır, şeffaf izinli).</li>
+          <li>Streak'e göre orantılı ödüller: ay içinde sınırsız prim değil, dengeli teşvik.</li>
+          <li>Cihazlar arası şifreli senkron, ebeveyn modu, haftalık kendi kendine değerlendirme.</li>
         </ul>
       </div>
     </section>
@@ -92,7 +92,7 @@
     <section id="tab-charts" class="tabpanel">
       <div class="panel-head">
         <h2>Grafikler</h2>
-        <p class="muted">GeÃ§miÅŸ aktivite gÃ¶rÃ¼nÃ¼mÃ¼: bugÃ¼nkÃ¼ kullanÄ±mÄ±n, geÃ§en haftanÄ±n aynÄ± gÃ¼nÃ¼yle ve son haftalarla karÅŸÄ±laÅŸtÄ±rmasÄ±.</p>
+        <p class="muted">Geçmiş aktivite görünümü: bugünkü kullanımın, geçen haftanın aynı günüyle ve son haftalarla karşılaştırması.</p>
       </div>
       <div id="chartTodayVsWeek" class="card"></div>
       <div id="chartLast7" class="card"></div>
@@ -103,8 +103,8 @@
 
     <section id="tab-challenges" class="tabpanel">
       <div class="panel-head">
-        <h2>HaftalÄ±k GÃ¶revler</h2>
-        <p class="muted">Her haftanÄ±n baÅŸÄ±nda da katÄ±labilirsin: gÃ¶reve katÄ±l, koÅŸulu saÄŸla, puanÄ± kazan. Ä°lerleme son 7 gÃ¼nÃ¼n kayÄ±tlarÄ±ndan sayÄ±lÄ±r; her Pazartesi sÄ±fÄ±rlanÄ±r.</p>
+        <h2>Haftalık Görevler</h2>
+        <p class="muted">Her haftanın başında da katılabilirsin: göreve katıl, koşulu sağla, puanı kazan. İlerleme son 7 günün kayıtlarından sayılır; her Pazartesi sıfırlanır.</p>
       </div>
       <div class="card">
         <div id="challengeList" class="ch-list"></div>
@@ -113,20 +113,20 @@
 
     <section id="tab-rewards" class="tabpanel">
       <div class="panel-head">
-        <h2>Ã–dÃ¼l KataloÄŸu</h2>
-        <p class="muted">YeÅŸilay ortak Ã¶dÃ¼l kataloÄŸu (prototip senaryosu). BiriktirdiÄŸin puanlarla Ã¶dÃ¼l seÃ§ersin.</p>
+        <h2>Ödül Kataloğu</h2>
+        <p class="muted">Yeşilay ortak ödül kataloğu (prototip senaryosu). Biriktirdiğin puanlarla ödül seçersin.</p>
       </div>
       <div id="rewardGrid" class="reward-grid"></div>
       <div id="myRewards" class="card">
-        <h3>SipariÅŸ ettiklerin</h3>
-        <div id="myRewardsList" class="muted">HenÃ¼z sipariÅŸ vermedin.</div>
+        <h3>Sipariş ettiklerin</h3>
+        <div id="myRewardsList" class="muted">Henüz sipariş vermedin.</div>
       </div>
     </section>
 
     <section id="tab-draw" class="tabpanel">
       <div class="panel-head">
-        <h2>AylÄ±k Ã‡ekiliÅŸ</h2>
-        <p class="muted">Ay boyunca hiÃ§bir sÃ¶zÃ¼nÃ¼ bozmazsan Ã§ekiliÅŸe katÄ±lmaya hak kazanÄ±rsÄ±n. Senaryodur; gerÃ§ek kurallar YeÅŸilay protokolÃ¼ne baÄŸlÄ±dÄ±r.</p>
+        <h2>Aylık Çekiliş</h2>
+        <p class="muted">Ay boyunca hiçbir sözünü bozmazsan çekilişe katılmaya hak kazanırsın. Senaryodur; gerçek kurallar Yeşilay protokolüne bağlıdır.</p>
       </div>
       <div class="card">
         <h3>Bu ayki ilerleme</h3>
@@ -134,72 +134,72 @@
         <div id="monthStatus" class="muted"></div>
       </div>
       <div class="card">
-        <h3>Ã–dÃ¼ller</h3>
+        <h3>Ödüller</h3>
         <ul class="prizes" id="prizeList"></ul>
       </div>
       <div class="card">
-        <button class="btn btn-primary btn-lg" id="btnEnterDraw" disabled>Ã‡ekiliÅŸe KatÄ±l</button>
+        <button class="btn btn-primary btn-lg" id="btnEnterDraw" disabled>Çekilişe Katıl</button>
         <div id="drawEnteredNote" class="muted"></div>
       </div>
     </section>
 
     <section id="tab-ai" class="tabpanel">
       <div class="panel-head">
-        <h2>YansÄ±ma KoÃ§u (Ãœretken YZ)</h2>
-        <p class="muted">SÃ¶z geÃ§miÅŸinden yargÄ±lamasÄ±z bir yansÄ±ma ve haftalÄ±k Ã¶zet Ã¼retir. TanÄ± koymaz; tÄ±bbi tanÄ±/tedavi Ã¶nerisi deÄŸildir.</p>
+        <h2>Yansıma Koçu (Üretken YZ)</h2>
+        <p class="muted">Söz geçmişinden yargılamasız bir yansıma ve haftalık özet üretir. Tanı koymaz; tıbbi tanı/tedavi önerisi değildir.</p>
       </div>
       <div id="aiStatus" class="ai-status muted"></div>
       <div class="card">
-        <h3>GÃ¼nlÃ¼k YansÄ±ma</h3>
-        <p class="muted">BugÃ¼nkÃ¼ oturumlarÄ±ndan kÄ±sa, yargÄ±lamasÄ±z bir Ã¶zet Ã¼retir: kalÄ±plar, olasÄ± tetikleyiciler ve kÃ¼Ã§Ã¼k iyileÅŸtirme Ã¶nerileri.</p>
+        <h3>Günlük Yansıma</h3>
+        <p class="muted">Bugünkü oturumlarından kısa, yargılamasız bir özet üretir: kalıplar, olası tetikleyiciler ve küçük iyileştirme önerileri.</p>
         <div class="row">
-          <button class="btn btn-primary" id="btnDailyAI">YansÄ±mayÄ± OluÅŸtur</button>
+          <button class="btn btn-primary" id="btnDailyAI">Yansımayı Oluştur</button>
         </div>
       </div>
       <div class="card">
-        <h3>HaftalÄ±k Ã–zet</h3>
-        <p class="muted">Son 7 gÃ¼nÃ¼n genel Ã¶zeti ve haftaya hazÄ±rlÄ±k Ã¶nerileri.</p>
+        <h3>Haftalık Özet</h3>
+        <p class="muted">Son 7 günün genel özeti ve haftaya hazırlık önerileri.</p>
         <div class="row">
-          <button class="btn btn-primary" id="btnWeeklyAI">HaftalÄ±k Ã–zeti OluÅŸtur</button>
+          <button class="btn btn-primary" id="btnWeeklyAI">Haftalık Özeti Oluştur</button>
         </div>
       </div>
       <div class="card" id="aiOutputCard">
-        <h3>YZ Ã‡Ä±ktÄ±sÄ±</h3>
-        <div id="aiOutput" class="ai-output muted">HenÃ¼z Ã§Ä±ktÄ± yok. YukarÄ±daki butonlardan birine bas.</div>
-        <div class="input-ai-note">Bu Ã§Ä±ktÄ± bir yapay zekÃ¢ (YZ) modeli tarafÄ±ndan Ã¼retilir. YZ hata yapabilir; iÃ§erik farkÄ±ndalÄ±k amaÃ§lÄ±dÄ±r, tÄ±bbi tanÄ± veya tedavi Ã¶nerisi deÄŸildir. Gerekirse bir uzman gÃ¶rÃ¼ÅŸÃ¼ alÄ±nmasÄ± Ã¶nerilir.</div>
+        <h3>YZ Çıktısı</h3>
+        <div id="aiOutput" class="ai-output muted">Henüz çıktı yok. Yukarıdaki butonlardan birine bas.</div>
+        <div class="input-ai-note">Bu çıktı bir yapay zekâ (YZ) modeli tarafından üretilir. YZ hata yapabilir; içerik farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir. Gerekirse bir uzman görüşü alınması önerilir.</div>
       </div>
       <div id="aiPromptWrap"></div>
-      <p class="muted small">Not: YZ yalnÄ±zca farkÄ±ndalÄ±k desteÄŸidir. Verilerin cihazÄ±nda kalÄ±r; dÄ±ÅŸarÄ±ya yalnÄ±zca anonim Ã¶zet (prompt) gider.</p>
+      <p class="muted small">Not: YZ yalnızca farkındalık desteğidir. Verilerin cihazında kalır; dışarıya yalnızca anonim özet (prompt) gider.</p>
     </section>
 
     <section id="tab-chat" class="tabpanel">
       <div class="panel-head">
-        <h2>Sohbet Â· YZ KoÃ§</h2>
-        <p class="muted">Ã‡ok turlu sohbet: koÃ§, geÃ§miÅŸ oturumlarÄ±nÄ± ve konuÅŸma geÃ§miÅŸini hatÄ±rlayarak yanÄ±t verir. TanÄ± koymaz; tÄ±bbi tanÄ±/tedavi Ã¶nerisi deÄŸildir.</p>
+        <h2>Sohbet · YZ Koç</h2>
+        <p class="muted">Çok turlu sohbet: koç, geçmiş oturumlarını ve konuşma geçmişini hatırlayarak yanıt verir. Tanı koymaz; tıbbi tanı/tedavi önerisi değildir.</p>
       </div>
       <div class="card">
         <div id="chatLog" class="chat-log">
-          <div class="chat-empty muted">KoÃ§a soru sormak iÃ§in alttaki Ã¶nerilerden birine dokun veya mesajÄ±nÄ± yaz.</div>
+          <div class="chat-empty muted">Koça soru sormak için alttaki önerilerden birine dokun veya mesajını yaz.</div>
         </div>
         <div class="chat-chips" id="chatChips">
-          <button class="chip" data-q="BugÃ¼n iÃ§in bana 3 sÃ¶zlÃ¼k bir plan Ã§Ä±kar">BugÃ¼nlÃ¼k plan</button>
-          <button class="chip" data-q="AkÅŸamlarÄ± neden bu kadar ekrana kayÄ±yorum?">AkÅŸam kaymasÄ±</button>
-          <button class="chip" data-q="Ã–dÃ¼l hedefime nasÄ±l ulaÅŸÄ±rÄ±m?">Hedefime ulaÅŸma</button>
-          <button class="chip" data-q="Åu an kÄ±sa bir mola Ã¶ner">Mola Ã¶ner</button>
+          <button class="chip" data-q="Bugün için bana 3 sözlük bir plan çıkar">Bugünlük plan</button>
+          <button class="chip" data-q="Akşamları neden bu kadar ekrana kayıyorum?">Akşam kayması</button>
+          <button class="chip" data-q="Ödül hedefime nasıl ulaşırım?">Hedefime ulaşma</button>
+          <button class="chip" data-q="Şu an kısa bir mola öner">Mola öner</button>
         </div>
-        <div class="input-ai-note">Bu sohbet bir yapay zekÃ¢ (YZ) modeliyle yÃ¼rÃ¼tÃ¼lÃ¼r. YZ hata yapabilir; verdiÄŸi bilgi farkÄ±ndalÄ±k amaÃ§lÄ±dÄ±r, tÄ±bbi tanÄ± veya tedavi Ã¶nerisi deÄŸildir. SaÄŸlÄ±ÄŸÄ±nla ilgili durumlarda bir uzman gÃ¶rÃ¼ÅŸÃ¼ al.</div>
+        <div class="input-ai-note">Bu sohbet bir yapay zekâ (YZ) modeliyle yürütülür. YZ hata yapabilir; verdiği bilgi farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir. Sağlığınla ilgili durumlarda bir uzman görüşü al.</div>
         <div class="chat-input-row">
-          <input type="text" id="chatInput" placeholder="KoÃ§a yaz...">
-          <button class="btn btn-primary" id="chatSend">GÃ¶nder</button>
+          <input type="text" id="chatInput" placeholder="Koça yaz...">
+          <button class="btn btn-primary" id="chatSend">Gönder</button>
         </div>
-        <p class="muted small">CanlÄ± baÄŸlantÄ± kapalÄ±ysa ÅŸablon yanÄ±t Ã¼retilir. KonuÅŸma geÃ§miÅŸi yalnÄ±zca bu tarayÄ±cÄ±da saklanÄ±r; API'ye yalnÄ±zca baÄŸlam + son 20 mesaj (anonim) gider.</p>
+        <p class="muted small">Canlı bağlantı kapalıysa şablon yanıt üretilir. Konuşma geçmişi yalnızca bu tarayıcıda saklanır; API'ye yalnızca bağlam + son 20 mesaj (anonim) gider.</p>
       </div>
     </section>
 
   </main>
 
   <footer class="footer muted small">
-    SÃ–ZÃœM SÃ–Z - Dijital BaÄŸÄ±mlÄ±lÄ±k ve Dijital Ä°yi Olma HÃ¢li hackathon prototipi.
+    SÖZÜM SÖZ - Dijital Bağımlılık ve Dijital İyi Olma Hâli hackathon prototipi.
   </footer>
 </div>
 
