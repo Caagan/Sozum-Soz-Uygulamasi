@@ -57,7 +57,8 @@ index.html ──> app.js (IIFE başlatıcı)
 │   └── SOZUM-SOZ-TEKDOSYA.html
 ├── package.json             # npm test / npm run build:check / npm run serve
 ├── README.md
-├── REPORT.md                # hackathon raporu (İng.)
+├── REPORT.pdf               # hackathon raporu (TR, PDF)
+├── TR_Hackathon_SözümSöz.pptx  # sunum (TR)
 ├── LICENSE                  # Apache-2.0
 └── .gitignore
 ```

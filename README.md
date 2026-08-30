@@ -2,6 +2,12 @@
 
 > Bu proje **Samsung Innovation Campus Generative AI Hackathon** için hazırlanmıştır.
 
+## Teslim / Deliverables
+
+- **Rapor (PDF):** [`REPORT.pdf`](./REPORT.pdf) — SÖZÜM SÖZ hackathon raporu (Grup 8)
+- **Sunum (PPTX):** [`TR_Hackathon_SözümSöz.pptx`](./TR_Hackathon_SözümSöz.pptx) — ~5 dk demo sunumu
+- **Demo akışı:** [`docs/DEMO-SCRIPT.md`](./docs/DEMO-SCRIPT.md)
+
 ## Amaç
 
 Teknoloji daima gelişen, hayatımızın bir parçasıdır. Teknoloji çağında teknoloji bağımlılığını
@@ -123,7 +129,8 @@ saniyeler içinde dolar ve bildirim puan akışı bitişte izlenebilir.
 ├── docs/                   # ARCHITECTURE.md + DEMO-SCRIPT.md
 ├── dist/SOZUM-SOZ-TEKDOSYA.html   # üretilmiş tek dosya (sunum artifact)
 ├── package.json            # npm test / build / serve komutları
-├── REPORT.md               # hackathon raporu (İng.)
+├── REPORT.pdf              # hackathon raporu (TR, PDF)
+├── TR_Hackathon_SözümSöz.pptx  # sunum (TR)
 └── LICENSE  ·  .gitignore
 ```
 
