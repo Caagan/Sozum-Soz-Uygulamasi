@@ -60,6 +60,8 @@ call) so answers feel substantial without becoming rambling; the multi-turn chat
 anonymized context as JSON and the last 20 messages (context windowing); a regex crisis guard
 runs **before** the model and short-circuits unsafe inputs.
 
+**Key prompt, abridged** (full text: `src/js/ai.js`; also viewable in-app via "Show the prompt used"). System: *"Sen 'SÖZÜM SÖZ' dijital iyi olma hâli koçusun… (1) 'bağımlı'/'hasta'/'tedavi' gibi tıbbi veya damgalayıcı sözcükler kullanma, tanı koyma; (4) rakamları yalnızca verilen veriye dayandır; (6) her zaman Türkçe yanıt ver; (7) her çıktının sonuna 'Bu bilgi farkındalık amaçlıdır, tıbbi tanı veya tedavi önerisi değildir.' satırını ekle; (8) kriz sinyali görürsen tanı koymadan Yeşilay 115 ve 112'ye yönlendir; (9) [DOĞRULAMA] kullandığın her sayı veride var mı—emin değilsen rakam uydurma."*
+
 ## 4. What We Struggled With (and How We Resolved It)
 
 - **No real user data + privacy.** We have no dataset and cannot collect sensitive logs. Solution:
@@ -90,8 +92,7 @@ runs **before** the model and short-circuits unsafe inputs.
 
 ## Demo (≈5 min walkthrough)
 
-One scripted scenario: open the phone → "promise" 5 minutes on a social app → the timer expires and
-the AI coach generates an empathetic notification with a microbreak (+5 pts) → finish the session
-(+3, streak) → run the daily AI reflection → open a chat message containing a crisis phrase to show
-the 115/112 guard → present privacy screen and data-wipe. GitHub repo contains the same
-`screenshot-ready` demo script.
+Open the phone → "promise" 5 minutes on a social app → timer expires, AI coach notification with a
+microbreak (+5) → finish (+3, streak) → run the daily AI reflection → open a chat message with a
+crisis phrase to show the 115/112 guard → present the KVKK privacy screen and data-wipe. Full
+step-by-step: `docs/DEMO-SCRIPT.md`.
