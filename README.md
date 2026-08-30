@@ -2,7 +2,7 @@
 
 > Bu proje **Samsung Innovation Campus Generative AI Hackathon** için hazırlanmıştır.
 
-## PROJEYLE İLGİLİ BÜTÜN DOSYALARA BU LİNKTEN ULAŞABİLİRSİNİZ
+## HACKATHON İLE İLGİLİ BÜTÜN DOSYALARA VE PROJE İÇERİKLERİNE ERİŞMEK İÇİN LİNKE BAS
 
 https://drive.google.com/drive/folders/1wA-KB87F391dXMPi51C4j-AUOBaqv3t3?usp=sharing
 
