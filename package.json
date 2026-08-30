@@ -1,0 +1,16 @@
+{
+  "name": "sozum-soz",
+  "version": "1.0.0",
+  "description": "SÖZÜM SÖZ — dijital iyi olma hali hackathon prototipi (Samsung Innovation Campus Generative AI Hackathon)",
+  "private": true,
+  "scripts": {
+    "test": "node tests/test-app.js && node tests/test-offtopic.js && node tests/test-ai-stamp.js && node tests/test-kvkk-full.js",
+    "build": "node tools/build-standalone.js",
+    "check": "node tools/standalone-check.js",
+    "build:check": "node tools/build-standalone.js && node tools/standalone-check.js",
+    "serve": "python -m http.server 8000 --directory src"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  }
+}

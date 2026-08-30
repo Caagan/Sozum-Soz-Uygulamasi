@@ -37,12 +37,16 @@ cihazında kalır; API'ye hiçbir kimlik bilgisi gitmez.
 
 ## Çalıştırma
 
-index.html'i doğrudan tarayıcıda aç (çift tık) veya yerel sunucuyla:
+Üç yoldan biriyle çalışır (sunucu şart değildir; tüm veri `localStorage`'da saklanır):
 
-    python -m http.server 8000
-    # tarayıcıda: http://localhost:8000
+1. **Doğrudan (çift tık):** `src/index.html`'i tarayıcıda açın. Bağımlılık yoktur; tam demo açılır.
+2. **Windows yerel sunucu:** `tools/BASLAT.bat` (kurulum gerektirmez, PowerShell ile çalışır).
+3. **Python:** `python -m http.server 8000 --directory src` → `http://localhost:8000`
 
-Sunucu gerektirmez; tüm veri `localStorage` (tarayıcı) içinde saklanır.
+> **Canlı YZ notu (CORS):** `fetch()` tabanlı canlı YZ çağrıları (Ayarlar → anahtar girilince)
+> tarayıcı politikaları nedeniyle yalnızca bir `http://` adresinden (2 veya 3 numaralı yöntem)
+> çalışır; `src/index.html`'i dosya olarak (çift tık) açmışsanız şablon modu çalışır — anahtar
+> olmasa da demo tamamen uçtan uca işler.
 
 ## Canlı YZ kullanımı (opsiyonel)
 
@@ -59,6 +63,13 @@ yoksa demo tam çalışır). Gerçek model için Ayarlar'dan şu anahtarlar dold
 Anahtarlar yalnızca tarayıcıda saklanır; API'ye yalnızca anonim oturum özeti (prompt) gider.
 
 ## Test
+
+Davranış testleri jsdom ile uçtan uca çalışır (Node.js gerekir):
+
+    npm install        # jsdom bağımlılığını kurar (yalnızca bir kez)
+    npm test           # 69 + 4 + 5 + 9 davranış testi — hepsi OK olmalı
+    npm run build:check  # src/ → dist/ tek dosya üret + doğrula
+    npm run serve      # python ile yerel sunucu (alternatif)
 
 Hızlı demo açıkken 1 saniye ≈ 1 dakika sayılır; böylece 5 dakikalık bir süre sözü
 saniyeler içinde dolar ve bildirim puan akışı bitişte izlenebilir.
@@ -100,16 +111,28 @@ saniyeler içinde dolar ve bildirim puan akışı bitişte izlenebilir.
 - **YZ damgası:** tüm YZ çıktılarında "Bu (içerik/yanıt) yapay zekâ tarafından üretilmiştir"
   ibaresi ve sohbette "YZ" rozeti bulunur; çıktılar "farkındalık amaçlıdır, tıbbi değildir" uyarısı taşır.
 
-## Dosyalar
+## Dosyalar / Dizin ağacı (mimari sürüm)
 
-- `index.html`, `css/styles.css` - arayüz
-- `js/data.js` - uygulamalar, ödüller, çekiliş, zorluk verileri
-- `js/ai.js` - YZ prompt tasarımı (sistem rolü, few-shot, adım adım), API çağrısı, fallback
-- `js/app.js` - çekirdek mantık: süre sözü, uyarılar, puan/seri, ödül, çekiliş, YZ sayfası
+```
+├── src/                    # kaynak kod (tek doğruluk kaynağı)
+│   ├── index.html          # arayüz + telefon mock
+│   ├── css/styles.css      # stil/poetika
+│   └── js/{data,ai,app}.js # veri · YZ · motor/sunum katmanları
+├── tests/                  # jsdom davranış testleri (npm test / run-all.cmd)
+├── tools/                  # tek-dosya derleyici + doğrulayıcı + yerel sunucu
+├── docs/                   # ARCHITECTURE.md + DEMO-SCRIPT.md
+├── dist/SOZUM-SOZ-TEKDOSYA.html   # üretilmiş tek dosya (sunum artifact)
+├── package.json            # npm test / build / serve komutları
+├── REPORT.md               # hackathon raporu (İng.)
+└── LICENSE  ·  .gitignore
+```
 
 ## Notlar
 
-- **Sunum:** `SOZUM-SOZ-TEKDOSYA.html` tek dosyadır; tarayıcıda doğrudan açılıp sunulabilir
-  (çok-dosyalı hâlin birebir derlenmiş kopyası).
+- **Çalıştırma:** `src/index.html`'i tarayıcıda aç veya `tools/BASLAT.bat`
+- **Test:** `npm test` (69 + 4 + 5 + 9 davranış testi) — Windows'ta `tests\run-all.cmd`
+- **Tek dosya üret & doğrula:** `npm run build:check` (`node tools/build-standalone.js ; node tools/standalone-check.js`)
+- **Mimarî:** `docs/ARCHITECTURE.md` · **Sunum akışı:** `docs/DEMO-SCRIPT.md`
+- **Sunum:** `dist/SOZUM-SOZ-TEKDOSYA.html` tek dosyadır; tarayıcıda doğrudan açılıp sunulabilir.
 - **Lisans:** Apache-2.0 — bkz. `LICENSE`.
 - Tüm veriler yalnızca tarayıcıda (`localStorage`) saklanır; API'ye kimlik içeren hiçbir veri gitmez.
